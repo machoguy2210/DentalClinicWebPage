@@ -1,0 +1,153 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+header{
+    display: flex;
+    background-color:white;
+    justify-content: space-around;
+    align-items: center;
+}
+.search{
+    display: flex;
+    align-items: center;
+    width: 600px;
+
+}
+#search-text{
+    flex: 1;
+    padding: 10px 10px;
+    font-size: 18px;
+    border: auto;
+    outline: none;
+    background: transparent; 
+}
+#search-btn {
+    padding: 11px 25px; 
+    background: white; 
+    border: auto;
+    cursor: pointer;
+    outline: none;
+}
+
+#search-btn i {
+    color: black;
+    font-size: 18px;
+}
+.info{
+    list-style: none;
+    padding: 10px 10px;
+    margin: 0;
+}
+.info li {
+    display: inline-block;
+    margin-right: 12px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+    cursor: pointer;
+}
+.menu{
+    background: white;
+    padding: 25px 0;
+    margin-left: 200px;
+    justify-content: space-around;
+    align-items: center;
+}
+.menu-content > ul{
+    display: flex;
+    list-style: none;
+    font-size: 25px;
+}
+.menu-content > ul > li{
+    margin-right: 100px;
+    position: relative;
+}
+.menu-content > ul > li:hover a{
+    color: #253144;
+}
+.submenu{
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: auto;
+    left: 0;
+    top: 100%;
+    padding: 12px;
+    display: none;
+}
+.menu-content > ul > li:hover .submenu{
+    display: block;
+}
+
+.submenu > ul{
+    display: flex;
+    flex-direction: column;
+}
+.submenu > ul > li{
+    padding: 6px 0;
+}
+.submenu > ul > li > a{
+    color: #357deb;
+}
+.submenu > ul > li:hover a{
+    color: #253144;
+}
+
+.menu-content > ul > li > a > i {
+    margin-left: 5px;
+}
+.submenu1{
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: auto;
+    left: 0;
+    top: 100%;
+    padding: 12px;
+    display: none;
+}
+.menu-content > ul > li:hover .submenu1{
+    display: block;
+}
+.submenu1 > ul{
+    display: flex;
+    flex-direction: column;
+}
+.submenu1 > ul > li{
+    padding: 6px 0;
+}
+.submenu1 > ul > li > a{
+    color: #357deb;
+}
+.submenu1 > ul > li:hover a{
+    color: #253144;
+}
+
+.menu-content > ul > li > button{
+    background-color: #384e70;
+    color: white;
+    font-size: 20px;
+    padding: 6px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
