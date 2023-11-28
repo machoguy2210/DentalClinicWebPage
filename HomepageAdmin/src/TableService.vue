@@ -49,7 +49,10 @@ const columns = [
 </script>
 
 <template>
-      <div class="card">
+    <div class="py-3 bg-white">
+        <span>Lịch Hẹn Khám Bệnh Nhân</span>
+    </div>
+    <div class="card">
         <DataTable :value="products" tableStyle="min-width: 50rem; height: 20rem">
             <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
         </DataTable>

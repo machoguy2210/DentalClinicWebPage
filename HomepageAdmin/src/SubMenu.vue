@@ -15,7 +15,7 @@ const orders = ref([
     {
         name: 'Gói Khám',
         value: 23,
-        icon: 'pi pi-flag'
+        icon: 'pi pi-box'
     }, 
     {
         name: 'Khách Hàng',
@@ -26,7 +26,7 @@ const orders = ref([
     {
         name: 'Đã Hủy',
         value: 3,
-        icon: 'pi pi-flag'
+        icon: 'pi pi-times-circle'
 
     }
 ]);

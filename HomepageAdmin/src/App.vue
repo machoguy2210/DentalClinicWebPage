@@ -15,7 +15,7 @@ import TableService from './TableService.vue';
   <Menu></Menu>
 
   <!-- Right -->
-  <div class="relative w-full">
+  <div class="relative w-full surface-hover">
     <!-- Background in Right -->
     <div class="background-custom w-full h-20rem"></div>
 
