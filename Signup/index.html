@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Sign up - New member</title>
+</head>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form action="">
+                    <h2>Sign up</h2>
+                    <div class="inputbox">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="email" required>
+                        <label for="">Email</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" required>
+                        <label for="">Password</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input type="text" required>
+                        <label for="">Username</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="call-outline"></ion-icon>
+                        <input type="tel" required>
+                        <label for="">Phone number</label>                      
+                    </div>
+                    <div class="radiobox">
+                        <label>You are:</label>
+                        <input name="gender" type="radio" id="male_gender">
+                        <label for="male_gender">Male</label>
+                        <input name="gender" type="radio" id="female_gender">
+                        <label for="female_gender">Female</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="location-outline"></ion-icon>
+                        <input type="text">
+                        <label for="">Address</label>
+                    </div>
+                    <div class="dateinputbox">
+                        <ion-icon name="calendar-outline"></ion-icon>
+                        <input id="dob_input"  type="date" required max="2024-01-01">
+                        <label for="dob_input">Birthday</label>
+                    </div>
+                    <button>Create new account</button>
+                    <div class="login">
+                        <p>Already have an account? <a href="#">Log in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
