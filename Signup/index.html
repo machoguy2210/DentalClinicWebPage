@@ -8,21 +8,21 @@
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="">
+                <form action="" method="post">
                     <h2>Sign up</h2>
                     <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" required>
-                        <label for="">Email</label>
+                        <input id="email" type="email" required>
+                        <label for="email">Email</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" required>
-                        <label for="">Password</label>
+                        <input type="password" id="password" minlength="6" required>
+                        <label for="password">Password</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="person-outline"></ion-icon>
-                        <input type="text" required>
+                        <input id type="text" minlength="4" required>
                         <label for="">Username</label>
                     </div>
                     <div class="inputbox">

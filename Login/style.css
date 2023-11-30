@@ -75,13 +75,9 @@ top: -5px;
     font-size: .9em;
     color: #000000;
     display: flex;
-    justify-content: space-between;  
+    justify-content: space-between; 
 }
 
-.forget label input{
-    margin-right: 3px;
-    
-}
 .forget label a{
     color: #000000;
     text-decoration: none;
