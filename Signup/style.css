@@ -132,3 +132,12 @@ button{
 .login p a:hover{
     text-decoration: underline;
 }
+.radiobox {
+    display: flex;
+    justify-content: space-between;
+
+    width: 310px;
+}
+.gender {
+    color: #ffffff;
+}

@@ -1,6 +1,6 @@
 .form-box {
     position: relative;
-    width: 50vw;
+    width: 700px;
     height: 80vh;
     background-color: hsla(0, 0%, 0%, 0.847);
     border: 2px solid rgba(255, 255, 255, 0.5);
@@ -24,49 +24,89 @@ h2 {
 }
 .input-box {
     position: relative;
-        width: 310px;
+    
 }
 .input-box ion-icon{
     position: absolute;
-    right: 8px;
+    right: 37px;
     color: #000000;
     font-size: 1.2em;
     top: 20px;
     margin: auto;
 }
 .input-box input {
-    width: 40vw;
+    width: 560px;
     height: 50px;
     background-color: white;
     border: 2px solid #000000;
     border-radius: 10px;
     outline: none;
     font-size: 1em;
-    padding: 0 35px 0 5px;
+    padding: 0 90px 0 5px;
     color: #000000;
 }
 #date{
-    width: 40vw;
+    width: 615px;
     height: 50px;
     background-color: white;
     border: 2px solid #000000;
     border-radius: 10px;
     outline: none;
     font-size: 1.4em;
-    right: 8px;
     padding: 0 35px 0 5px;
     color: #000000;
 }
-#date
 #chooseservice{
-    color: #ffffff;
-    font-size: 1em;
-    text-align: left;
-    margin-bottom: 4px;
+    max-width: 100%;
+    min-height: 1px;
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
-#submit_button{
-    width: 45vw;
+#labelservice{
+    color: #ffffff;
+}
+
+#service,#dentist {
+    width: 330px;
+    height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2em;
+}
+.service{
+    display: inline-block;
+}
+.radio {
+    border: 1px solid rgb(217,217,217);
+    border-radius: 15px;
+    background-color: #ffffff; ;
+}
+.span-radio input {
+    width: 111px;
+    
+    text-align: center;
+}
+textarea {
+    width: 560px;
+    height: 100px;
+    background-color: white;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1em;
+    padding: 0 90px 0 5px;
+    color: #000000;
+    margin-top: 35px;
+}
+#submit_button {
+    width: 660px;
     height: 35px;
     border-radius: 10px;
     margin: 5px;
+}
+#timechoose {
+    color: #ffffff;
+    font-size: 14px;
+    
 }
