@@ -47,13 +47,18 @@
                             <option value="4">Dentist 4</option>
                         </select>
                     </div>
+                    <div class="service">
+                        <button id="removeservice" disabled>-</button>
+                    </div>
                     <br><br>
-                    <input type="reset">
+                    <button id="addservice">Thêm dịch vụ</button>
                 </div>
                 <br><br>
                 <div>
-                    <label for="time" id="timechoose">Chọn khung giờ dịch vụ</label><br>
-                    
+                    <div id="text">
+                        <label for="time" id="timechoose">Chọn khung giờ dịch vụ</label><br>
+                    </div>
+                    <div class="radiobox">
                         <label class="radio">
                             <span class="span-radio">
                                 <input type="radio" name="time" value="8:00" required>
@@ -61,114 +66,142 @@
                             </span>
                             <span>08:00</span>       
                         </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="8:30" required>
-                            <span></span>
-                        </span>
-                        <span>08:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="09:00" required>
-                            <span></span>
-                        </span>
-                        <span>09:00</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="09:30" required>
-                            <span></span>
-                        </span>
-                        <span>09:30</span>
-                    </label>
-                    <br>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="10:00" required>
-                            <span></span>
-                        </span>
-                        <span>10:00</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="10:30" required>
-                            <span></span>
-                        </span>
-                        <span>10:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="13:30" required>
-                            <span></span>
-                        </span>
-                        <span>13:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="14:00" required>
-                            <span></span>
-                        </span>
-                        <span>14:00</span>
-                    </label>
-                    <br>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="14:30" required>
-                            <span></span>
-                        </span>
-                        <span>14:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="15:00" required>
-                            <span></span>
-                        </span>
-                        <span>15:00</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="15:30" required>
-                            <span></span>
-                        </span>
-                        <span>15:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="16:00" required>
-                            <span></span>
-                        </span>
-                        <span>16:00</span>
-                    </label>
-                    <br>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="16:30" required>
-                            <span></span>
-                        </span>
-                        <span>16:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="17:00" required>
-                            <span></span>
-                        </span>
-                        <span>17:00</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="17:30" required>
-                            <span></span>
-                        </span>
-                        <span>17:30</span>
-                    </label>
-                    <label class="radio">
-                        <span class="span-radio">
-                            <input type="radio" name="time" value="18:00" required>
-                            <span></span>
-                        </span>
-                        <span>18:00</span>
-                    </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="8:30" required>
+                                <span></span>
+                            </span>
+                            <span>08:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="09:00" required>
+                                <span></span>
+                            </span>
+                            <span>09:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="09:30" required>
+                                <span></span>
+                            </span>
+                            <span>09:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="10:00" required>
+                                <span></span>
+                            </span>
+                            <span>10:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="10:30" required>
+                                <span></span>
+                            </span>
+                            <span>10:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="13:30" required>
+                                <span></span>
+                            </span>
+                            <span>13:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="14:00" required>
+                                <span></span>
+                            </span>
+                            <span>14:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="14:30" required>
+                                <span></span>
+                            </span>
+                            <span>14:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="15:00" required>
+                                <span></span>
+                            </span>
+                            <span>15:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="15:30" required>
+                                <span></span>
+                            </span>
+                            <span>15:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="16:00" required>
+                                <span></span>
+                            </span>
+                            <span>16:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="16:30" required>
+                                <span></span>
+                            </span>
+                            <span>16:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="17:00" required>
+                                <span></span>
+                            </span>
+                            <span>17:00</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="17:30" required>
+                                <span></span>
+                            </span>
+                            <span>17:30</span>
+                        </label>
+                    </div>
+                    <div class="radiobox">
+                        <label class="radio">
+                            <span class="span-radio">
+                                <input type="radio" name="time" value="18:00" required>
+                                <span></span>
+                            </span>
+                            <span>18:00</span>
+                        </label>
+                    </div>
                 </div>
                 <div class="input-box">
                     <textarea id="note" rows="3" placeholder="Ghi chú"></textarea>
