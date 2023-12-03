@@ -4,9 +4,9 @@
         <div class="flex" style="gap: 30rem">
             <div class="flex flex-column" style="margin-left:20rem;">
                 <div class="text-3xl text-cyan-900 my-4">Thông tin liên lạc</div>
-                <div class="text-2xl"><li class="pi pi-building text-2xl my-3 text-color">193 C3 Bà Triệu – Hà Nội</li></div>
+                <div class="text-2xl"><li class="pi pi-home text-2xl my-3 text-color"> 193 C3 Bà Triệu – Hà Nội</li></div>
                 <div class="text-2xl"><li class="pi pi-phone text-2xl my-3 text-color"> 02439760891</li></div>
-                <div class="text-2xl"><a href="" class="pi pi-envelope text-2xl-my-3 text-color no-underline"> contact@nhakhoaminhthu.com</a></div>
+                <div class="text-2xl"><a href="" class="pi pi-envelope text-2xl my-3 text-color no-underline"> contact@nhakhoaminhthu.com</a></div>
             </div>
             <div class="flex flex-column" style="margin-right:20rem;">
                 <div class="text-3xl text-cyan-900 my-4">Về chúng tôi</div>

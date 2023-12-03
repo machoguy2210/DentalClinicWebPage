@@ -26,10 +26,13 @@
                     <InputText v-model="value1" placeholder="Số điện thoại" class="pl-1 w-full h-full"/>
                 </div>
                 <div class="card flex align-items-center mt-3" style="width: 40rem; height: 2.5rem;">
-                    <Dropdown v-model="selectedDichvu" :options="Dichvu" optionLabel="name" placeholder="Chọn dịch vụ điều trị" class="w-full h-full"/>
+                    <Dropdown v-model="selectedDichvu" :options="Dichvu" optionLabel="name" placeholder="Chọn dịch vụ điều trị" class="pl-1 w-full h-full"/>
                 </div>
                 <div class="card flex align-items-center mt-3" style="width: 40rem; height: 2.5rem;">
-                    <Calendar v-model="date" showIcon iconDisplay="input" inputId="date" placeholder="Chọn ngày" class="w-full h-full"/>
+                    <Calendar v-model="date" showIcon iconDisplay="input" inputId="date" placeholder="Chọn ngày" class="pl-1 w-full h-full"/>
+                </div>
+                <div class="card flex align-items-center mt-3" style="width: 40rem; height: 2.5rem;">
+                    <button type="button" class="bg-blue-600 border-primary-200 px-3 py-2 text-base border-1 border-solid border-round cursor-pointer transition-all transition-duration-200 hover:bg-primary-600 hover:border-primary-600 active:bg-primary-700 active:border-primary-700 text-2xl">Đặt khám ngay</button>
                 </div>
             </div>
             

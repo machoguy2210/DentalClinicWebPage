@@ -3,7 +3,7 @@
     <div  class="bg-blue-50 flex" style="gap: 9rem; margin-left:10rem; margin-right:10rem;">
         <div id="GT">
            <div class="relative">
-            <a href="" class="text-2xl no-underline hover:underline">Giới thiệu</a><i class="pi pi-chevron-down"></i>
+            <a href="" class="text-2xl no-underline hover:underline justify-content-center align-items-center">Giới thiệu</a><i class="pi pi-chevron-down"></i>
            </div>
             <div id="submenu" class="absolute">
                 <div class="flex flex-column border-double border-round border-surface-500 surface-overlay w-16rem h-6rem">
@@ -19,7 +19,7 @@
         </div>
         <div id="DV"> 
             <div class="relative">
-            <a href="" class="text-2xl no-underline hover:underline">Dịch vụ</a><i class="pi pi-chevron-down"></i>
+            <a href="" class="text-2xl no-underline hover:underline justify-content-center align-items-center">Dịch vụ</a><i class="pi pi-chevron-down"></i>
             </div>
             <div id="submenu1" class="absolute">
                 <div class="flex flex-column border-double border-round border-surface-500 surface-overlay w-15rem h-9rem">
@@ -47,11 +47,11 @@
         </div>
         
         <div>
-            <a href="" class="text-2xl no-underline hover:underline">Ưu đãi</a>
+            <a href="" class="text-2xl no-underline hover:underline justify-content-center align-items-center">Ưu đãi</a>
         </div>
 
         <div>
-            <a href="" class="text-2xl no-underline hover:underline">Bảng giá</a>
+            <a href="" class="text-2xl no-underline hover:underline justify-content-center align-items-center">Bảng giá</a>
         </div>
 
         <div>
