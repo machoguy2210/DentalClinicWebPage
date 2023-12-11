@@ -11,6 +11,11 @@
                 <form action="" method="post">
                     <h2>Sign up</h2>
                     <div class="inputbox">
+                        <ion-icon name="person-outline"></ion-icon>
+                        <input id="name" type="text" minlength="4" required>
+                        <label for="name">Fullname</label>
+                    </div>
+                    <div class="inputbox">
                         <ion-icon name="mail-outline"></ion-icon>
                         <input id="email" type="email" required>
                         <label for="email">Email</label>
@@ -21,14 +26,9 @@
                         <label for="password">Password</label>
                     </div>
                     <div class="inputbox">
-                        <ion-icon name="person-outline"></ion-icon>
-                        <input id type="text" minlength="4" required>
-                        <label for="">Username</label>
-                    </div>
-                    <div class="inputbox">
                         <ion-icon name="call-outline"></ion-icon>
-                        <input type="tel" required>
-                        <label for="">Phone number</label>                      
+                        <input id="phone" type="tel" required>
+                        <label for="phone">Phone number</label>                      
                     </div>
                     <div class="radiobox">
                         <label class="gender">You are:</label>
@@ -39,8 +39,8 @@
                     </div>
                     <div class="inputbox">
                         <ion-icon name="location-outline"></ion-icon>
-                        <input type="text">
-                        <label for="">Address</label>
+                        <input name="address" type="text">
+                        <label for="address">Address</label>
                     </div>
                     <div class="dateinputbox">
                         <ion-icon name="calendar-outline"></ion-icon>
@@ -49,7 +49,7 @@
                     </div>
                     <button>Create new account</button>
                     <div class="login">
-                        <p>Already have an account? <a href="#">Log in</a></p>
+                        <p>Already have an account? <a href="../Login/index.html">Log in</a></p>
                     </div>
                 </form>
             </div>
