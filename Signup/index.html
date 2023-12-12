@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
     <title>Sign up - New member</title>
 </head>
 <body>
@@ -39,7 +42,7 @@
                     </div>
                     <div class="inputbox">
                         <ion-icon name="location-outline"></ion-icon>
-                        <input name="address" type="text">
+                        <input name="address" id="address" type="text">
                         <label for="address">Address</label>
                     </div>
                     <div class="dateinputbox">
@@ -47,7 +50,7 @@
                         <input id="dob_input"  type="date" required max="2024-01-01">
                         <label for="dob_input">Birthday</label>
                     </div>
-                    <button>Create new account</button>
+                    <button type="submit">Create new account</button>
                     <div class="login">
                         <p>Already have an account? <a href="../Login/index.html">Log in</a></p>
                     </div>
