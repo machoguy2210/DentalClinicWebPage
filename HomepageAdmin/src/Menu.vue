@@ -55,7 +55,7 @@ const itemMenu = ref([
     </div>
 
     <div class="flex flex-column gap-5 pl-3">
-      <div v-for="( menu,index ) in itemMenu" :key="index" class="flex flex-column gap-3">
+      <div v-for="( menu,index ) in itemMenu" :key="index" class="flex flex-column gap-3" @click="handleDivClick(index)">
         <!-- item menu -->
         <div class="flex justify-content-between mr-3 align-items-end">
             <div class="flex gap-3 align-items-center font-semibold">
@@ -79,3 +79,16 @@ const itemMenu = ref([
   border-color: linear-gradient(rgb(100, 230, 226), #9198e5);
 }
 </style>
+
+<script>
+  export default {
+    props: ['isClicked'],
+    methods: {
+      handleDivClick(index) {
+        if (index == 0) {
+          this.$emit('div-Clicked', true);
+        }        
+      }
+    }
+  }
+</script>
