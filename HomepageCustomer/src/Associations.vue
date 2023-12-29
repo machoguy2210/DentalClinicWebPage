@@ -2,7 +2,7 @@
 <template>
     <div>
         <div>
-            <div class="flex align-items-center justify-content-center text-primary-700 text-3xl mt-5 font-bold">THÀNH VIÊN CÁC HIỆP HỘI UY TÍN NHẤT THẾ GIỚI</div>
+            <div class="flex align-items-center justify-content-center text-primary-700 text-3xl font-bold" style="margin-top: 52rem;">THÀNH VIÊN CÁC HIỆP HỘI UY TÍN NHẤT THẾ GIỚI</div>
         </div>
         <div class="mt-8 flex align-items-center justify-content-center" style="gap: 8rem;">
             <div class="w-15rem h-8rem">

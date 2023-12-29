@@ -1,16 +1,17 @@
 <script setup>
-import SubMenu from "./SubMenu.vue";
-import Menu from "./Menu.vue";
-import TopBar from "./TopBar.vue";
-import ChartData from "./ChartData.vue";
-import TableService from "./TableService.vue";
+import SubMenu from './SubMenu.vue';
+import Menu from './Menu.vue';
+import TopBar from './TopBar.vue';
+import ChartData from './ChartData.vue';
+import TableService from './TableService.vue';
 </script>
 
 <template>
-  <!-- Đặt lịch khám bệnh -->
-  <div class="flex">
-    <!-- Menu -->
-    <Menu></Menu>
+
+<!-- Đặt lịch khám bệnh -->
+<div class="flex">
+  <!-- Menu -->
+  <Menu @div-Clicked="handleDivClick" ></Menu>
 
     <!-- Right -->
     <div class="relative w-full surface-hover">
@@ -29,13 +30,34 @@ import TableService from "./TableService.vue";
           <!-- ChartData -->
           <ChartData />
 
-          <!-- TableService -->
-          <TableService />
-        </div>
+        <!-- TableService -->
+        <TableService/>
+        
+
+        <AppointmentManagement :isClicked="isClicked"/>
       </div>
     </div>
   </div>
+</div>
 </template>
+
+<script>
+  export default {
+    components: {
+      AppointmentManagement
+    },
+    data() {
+      return {
+        isClicked: false
+      }
+    },
+    methods: {
+      handleDivClick(value) {
+        this.isClicked = value;
+      }
+    }
+  }
+</script>
 
 <style>
 *,

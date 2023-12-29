@@ -5,6 +5,8 @@ import Slide from './Slide.vue';
 import Associations from './Associations.vue';
 import BaseFooter from './BaseFooter.vue';
 import DatLich from './DatLich.vue';
+import DoctorInfo from './DoctorInfo.vue';
+import Introduction from './Introduction.vue';
 
 </script>
 
@@ -20,6 +22,10 @@ import DatLich from './DatLich.vue';
         <Slide></Slide>
     </div>
 </div>
+<!-- Introduction -->
+    <Introduction></Introduction>
+<!-- DoctorInfo -->
+    <DoctorInfo></DoctorInfo>
 <!-- Associations -->
     <Associations></Associations>
 <!-- DatLich -->

@@ -1,47 +1,47 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const itemMenu = ref([
   {
-    title: "Quản Lý Lịch Khám",
+    title: 'Quản Lý Lịch Khám',
   },
   {
-    title: "Quản Lý Thông Tin",
+    title: 'Quản Lý Thông Tin',
     item: [
       {
-        subItem: "Thông tin bác sĩ",
+        subItem: 'Thông tin bác sĩ',
       },
       {
-        subItem: "Thông tin dịch vụ",
+        subItem: 'Thông tin dịch vụ',
       },
       {
-        subItem: "Combo ưu đãi",
+        subItem: 'Combo ưu đãi',
       },
     ],
   },
   {
-    title: "Quản Lý Customer",
+    title: 'Quản Lý Customer',
   },
   {
-    title: "Quản Lý Staff",
+    title: 'Quản Lý Staff',
   },
   {
-    title: "Quản Lý Giao Dịch",
+    title: 'Quản Lý Giao Dịch',
   },
   {
-    title: "Quản Lý Dữ Liệu Đánh Giá",
+    title: 'Quản Lý Dữ Liệu Đánh Giá',
   },
   {
-    title: "Thống Kê Doanh Thu",
+    title: 'Thống Kê Doanh Thu',
   },
   {
-    title: "Cài Đặt",
+    title: 'Cài Đặt',
     item: [
       {
-        subItem: "Thông tin cá nhân",
+        subItem: 'Thông tin cá nhân',
       },
       {
-        subItem: "Đổi mật khẩu",
+        subItem: 'Đổi mật khẩu',
       },
     ],
   },
@@ -58,12 +58,8 @@ const itemMenu = ref([
       <span class="text-xl p-1 text-blue-400 font-bold">PHÒNG KHÁM</span>
     </div>
 
-    <div class="flex flex-column">
-      <div
-        v-for="(menu, index) in itemMenu"
-        :key="index"
-        class="flex flex-column"
-      >
+    <div class="flex flex-column gap-5 pl-3">
+      <div v-for="( menu,index ) in itemMenu" :key="index" class="flex flex-column gap-3" @click="handleDivClick(index)">
         <!-- item menu -->
         <div
           class="flex justify-content-between px-3 align-items-center cursor-pointer h-3rem hover:surface-300 hover:text-blue-600"
@@ -100,3 +96,16 @@ const itemMenu = ref([
   border-color: linear-gradient(rgb(100, 230, 226), #9198e5);
 }
 </style>
+
+<script>
+  export default {
+    props: ['isClicked'],
+    methods: {
+      handleDivClick(index) {
+        if (index == 0) {
+          this.$emit('div-Clicked', true);
+        }        
+      }
+    }
+  }
+</script>
