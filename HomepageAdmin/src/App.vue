@@ -4,6 +4,7 @@ import Menu from './Menu.vue';
 import TopBar from './TopBar.vue';
 import ChartData from './ChartData.vue';
 import TableService from './TableService.vue';
+import AppointmentManagement from './AppointmentManagement.vue';
 </script>
 
 <template>
