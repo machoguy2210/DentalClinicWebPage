@@ -33,13 +33,13 @@ const orders = ref([
 </script>
 
 <template>
-    <div class="mt-5 flex justify-content-between gap-3">
-      <div v-for="( order, index ) in orders" :key="index" class=" hover:border-blue-600 border-2   border-transparent hover:border-cyan-700 p-2 bg-white flex w-15rem h-5rem gap-3 align-items-center border-round-md cursor-pointer">
-        <div>
+    <div class="mt-6 flex justify-content-between gap-3">
+      <div v-for="( order, index ) in orders" :key="index" class="bg-white flex w-15rem h-6rem gap-2 align-items-center border-round-md cursor-pointer">
+        <div class="py-2 px-3">
           <i :class="order.icon" class="text-2xl"></i>
         </div>
-        <div class="flex justify-content-between align-items-center w-full">
-          <div class="flex flex-column gap-2 text-xs md:text-sm font-bold">
+        <div class="flex justify-content-between align-items-center w-full mr-3">
+          <div class="flex flex-column gap-2 text-xl font-bold">
             <span>{{ order.name }}</span>
             <span>{{ order.value }}</span>
           </div>

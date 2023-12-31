@@ -61,8 +61,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex justify-content-center w-full bg-white shadow-1 border-round-md">
-        <Chart type="bar" :data="chartData" :options="chartOptions" class="flex justify-content-center bg-white p-2 h-full align-items-center" style="width: 32rem;"/>
+    <div class="h-25rem flex justify-content-center w-full bg-white shadow-1 border-round-md">
+        <Chart type="bar" :data="chartData" :options="chartOptions" class="flex justify-content-center bg-white p-2 h-full align-items-center" style="width: 40rem;"/>
     </div>
 </template>
 

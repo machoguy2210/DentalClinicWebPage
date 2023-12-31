@@ -1,8 +1,7 @@
-import { createApp } from 'vue';
-import App from './App.vue';
-// import VueRouter from 'vue-router';
 
-import 'primevue/resources/themes/lara-light-blue/theme.css';
+import { createApp } from 'vue';
+
+import 'primevue/resources/themes/lara-light-blue/theme.css'
 
 import 'primeicons/primeicons.css';
 
@@ -14,6 +13,9 @@ import '/src/assets/over-write.css';
 
 import PrimeVue from 'primevue/config';
 
+import App from './App.vue';
+import router from './router';
+
 // PrimeVue
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
@@ -23,18 +25,11 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row';   // optional
-import Avatar from 'primevue/avatar';
-import AvatarGroup from 'primevue/avatargroup';   //Optional for grouping
-import Badge from "primevue/badge";
-import BadgeDirective from "primevue/badgedirective";
-
 
 const app = createApp(App);
 
-// app.use(VueRouter);
 app.use(PrimeVue);
-
-app.directive('badge', BadgeDirective);
+app.use(router);
 
 app.component('Button',Button);
 app.component('InputText',InputText);
@@ -44,8 +39,5 @@ app.component('DataTable',DataTable);
 app.component('Column',Column);
 app.component('ColumnGroup',ColumnGroup);
 app.component('Row',Row);
-app.component('Avatar',Avatar);
-app.component('AvatarGroup',AvatarGroup);
-app.component('Badge',Badge);
 
 app.mount('#app');

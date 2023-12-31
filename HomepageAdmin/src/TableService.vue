@@ -49,15 +49,18 @@ const columns = [
 </script>
 
 <template>
-    <div class="py-3 bg-white md:text-sm cursor-pointer hover:text-blue-600">
+    <div class="py-3 bg-white">
         <span>Lịch Hẹn Khám Bệnh Nhân</span>
     </div>
     <div class="card">
-        <DataTable :value="products" tableStyle="min-width: 40rem; height: 16rem">
-            <Column class="h-3rem text-sm" v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
+        <DataTable :value="products" tableStyle="min-width: 50rem; height: 20rem">
+            <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"></Column>
         </DataTable>
     </div>
 </template>
 
 <style scoped>
+.yourCustomSelector .ui-datatable .ui-datatable-data tr{
+    height : 20rem;
+}
 </style>
