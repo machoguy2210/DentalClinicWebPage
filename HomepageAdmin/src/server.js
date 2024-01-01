@@ -67,17 +67,6 @@ app.post('/api/allnhasi', (req, res) => {
       console.log('Inserted new record:', result);
       res.status(200).send('Inserted new record');
     }
-
-  const query = 'SELECT * FROM nhasi';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      console.log('Results:', results);
-      res.json(results);
-    }
-  });
   });
 });
 
@@ -110,17 +99,6 @@ app.post('/api/alldichvu', (req, res) => {
       console.log('Inserted new record:', result);
       res.status(200).send('Inserted new record');
     }
-
-  const query = 'SELECT * FROM service';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error executing query:', err);
-      res.status(500).json({ error: 'Internal Server Error' });
-    } else {
-      console.log('Results:', results);
-      res.json(results);
-    }
-  });
   });
 });
 

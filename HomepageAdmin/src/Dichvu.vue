@@ -40,7 +40,7 @@ import Button from 'primevue/button';
           <tbody>
             <tr v-for="dichvu in alldichvu" :key="dichvu.MADV">
               <td>{{ dichvu.MADV }}</td>
-              <td>{{ dichvu.TENNS }}</td>
+              <td>{{ dichvu.TENDV }}</td>
               <td>{{ dichvu.GIA }}</td>
               <td>{{ dichvu.MOTA }}</td>
               <td><span class="badge badge-info" v-on:click="editItem(index)">Edit</span></td>
