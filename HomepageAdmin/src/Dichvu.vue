@@ -154,9 +154,8 @@ export default {
     hideNewPopup() {
       this.newPopup = false;
     },
-
     AddDichvu() {
-      axios.post('http://localhost:3000/api/alldichvu', this.editedDichvu)
+      axios.post('http://localhost:3000/api/alldichvu', this.dichvu)
         .then((response) => {
           console.log(response.data);
           this.alldichvu.push(response.data)
