@@ -14,6 +14,7 @@ import '/src/assets/over-write.css';
 import PrimeVue from 'primevue/config';
 
 import App from './App.vue';
+import router from './router';
 
 // PrimeVue
 import Button from 'primevue/button';
@@ -28,6 +29,7 @@ import Row from 'primevue/row';   // optional
 const app = createApp(App);
 
 app.use(PrimeVue);
+app.use(router);
 
 app.component('Button',Button);
 app.component('InputText',InputText);

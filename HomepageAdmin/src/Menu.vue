@@ -65,8 +65,10 @@ const itemMenu = ref([
             <i class="pi pi-angle-right"></i>
         </div>
         <!-- Sub item menu -->
-        <div v-for="( subMenu,index ) in menu.item" :key="index" class="flex flex-column gap-3 ml-5">
-            <span class="cursor-pointer w-fit-content">{{ subMenu.subItem }}</span>
+        <div v-for="( subMenu,ind ) in menu.item" :key="ind" class="flex flex-column gap-2 ml-5 " @click="handleClick">
+          <router-link v-if="subMenu.subItem === 'Thông tin bác sĩ'" to="/DoctorInfo" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
+          <router-link v-if="subMenu.subItem === 'Thông tin dịch vụ'" :to="{ path: '/Dichvu' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
+          <router-link v-if="subMenu.subItem === 'Combo ưu đãi'" :to="{ path: '/Combo' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
         </div>
       </div>
     </div>
@@ -78,6 +80,10 @@ const itemMenu = ref([
   border: 1px solid;
   border-color: linear-gradient(rgb(100, 230, 226), #9198e5);
 }
+
+.router-link-active {
+    text-decoration: none;
+}
 </style>
 
 <script>
@@ -88,7 +94,11 @@ const itemMenu = ref([
         if (index == 0) {
           this.$emit('div-Clicked', true);
         }        
-      }
+      },
+      handleClick(ind) {
+      this.$emit('clicked', true);
     }
-  }
+    },
+
+  };
 </script>
