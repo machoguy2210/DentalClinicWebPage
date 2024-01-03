@@ -69,7 +69,50 @@ app.post('/api/allnhasi', (req, res) => {
     }
   });
 });
+//sua nha si
+app.put('/api/allnhasi/:MANS', (req, res) => {
+  // Trích xuất dữ liệu từ phần thân của yêu cầu
+  const { TENNS, GIOITHIEU, SDT, DIACHI } = req.body;
 
+  // Trích xuất MADV từ các tham số đường dẫn
+  const MANS = req.params.MANS;
+  // Truy vấn SQL để cập nhật bản ghi trong bảng 'service'
+  const sql = 'UPDATE nhasi SET TENNS = ?, GIOITHIEU = ?, SDT = ? , DIACHI = ? WHERE MANS = ?';
+  // Giá trị để cập nhật trong truy vấn SQL
+  const values = [TENNS, GIOITHIEU, SDT, DIACHI, MANS];
+  // Thực thi truy vấn sử dụng kết nối cơ sở dữ liệu
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      // Xử lý lỗi cơ sở dữ liệu
+      console.error('Lỗi khi cập nhật bản ghi MySQL:', err);
+      res.status(500).send('Lỗi Nội Server');
+    } else {
+      // Ghi log thành công và gửi phản hồi
+      console.log('Bản ghi đã được cập nhật:', result);
+      res.status(200).send('Bản ghi đã được cập nhật');
+    }
+  });
+});
+// delete nha si
+app.delete('/api/allnhasi/:MANS', (req, res) => {
+  // Trích xuất MADV từ các tham số đường dẫn
+  const MANS = req.params.MANS;
+
+  // SQL query để xóa một bản ghi từ bảng 'service'
+  const sql = 'DELETE FROM nhasi WHERE MANS = ?';
+
+  // Thực thi truy vấn sử dụng kết nối cơ sở dữ liệu
+  db.query(sql, [MANS], (err, result) => {
+    if (err) {
+      // Xử lý lỗi cơ sở dữ liệu
+      console.error('Lỗi khi xóa bản ghi MySQL:', err);
+      res.status(500).send('Lỗi Nội Server');
+    } else {
+      // Log thành công và chuyển hướng người dùng sau khi xóa
+      console.log('Bản ghi đã được xóa:', result);
+    }
+  });
+});
 
 // Dịch vụ
 app.get('/api/alldichvu', (req, res) => {
@@ -101,13 +144,13 @@ app.post('/api/alldichvu', (req, res) => {
     }
   });
 });
-
+// update dich vu
 app.put('/api/alldichvu/:MADV', (req, res) => {
   // Trích xuất dữ liệu từ phần thân của yêu cầu
-  let { TENDV, GIA, MOTA } = req.body;
+  const { TENDV, GIA, MOTA } = req.body;
 
   // Trích xuất MADV từ các tham số đường dẫn
-  let MADV = req.params.MADV;
+  const MADV = req.params.MADV;
   // Truy vấn SQL để cập nhật bản ghi trong bảng 'service'
   const sql = 'UPDATE service SET TENDV = ?, GIA = ?, MOTA = ? WHERE MADV = ?';
   // Giá trị để cập nhật trong truy vấn SQL
@@ -125,6 +168,7 @@ app.put('/api/alldichvu/:MADV', (req, res) => {
     }
   });
 });
+// delete dịch vụ
 app.delete('/api/alldichvu/:MADV', (req, res) => {
   // Trích xuất MADV từ các tham số đường dẫn
   const MADV = req.params.MADV;
@@ -141,7 +185,6 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
     } else {
       // Log thành công và chuyển hướng người dùng sau khi xóa
       console.log('Bản ghi đã được xóa:', result);
-      res.redirect('/danh-sach-dich-vu'); // Điều hướng đến một trang cụ thể
     }
   });
 });

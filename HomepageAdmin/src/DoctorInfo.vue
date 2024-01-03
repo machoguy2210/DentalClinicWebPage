@@ -45,8 +45,8 @@ import Button from 'primevue/button';
               <td>{{ nhasi.GIOITHIEU }}</td>
               <td>{{ nhasi.SDT }}</td>
               <td>{{ nhasi.DIACHI }}</td>
-              <td><span class="badge badge-info" v-on:click="editItem(index)">Edit</span></td>
-              <td><span class="badge badge-danger" v-on:click="deleteItem(index)">Delete</span></td>
+              <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl" v-on:click="showEditPopup(nhasi)">Edit</button></td>
+              <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl" v-on:click="confirmDelete(nhasi)">Delete</button></td>
           </tr>
           </tbody>
         </table>
@@ -85,11 +85,47 @@ import Button from 'primevue/button';
               </div>
             </form>
           </div>
-</div>
+      </div>
         
       </div>
     </div>
+
+    <div v-if="this.editPopup">
+      <div class="popup-overlay" @click="hideEditPopup"></div>
+      <div class="popup-content">
+        <div class="flex row column-gap-8">
+        <div class="col-md-6 h-25rem" style="width: 35rem;">
+          <h1>Sửa nha sĩ</h1>
+          <div>
+            <div class="form-group mt-3">
+                <label class="text-2xl">Mã nha sĩ:</label>
+                <input type="text"  class="form-control text-2xl" v-model="nhasi.MANS"/>
+            </div>
+            <div class="form-group mt-3">
+                <label class="text-2xl">Tên nha sĩ:</label>
+                <input type="text"  class="form-control text-2xl" v-model="nhasi.TENNS"/>
+            </div>
+            <div class="form-group mt-3">
+                <label class="text-2xl">Giới thiệu:</label>
+                <input type="text" class="form-control text-2xl" v-model="nhasi.GIOITHIEU">       
+            </div>
+            <div class="form-group mt-3">
+                <label class="text-2xl">SDT :</label>
+                <input type="text" class="form-control text-2xl" v-model="nhasi.SDT">       
+            </div>
+            <div class="form-group mt-3">
+                <label class="text-2xl">Địa chỉ :</label>
+                <input type="text" class="form-control text-2xl" v-model="nhasi.DIACHI">       
+            </div>
+            <div class="flex form-group mt-5 ">
+              <button class="btn-primary text-xl bg-blue-500 w-7rem h-3rem border-round-xl" @click="updateNhasi(nhasi)">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
   </div>
+</div>
   
 </template>
 <script>
@@ -100,6 +136,7 @@ export default {
   data() {
     return {
       newPopup: false,
+      editPopup: false,
       allnhasi: [],
       nhasi: {
         MANS: '',
@@ -122,9 +159,6 @@ export default {
         console.error('Error fetching nhasi:', error);
       }
     },
-    editItem(index) {
-
-    }, 
     showNewPopup() {
       this.newPopup = true;
     },
@@ -142,7 +176,54 @@ export default {
           // Xử lý lỗi nếu cần thiết
         });
       this.newPopup = false;
+    },
+    showEditPopup(nhasi) {
+      this.editPopup = true;
+    },
+    hideEditPopup() {
+      this.editPopup = false;
+    },
+    updateNhasi(nhasi) {
+      axios.put(`http://localhost:3000/api/allnhasi/${this.nhasi.MANS}`, this.nhasi)
+    .then((response) => {
+      console.log(response.data);
+      let foundNhasi = this.allnhasi.find(item => item.MANS === this.nhasi.MANS);
+      
+      if (foundNhasi) {
+        Object.assign(foundNhasi, response.data);
+      }
+    })
+    .catch((error) => {
+      console.error('Error updating Dich Vu:', error);
+      // Xử lý lỗi nếu cần thiết
+    });
+
+    this.editPopup = false;
+    },
+
+    confirmDelete(nhasi) {
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa không?");
+
+    if (isConfirmed) {
+      // If confirmed, proceed with deletion
+      this.deleteItem(nhasi);
     }
+  },
+
+  deleteItem(nhasi) {
+    // Your existing deleteItem logic here
+    axios.delete(`http://localhost:3000/api/allnhasi/${nhasi.MANS}`)
+      .then((response) => {
+        console.log(response.data);
+        // Update your local data array
+        this.allnhasi = this.allnhasi.filter(item => item.MANS !== this.nhasi.MANS);
+      })
+      .catch((error) => {
+        console.error('Error deleting Nha si:', error);
+        // Handle error if needed
+      });
+  },
   }
 };
 

@@ -44,7 +44,7 @@ import Button from 'primevue/button';
               <td>{{ dichvu.GIA }}</td>
               <td>{{ dichvu.MOTA }}</td>
               <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl" v-on:click="showEditPopup(dichvu)">Edit</button></td>
-              <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl" v-on:click="deleteItem(dichvu)">Delete</button></td>
+              <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl" v-on:click="confirmDelete(dichvu)">Delete</button></td>
           </tr>
           </tbody>
         </table>
@@ -107,7 +107,7 @@ import Button from 'primevue/button';
                 <input type="text" class="form-control text-2xl" v-model="dichvu.MOTA">       
             </div>
             <div class="flex form-group mt-5 ">
-              <button class="btn-primary text-xl bg-blue-500 w-7rem h-3rem border-round-xl" @click="updateDichvu">Save</button>
+              <button class="btn-primary text-xl bg-blue-500 w-7rem h-3rem border-round-xl" @click="updateDichvu(dichvu)">Save</button>
             </div>
           </div>
         </div>
@@ -127,7 +127,6 @@ export default {
       newPopup: false,
       editPopup: false,
       alldichvu: [],
-      editedDichvu: {},
       dichvu: {
         MADV: '',
         TENDV: '',
@@ -168,17 +167,16 @@ export default {
     },
 
     showEditPopup(dichvu) {
-      this.editedDichvu = { ...dichvu };
       this.editPopup = true;
     },
     hideEditPopup() {
       this.editPopup = false;
     },
-    updateDichvu() {
-      axios.put(`http://localhost:3000/api/alldichvu/${this.editedDichvu.MADV}`, this.editedDichvu)
+    updateDichvu(dichvu) {
+      axios.put(`http://localhost:3000/api/alldichvu/${this.dichvu.MADV}`, this.dichvu)
     .then((response) => {
       console.log(response.data);
-      let foundDichvu = this.alldichvu.find(item => item.MADV === this.editedDichvu.MADV);
+      let foundDichvu = this.alldichvu.find(item => item.MADV === this.dichvu.MADV);
       
       if (foundDichvu) {
         Object.assign(foundDichvu, response.data);
@@ -191,28 +189,29 @@ export default {
 
     this.editPopup = false;
     },
-    async deleteItem(dichvu) {
-    // Kiểm tra xem alldichvu có phần tử tại vị trí index hay không
-    if (this.alldichvu[index]) {
-      const MADV = this.alldichvu[index].MADV;
 
-      try {
-        // Thực hiện yêu cầu xóa từ máy chủ
-        await axios.delete(`http://localhost:3000/api/alldichvu/${MADV}`);
-        
-        // Nếu xóa thành công, cập nhật mảng alldichvu
-        this.alldichvu.splice(index, 1);
+    confirmDelete(dichvu) {
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn xóa không?");
 
-        // Log thông báo và chuyển hướng nếu cần thiết
-        console.log('Dịch vụ đã được xóa:', MADV);
-      } catch (error) {
-        console.error('Lỗi khi xóa dịch vụ:', error);
-        // Xử lý lỗi nếu cần thiết
-      }
-    } else {
-      console.error('Lỗi: Không có dịch vụ tại vị trí:', index);
-      // Xử lý lỗi nếu cần thiết
+    if (isConfirmed) {
+      // If confirmed, proceed with deletion
+      this.deleteItem(dichvu);
     }
+  },
+
+  deleteItem(dichvu) {
+    // Your existing deleteItem logic here
+    axios.delete(`http://localhost:3000/api/alldichvu/${dichvu.MADV}`)
+      .then((response) => {
+        console.log(response.data);
+        // Update your local data array
+        this.alldichvu = this.alldichvu.filter(item => item.MADV !== dichvu.MADV);
+      })
+      .catch((error) => {
+        console.error('Error deleting Dich Vu:', error);
+        // Handle error if needed
+      });
   },
   },
 };
