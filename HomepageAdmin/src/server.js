@@ -12,13 +12,11 @@ const port = 3000;
 
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
-  '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
-  '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',
+  
   'https://developers.google.com/oauthplayground'
 );
 
-oauth2Client.setCredentials({
-  refresh_token: '1//047y0cxHo0NWgCgYIARAAGAQSNwF-L9IrQ_zwk0PPWHgGZF8oynf6liMnrAQ7NtJNhh5Wg58DWKKkjQ1SyJ2nPkH74Jaolo14VK8'
+
 });
 
 const accessToken = oauth2Client.getAccessToken();
@@ -28,9 +26,9 @@ const transporter = nodemailer.createTransport({
   auth: {
       type: 'OAUTH2',
       user: 'binh2210test@gmail.com',
-      clientId: '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
-      clientSecret: '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',
-      refreshToken: '1//047y0cxHo0NWgCgYIARAAGAQSNwF-L9IrQ_zwk0PPWHgGZF8oynf6liMnrAQ7NtJNhh5Wg58DWKKkjQ1SyJ2nPkH74Jaolo14VK8',
+      clientId: 
+      clientSecret: 
+      
       accessToken: accessToken,
   }
 });
