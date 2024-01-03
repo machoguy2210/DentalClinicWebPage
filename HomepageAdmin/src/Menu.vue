@@ -61,6 +61,8 @@ const itemMenu = ref([
             <div class="flex gap-3 align-items-center font-semibold">
                 <i class="pi pi-home"></i>
                 <span class="cursor-pointer">{{ menu.title }}</span>
+                 
+
             </div>
             <i class="pi pi-angle-right"></i>
         </div>
@@ -70,6 +72,14 @@ const itemMenu = ref([
           <router-link v-if="subMenu.subItem === 'Thông tin dịch vụ'" :to="{ path: '/Dichvu' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
           <router-link v-if="subMenu.subItem === 'Combo ưu đãi'" :to="{ path: '/Combo' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
         </div>
+        <!-- CustomerManager -->
+        <div @click="handleClick">
+          <router-link v-if="menu.title === 'Quản Lý Customer'" to="/CusManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
+        </div>
+        <div @click="handleClick">
+          <router-link v-if="menu.title === 'Quản Lý Staff'" to="/EmManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
+        </div>
+
       </div>
     </div>
   </div>

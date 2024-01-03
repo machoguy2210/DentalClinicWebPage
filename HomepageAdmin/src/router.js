@@ -18,7 +18,17 @@ const routes = [
   {
     path: '/Combo',
     component: () => import('./Combo.vue'),
-  }
+  },
+  {
+    path:'/CusManager',
+    component:()=> import('./CusManager.vue')
+
+  },
+  {
+    path:'/EmManager',
+    component:()=> import('./EmManager.vue')
+
+  },
   // Other routes if needed
 ];
 
