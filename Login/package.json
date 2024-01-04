@@ -1,0 +1,23 @@
+{
+  "name": "nothing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ionicons": "^7.2.2",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.45.0",
+    "vue": "^3.3.10"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.1",
+    "sass": "^1.69.6",
+    "vite": "^5.0.5"
+  }
+}
