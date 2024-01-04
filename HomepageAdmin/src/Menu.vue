@@ -61,6 +61,8 @@ const itemMenu = ref([
             <div class="flex gap-3 align-items-center font-semibold">
                 <i class="pi pi-home"></i>
                 <span class="cursor-pointer">{{ menu.title }}</span>
+                 
+
             </div>
             <i class="pi pi-angle-right"></i>
         </div>
@@ -68,6 +70,14 @@ const itemMenu = ref([
         <div v-for="( subMenu,index ) in menu.item" :key="index" class="flex flex-column gap-3 ml-5">
             <span class="cursor-pointer w-fit-content">{{ subMenu.subItem }}</span>
         </div>
+        <!-- CustomerManager -->
+        <div @click="handleClick">
+          <router-link v-if="menu.title === 'Quản Lý Customer'" to="/CusManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
+        </div>
+        <div @click="handleClick">
+          <router-link v-if="menu.title === 'Quản Lý Staff'" to="/EmManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
+        </div>
+
       </div>
     </div>
   </div>
