@@ -24,10 +24,12 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row';   // optional
+import router from './router';
 
 const app = createApp(App);
 
 app.use(PrimeVue);
+app.use(router);
 
 app.component('Button',Button);
 app.component('InputText',InputText);
