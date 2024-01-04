@@ -5,20 +5,24 @@ const moment = require('moment');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+const bodyParser = require('body-parser');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 const port = 3000;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const OAuth2 = google.auth.OAuth2;
 const oauth2Client = new OAuth2(
-  '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
-  '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',
+  'Your Client ID',
+  'Your Client Secret',
   'https://developers.google.com/oauthplayground'
 );
 
 oauth2Client.setCredentials({
-  refresh_token: '1//047y0cxHo0NWgCgYIARAAGAQSNwF-L9IrQ_zwk0PPWHgGZF8oynf6liMnrAQ7NtJNhh5Wg58DWKKkjQ1SyJ2nPkH74Jaolo14VK8'
+  refresh_token: 'Your Refresh Token'
 });
 
 const accessToken = oauth2Client.getAccessToken();
@@ -28,9 +32,9 @@ const transporter = nodemailer.createTransport({
   auth: {
       type: 'OAUTH2',
       user: 'binh2210test@gmail.com',
-      clientId: '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
-      clientSecret: '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',
-      refreshToken: '1//047y0cxHo0NWgCgYIARAAGAQSNwF-L9IrQ_zwk0PPWHgGZF8oynf6liMnrAQ7NtJNhh5Wg58DWKKkjQ1SyJ2nPkH74Jaolo14VK8',
+      clientId: 'Your Client ID',
+      clientSecret: 'Your Client Secret',
+      refreshToken: 'Your Refresh Token',
       accessToken: accessToken,
   }
 });
