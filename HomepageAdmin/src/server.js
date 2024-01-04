@@ -6,9 +6,10 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const app = express();
 app.use(cors());
 app.use(express.json());
 const port = 3000;
