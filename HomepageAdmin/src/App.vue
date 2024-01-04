@@ -6,7 +6,7 @@
           <!-- Đặt lịch khám bệnh -->
       <div class="flex">
         <!-- Menu -->
-        <Menu @div-Clicked="handleDivClick" @clicked = "handleClickInfo"></Menu>
+        <Menu @div-Clicked="handleDivClick" @clicked = "handleClickInfo" @clickedCus = "handleClickCus" @clickedStaff = "handleclickStaff"></Menu>
   
         <!-- Right -->
         <div class="relative w-full surface-hover">
@@ -68,6 +68,12 @@
           this.isClicked = value;
         },
         handleClickInfo(value) {
+          this.showDefaultContent = false;
+        },
+        handleClickCus() {
+          this.showDefaultContent = false;
+        },
+        handleClickStaff() {
           this.showDefaultContent = false;
         }
       }

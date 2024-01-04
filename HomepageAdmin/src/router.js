@@ -14,6 +14,7 @@ const routes = [
   {
     path: '/Dichvu',
     component: () => import('./Dichvu.vue'),
+    props: { showDefaultContent: true }
   },
   {
     path: '/Combo',
@@ -21,12 +22,14 @@ const routes = [
   },
   {
     path:'/CusManager',
-    component:()=> import('./CusManager.vue')
+    component:()=> import('./CusManager.vue'),
+    props: { showDefaultContent: true }
 
   },
   {
     path:'/EmManager',
-    component:()=> import('./EmManager.vue')
+    component:()=> import('./EmManager.vue'),
+    props: { showDefaultContent: true }
 
   },
   // Other routes if needed

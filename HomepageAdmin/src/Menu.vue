@@ -73,10 +73,10 @@ const itemMenu = ref([
           <router-link v-if="subMenu.subItem === 'Combo ưu đãi'" :to="{ path: '/Combo' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
         </div>
         <!-- CustomerManager -->
-        <div @click="handleClick">
+        <div @click="handleClickCus">
           <router-link v-if="menu.title === 'Quản Lý Customer'" to="/CusManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
         </div>
-        <div @click="handleClick">
+        <div @click="handleClickStaff">
           <router-link v-if="menu.title === 'Quản Lý Staff'" to="/EmManager" class="cursor-pointer w-fit-content">{{ menu.title}}</router-link>
         </div>
 
@@ -104,6 +104,12 @@ const itemMenu = ref([
       handleClickInfo(ind) {
         this.$emit('clicked', true);
       },
+      handleClickCus() {
+        this.$emit('clickedCus', true);
+      },
+      handleClickStaff() {
+        this.$emit('clickedStaff', true);
+      }
       
     }
   }
