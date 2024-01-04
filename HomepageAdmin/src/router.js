@@ -32,6 +32,14 @@ const routes = [
     props: { showDefaultContent: true }
 
   },
+  {
+    path: '/ReviewDoctor',
+    component: () => import('./ReviewDoctor.vue'),
+  },
+  {
+    path: '/ReviewService',
+    component: () => import('./ReviewService.vue'),
+  },
   // Other routes if needed
 ];
 

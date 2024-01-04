@@ -29,7 +29,15 @@ const itemMenu = ref([
         title: 'Quản Lý Giao Dịch'
     },
     {
-        title: 'Quản Lý Dữ Liệu Đánh Giá'
+        title: 'Quản Lý Dữ Liệu Đánh Giá',
+        item: [
+          { 
+            subItem: 'Đánh giá theo nha sĩ',
+          }, 
+          {
+            subItem: 'Đánh giá theo dịch vụ'
+          }
+      ]
     },
     {
         title: 'Thống Kê Doanh Thu'
@@ -71,6 +79,8 @@ const itemMenu = ref([
           <router-link v-if="subMenu.subItem === 'Thông tin bác sĩ'" to="/DoctorInfo" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
           <router-link v-if="subMenu.subItem === 'Thông tin dịch vụ'" :to="{ path: '/Dichvu' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
           <router-link v-if="subMenu.subItem === 'Combo ưu đãi'" :to="{ path: '/Combo' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
+          <router-link v-if="subMenu.subItem === 'Đánh giá theo nha sĩ'" :to="{ path: '/ReviewDoctor' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
+          <router-link v-if="subMenu.subItem === 'Đánh giá theo dịch vụ'" :to="{ path: '/ReviewService' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
         </div>
         <!-- CustomerManager -->
         <div @click="handleClickCus">
