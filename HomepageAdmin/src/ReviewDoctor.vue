@@ -43,8 +43,8 @@ import Button from 'primevue/button';
                 <td>{{ review.HOTEN }}</td>
                 <td>{{ review.TENDV }}</td>
                 <td>{{ review.TENNS }}</td>
-                <td>{{ review.SOSAODV }}</td>
-                <td>{{ review.BINHLUANDV }}</td>
+                <td>{{ review.SOSAONS }}</td>
+                <td>{{ review.BINHLUANNS }}</td>
                 <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl"
                     v-on:click="confirmDelete(review)">Delete</button></td>
               </tr>
