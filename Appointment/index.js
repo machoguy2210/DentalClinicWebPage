@@ -26,7 +26,6 @@
     function timeReload() {
         var dentist = document.getElementById("dentist").value;
         var date = document.getElementById("date").value;
-        console.log(dentist, date);
         if (date == null || dentist == "") return;
         axios.get(`http://localhost:3000/api/appointments/get/` + date + `/` + dentist)
             .then(function (response) {
