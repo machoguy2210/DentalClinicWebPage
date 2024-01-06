@@ -18,9 +18,17 @@ import Button from "primevue/button";
       </div>
       <div>
         <p class="Header-text">Quản lí khách hàng</p>
-
-        <!-- Button to open the form for adding a new Customer -->
-        <button class="button-add" @click="openAddForm">Tim Kiếm</button>
+        <div class="search-container">
+          <button class="sreach-button" @click="searchCustomers">
+            Tìm Kiếm
+          </button>
+          <input
+            class="sreach"
+            v-model="searchQuery"
+            type="text"
+            placeholder="Tìm kiếm..."
+          />
+        </div>
 
         <!-- Display Customer list -->
         <table class="Table-list-customer">
@@ -142,6 +150,7 @@ export default {
         SDT: "",
         // Add more fields as needed
       },
+      searchQuery: "",
     };
   },
   // thay đổi định dạng ngày sinh
@@ -161,7 +170,17 @@ export default {
         console.error("Error fetching Customer data:", error);
       }
     },
-
+    async searchCustomers() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/customers/search?query=${this.searchQuery}`
+        );
+        const data = await response.json();
+        this.Customers = data;
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    },
     // Save or update Customer information
     async saveCustomer() {
       try {
@@ -198,15 +217,23 @@ export default {
 
     // Delete Customer
     async deleteCustomer(CustomerId) {
-      try {
-        await fetch(`http://localhost:3000/Customers/${CustomerId}`, {
-          method: "DELETE",
-        });
+      const result = confirm("Bạn có chắc chắn muốn xóa không?");
+      if (result) {
+        // Người dùng nhấn OK
+        console.log("Người dùng đã đồng ý.");
+        try {
+          await fetch(`http://localhost:3000/Customers/${CustomerId}`, {
+            method: "DELETE",
+          });
 
-        // Fetch updated Customer data after deletion
-        this.fetchCustomers();
-      } catch (error) {
-        console.error("Error deleting Customer:", error);
+          // Fetch updated Customer data after deletion
+          this.fetchCustomers();
+        } catch (error) {
+          console.error("Error deleting Customer:", error);
+        }
+      } else {
+        // Người dùng nhấn Cancel
+        console.log("Người dùng đã hủy.");
       }
     },
 
@@ -252,6 +279,23 @@ export default {
 </script>
 
 <style scoped>
+.sreach {
+  width: 500px;
+  height: 50px;
+  border-radius: 11px;
+  border: 3px solid black;
+  font-size: 18px;
+  background-color: rgba(210, 215, 217, 0.747);
+  margin-left: 15px;
+}
+.sreach-button {
+  margin-left: 20px;
+  width: 130px;
+  background-color: rgb(141, 162, 197);
+  font-size: 20px;
+  height: 45px;
+  border-radius: 16px;
+}
 table {
   width: 100%;
   border-collapse: collapse;

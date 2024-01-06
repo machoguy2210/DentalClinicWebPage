@@ -30,19 +30,27 @@ db.connect((err) => {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 // * API endpoint để lấy thông tin cuộc hẹn
-app.get('/appointments', (req, res) => {
-    const query = 'SELECT * FROM appointment,khachhang,nhasi,service WHERE appointment.MAKH=khachhang.MAKH AND appointment.MANS=nhasi.MANS AND service.MADV=appointment.MADV ;';
-
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Lỗi truy vấn:', err);
-            res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
-        } else {
-            res.status(200).json(results);
-        }
+app.get('/appointments/:MAKH', (req, res) => {
+    const MAKH = req.params.MAKH;
+  
+    const query = `
+      SELECT *
+      FROM appointment
+      INNER JOIN khachhang ON appointment.MAKH = khachhang.MAKH
+      INNER JOIN nhasi ON appointment.MANS = nhasi.MANS
+      INNER JOIN service ON appointment.MADV = service.MADV
+      WHERE appointment.MAKH = ?`;
+  
+    db.query(query, [MAKH], (err, results) => {
+      if (err) {
+        console.error('Lỗi truy vấn:', err);
+        res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+      } else {
+        res.status(200).json(results);
+      }
     });
-});
-
+  });
+  
 // * API endpoint để xóa lịch hẹn dựa trên MAKH và NGAYKhAM
 app.delete('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
     const customerId = parseInt(req.params.MAKH);
@@ -233,14 +241,25 @@ app.post('/employees', (req, res) => {
         res.status(201).json({ message: 'Đã thêm mới nhân viên thành công' });
     });
 });
-
+// Tich Diem
+app.get('/uudai', (req, res) => {
+    const query = 'SELECT * FROM uudai ORDER BY TICHDIEM DESC;';
+  
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Lỗi truy vấn:', err);
+        res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+      } else {
+        res.status(200).json(results);
+      }
+    });
+  });
 
 //////////////////////////////////////////////////////////////////
 // API customer
 //////////////////////////////////////////////////////////////////
 
 
-// API endpoint để xóa nhân viên dựa trên ID
 app.delete('/customers/:id', (req, res) => {
     const customerId = parseInt(req.params.id);
 
@@ -294,6 +313,18 @@ app.put('/customers/:id', (req, res) => {
         }
 
         res.status(200).json({ message: `Đã cập nhật nhân viên có ID ${customerId}` });
+    });
+});
+app.get('/customers/search', (req, res) => {
+    const searchQuery = req.query.query;
+    const query = 'SELECT * FROM khachhang WHERE HOTEN LIKE ? OR EMAIL LIKE ? OR SDT LIKE ?';
+
+    db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+        if (err) {
+            res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+        } else {
+            res.status(200).json(results);
+        }
     });
 });
 

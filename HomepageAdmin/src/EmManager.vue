@@ -207,15 +207,23 @@ export default {
 
     // Delete employee
     async deleteEmployee(employeeId) {
-      try {
-        await fetch(`http://localhost:3000/employees/${employeeId}`, {
-          method: "DELETE",
-        });
+      const result = confirm("Bạn có chắc chắn muốn tiếp tục không?");
+      if (result) {
+        // Người dùng nhấn OK
+        console.log("Người dùng đã đồng ý.");
+        try {
+          await fetch(`http://localhost:3000/employees/${employeeId}`, {
+            method: "DELETE",
+          });
 
-        // Fetch updated employee data after deletion
-        this.fetchEmployees();
-      } catch (error) {
-        console.error("Error deleting employee:", error);
+          // Fetch updated employee data after deletion
+          this.fetchEmployees();
+        } catch (error) {
+          console.error("Error deleting employee:", error);
+        }
+      } else {
+        // Người dùng nhấn Cancel
+        console.log("Người dùng đã hủy.");
       }
     },
 
