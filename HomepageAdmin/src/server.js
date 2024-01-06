@@ -326,6 +326,64 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
   });
 });
 
+app.get('/api/review-doctor', (req, res) => {
+  const query = 'SELECT danhgia_bacsi.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON danhgia_bacsi.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.delete('/api/review-doctor/:MALICHHEN', (req, res) => {
+  const query = 'DELETE FROM danhgia_bacsi WHERE MALICHHEN=?';
+  const { MALICHHEN } = req.params;
+  db.query(query, [MALICHHEN], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
+
+app.get('/api/review-service', (req, res) => {
+  const query = 'SELECT danhgia_dichvu.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON danhgia_dichvu.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.delete('/api/review-service/:MALICHHEN', (req, res) => {
+  const query = 'DELETE FROM danhgia_dichvu WHERE MALICHHEN=?';
+  const { MALICHHEN } = req.params;
+  db.query(query, [MALICHHEN], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
