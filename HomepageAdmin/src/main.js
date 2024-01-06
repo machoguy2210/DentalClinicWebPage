@@ -7,7 +7,7 @@ import 'primeicons/primeicons.css';
 
 import 'primeflex/themes/primeone-light.css';
 
-import '/node_modules/primeflex/primeflex.css';
+import 'primeflex/primeflex.css';
 
 import '/src/assets/over-write.css';
 

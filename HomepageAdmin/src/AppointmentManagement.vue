@@ -2,7 +2,7 @@
     <div class="py-3 bg-white">
         <span>Lịch Hẹn Khám Bệnh Nhân</span>
     </div>
-    <Calendar v-model="date" showIcon date-format="yy-mm-dd" iconDisplay="input" style="width: 150px;" /> <Button align="center" style="width: 150px; margin-left: 20px; float: left;" v-on:click="fetchAppointments()" label="Lấy lịch hẹn" />
+    <input type="date" v-model="date"> <Button align="center" style="width: 150px; margin-left: 20px; float: left;" v-on:click="fetchAppointments()" label="Lấy lịch hẹn" />
     <Button align="center" style="width: 150px; margin-left: 20px; float: left;" v-on:click="sendData()" label="Gửi lịch hẹn" />
    <div>
       <table >
@@ -49,7 +49,7 @@
               </div>
               </td>
               <td><span class="datafunction" v-on:click="deleteAppointment(appointment.MAKH, appointment.NGAYKHAM)">Delete</span></td>
-              <td align="center"><Button icon="pi pi-check" text raised rounded aria-label="Filter" v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM)" /></td>
+              <td align="center"><Button label="Allow" text raised rounded aria-label="Filter" v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM)" /></td>
           </tr>
         </tbody>
       </table>
@@ -163,7 +163,14 @@ export default {
 .dropdown {
   display: inline-block;
 }
-
+input[type=date] {
+  padding: 6px;
+  border-radius: 10px;
+  margin-top: 8px;
+  margin-left: 8px;
+  font-size: 17px;
+  width: 150px;
+}
 .dropdown button {
   background-color: #ffffff;
   color: blue;

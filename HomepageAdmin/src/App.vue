@@ -29,9 +29,6 @@
               <!-- ChartData -->
               <ChartData />
 
-              <!-- TableService -->
-              <TableService />
-
               <AppointmentManagement :isClicked="isClicked" />
             </div>
           </div>
@@ -47,7 +44,6 @@ import SubMenu from "./SubMenu.vue";
 import Menu from "./Menu.vue";
 import TopBar from "./TopBar.vue";
 import ChartData from "./ChartData.vue";
-import TableService from "./TableService.vue";
 import AppointmentManagement from "./AppointmentManagement.vue";
 export default {
   components: {
@@ -55,7 +51,6 @@ export default {
     Menu,
     TopBar,
     ChartData,
-    TableService,
     AppointmentManagement,
   },
   data() {
