@@ -57,7 +57,7 @@ db.connect((err) => {
 app.get('/api/appointments/get/:NGAYKHAM', (req, res) => {
   const query = 'SELECT * FROM appointment where NGAYKHAM = ?';
   const { NGAYKHAM } = req.params;
-  db.query(query, [NGAYKHAM] ,(err, results) => {
+  db.query(query, [NGAYKHAM], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -74,7 +74,7 @@ app.get('/api/appointments/get/:NGAYKHAM', (req, res) => {
 app.get('/api/appointments/get/:NGAYKHAM/:MANS', (req, res) => {
   const query = 'SELECT KHUNGGIO FROM appointment where NGAYKHAM = ? and MANS = ?';
   const { NGAYKHAM, MANS } = req.params;
-  db.query(query, [NGAYKHAM, MANS] ,(err, results) => {
+  db.query(query, [NGAYKHAM, MANS], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -169,36 +169,36 @@ app.get('/api/appointments/edit/:MAKH/:NGAYKHAM/:HOTEN/:PHONE/:MADV', (req, res)
 });
 
 app.post('/api/appointments', (req, res) => {
-    const receivedData = req.body;
-    receivedData.forEach(element => {
-        const appointment = element.split('/');
-        console.log(appointment[0], appointment[1], appointment[2]);
-        const query1 = 'Select EMAIL from KHACHHANG where MAKH = ?';
-        db.query(query1, [appointment[0]], (err, results) => {
-            if (err) {
-                console.error('Error executing query:', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-            } else {
-                console.log('SQL query successful');
-                console.log('Results:', results);
-                console.log(results[0].EMAIL);
-                const mailOptions = {
-                    from: 'binh2210test@gmail.com',
-                    to: results[0].EMAIL,
-                    subject: 'Nhắc lịch hẹn',
-                    text: 'Bạn có lịch hẹn khám gói dịch vụ ' + appointment[2] + ' vào ngày ' + appointment[1] + '. Vui lòng đến đúng giờ.',
-                };
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                    console.log('Email sent: ' + info.response);
-                    }
-                });
-            }
-        });  
+  const receivedData = req.body;
+  receivedData.forEach(element => {
+    const appointment = element.split('/');
+    console.log(appointment[0], appointment[1], appointment[2]);
+    const query1 = 'Select EMAIL from KHACHHANG where MAKH = ?';
+    db.query(query1, [appointment[0]], (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        console.log('Results:', results);
+        console.log(results[0].EMAIL);
+        const mailOptions = {
+          from: 'binh2210test@gmail.com',
+          to: results[0].EMAIL,
+          subject: 'Nhắc lịch hẹn',
+          text: 'Bạn có lịch hẹn khám gói dịch vụ ' + appointment[2] + ' vào ngày ' + appointment[1] + '. Vui lòng đến đúng giờ.',
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+      }
     });
-    res.json('Success');
+  });
+  res.json('Success');
 });
 
 
@@ -326,13 +326,28 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
   });
 });
 
-app.get('/api/review-doctor', (req, res) => {
-  const query = 'SELECT danhgia_bacsi.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON danhgia_bacsi.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+app.get('/api/doctor-list', (req, res) => {
+  const query = 'SELECT MANS, TENNS from nhasi';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/review-doctor/:MANS', (req, res) => {
+  const query = 'SELECT danhgia_bacsi.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON danhgia_bacsi.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MANS=?';
+  const { MANS } = req.params;
+  db.query(query, [MANS], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('SQL query successful');
       console.log('Results:', results);
       res.json(results);
     }
@@ -355,13 +370,28 @@ app.delete('/api/review-doctor/:MALICHHEN', (req, res) => {
   });
 });
 
-app.get('/api/review-service', (req, res) => {
-  const query = 'SELECT danhgia_dichvu.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON danhgia_dichvu.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+app.get('/api/service-list', (req, res) => {
+  const query = 'SELECT MADV, TENDV from service';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/review-service/:MADV', (req, res) => {
+  const query = 'SELECT danhgia_dichvu.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON danhgia_dichvu.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE service.MADV=?';
+  const { MADV } = req.params;
+  db.query(query, [MADV], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('SQL query successful');
       console.log('Results:', results);
       res.json(results);
     }

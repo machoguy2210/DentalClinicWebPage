@@ -1,9 +1,7 @@
 <script setup>
 import Menu from './Menu.vue';
 import TopBar from './TopBar.vue';
-
 import Button from 'primevue/button';
-
 </script>
 
 <template>
@@ -13,16 +11,23 @@ import Button from 'primevue/button';
         <!-- Right -->
         <div class="relative w-full surface-hover">
             <div class="background-custom w-full h-6rem"></div>
-
             <div class="w-full pt-3 px-5 absolute top-0">
                 <TopBar></TopBar>
             </div>
             <div class="table-container">
                 <div class="pt-3 pl-9 ml-6">
-                    <div class="flex">
-                        <h1>Đánh giá theo dịch vụ</h1>
+                    <div class="flex items-center mt-4">
+                        <h1 class="mr-4">Đánh giá theo dịch vụ</h1>
+                        <div class="flex items-center">
+                            <select v-model="selectedService" class="p-2">
+                                <option disabled value="">Chọn dịch vụ</option>
+                                <option v-for="service in services" :value="service.MADV">{{ service.TENDV }}</option>
+                            </select>
+                            <button @click="confirmServiceSelection"
+                                class="p-3 bg-blue-500 text-white font-semibold rounded-lg ml-4">Confirm</button>
+                        </div>
                     </div>
-                    <table class="pt-3" style="min-width: 60rem; height: 5rem">
+                    <table v-if="reviews.length > 0" class="pt-3" style="min-width: 60rem; height: 5rem">
                         <thead>
                             <tr>
                                 <th>Ngày khám</th>
@@ -33,7 +38,6 @@ import Button from 'primevue/button';
                                 <th>Số sao</th>
                                 <th>Bình luận</th>
                                 <th>Delete</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -63,24 +67,51 @@ export default {
     data() {
         return {
             reviews: [],
+            services: [],
+            selectedService: '',
             review: {
                 MALICHHEN: '',
             },
         };
     },
     mounted() {
-        this.fetchReviews();
+        this.fetchServiceReviews();
+        this.fetchServices();
     },
     methods: {
-        async fetchReviews() {
-            try {
-                const response = await axios.get('http://localhost:3000/api/review-service');
-                this.reviews = response.data;
-            } catch (error) {
-                console.error('Error fetching review:', error);
+        async fetchServiceReviews() {
+            if (this.selectedService) {
+                try {
+                    const response = await axios.get(`http://localhost:3000/api/review-service/${this.selectedService}`);
+                    this.reviews = response.data;
+                    if (this.reviews.length == 0) {
+                        window.alert('Không có lịch hẹn ứng với dịch vụ này.');
+                    }
+
+                } catch (error) {
+                    console.error('Error fetching review:', error);
+                }
+            } else {
+                this.reviews = []; // Đặt lại danh sách nếu không có dịch vụ nào được chọn
             }
         },
 
+        async confirmServiceSelection() {
+            if (this.selectedService) {
+                await this.fetchServiceReviews(this.selectedService);
+            } else {
+                window.alert('Hãy chọn một dịch vụ.');
+            }
+        },
+
+        async fetchServices() {
+            try {
+                const response = await axios.get('http://localhost:3000/api/service-list');
+                this.services = response.data;
+            } catch (error) {
+                console.error('Error fetching service:', error);
+            }
+        },
 
         confirmDelete(review) {
             // Display a confirmation dialog
@@ -107,8 +138,8 @@ export default {
         },
     },
 };
-
 </script>
+
 <style>
 *,
 *:before,
