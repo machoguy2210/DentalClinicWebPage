@@ -122,8 +122,8 @@ import Button from "primevue/button";
 
               <!-- Add more input fields as needed -->
 
-              <button type="submit">{{ isEditMode ? "Update" : "Add" }}</button>
-              <button @click="closeForm">Cancel</button>
+              <button type="submit" class="button-update">{{ isEditMode ? "Update" : "Add" }}</button>
+              <button @click="closeForm" class="button-cancel">Cancel</button>
             </form>
           </div>
         </div>
@@ -331,12 +331,7 @@ button {
   border: 3px solid black;
 }
 /* CSS cho form */
-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 20px 0;
-}
+
 .form-edit {
   float: left;
   width: 500px;
@@ -370,7 +365,7 @@ form {
   font-size: 21px;
   margin-top: 20px;
 }
-.button-choice {
+.button-update {
   margin-left: 90px;
   background-color: rgb(144, 137, 191);
 }
