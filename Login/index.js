@@ -11,8 +11,15 @@
             .then(res => {
                 if (res.status == 200) {
                     if (res.data[0].CATEGORY == 0) {
-                        window.location.href = "";
-                        localStorage.setItem("user", JSON.stringify(res.data[0].MAKH, res.data[0].HOTEN, res.data[0].EMAIL, res.data[0].SDT, res.data[0].DIACHI)); 
+                        window.location.href = `http://test2.local/?customer_id=${res.data[0].MAKH}`;                        
+                    }
+                    else if (res.data[0].CATEGORY == 1) {
+                        window.location.href = "http://test1.local";
+                        localStorage.setItem("userIDdc", JSON.stringify(res.data[0].MANV, res.data[0].HOTEN, res.data[0].EMAIL, res.data[0].SDT, res.data[0].CATEGORY));
+                    }
+                    else {
+                        window.location.href = "http://test1.local";
+                        localStorage.setItem("userIDdc", JSON.stringify(res.data[0].MANV, res.data[0].HOTEN, res.data[0].EMAIL, res.data[0].SDT, res.data[0].CATEGORY));
                     }
                 }
             })
