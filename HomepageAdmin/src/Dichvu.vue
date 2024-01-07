@@ -51,7 +51,7 @@ import Button from 'primevue/button';
         </div>
       </div>
     </div>
-    <div v-if="this.newPopup">
+    <div v-if="newPopup">
       <div class="popup-overlay" @click="hideNewPopup"></div>
       <div class="popup-content">
         <div class="flex row column-gap-8">
@@ -83,7 +83,7 @@ import Button from 'primevue/button';
       </div>
     </div>
 
-    <div v-if="this.editPopup">
+    <div v-if="editPopup">
       <div class="popup-overlay" @click="hideEditPopup"></div>
       <div class="popup-content">
         <div class="flex row column-gap-8">
