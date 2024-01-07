@@ -1,9 +1,7 @@
 <script setup>
 import Menu from './Menu.vue';
 import TopBar from './TopBar.vue';
-
 import Button from 'primevue/button';
-
 </script>
 
 <template>
@@ -13,16 +11,23 @@ import Button from 'primevue/button';
     <!-- Right -->
     <div class="relative w-full surface-hover">
       <div class="background-custom w-full h-6rem"></div>
-
       <div class="w-full pt-3 px-5 absolute top-0">
         <TopBar></TopBar>
       </div>
       <div class="table-container">
         <div class="pt-3 pl-9 ml-6">
-          <div class="flex">
-            <h1>Đánh giá theo nha sĩ</h1>
+          <div class="flex items-center mt-4">
+            <h1 class="mr-4">Đánh giá theo nha sĩ</h1>
+            <div class="flex items-center">
+              <select v-model="selectedDoctor" class="p-2">
+                <option disabled value="">Chọn nha sĩ</option>
+                <option v-for="doctor in doctors" :value="doctor.MANS">{{ doctor.TENNS }}</option>
+              </select>
+              <button @click="confirmDoctorSelection"
+                class="p-3 bg-blue-500 text-white font-semibold rounded-lg ml-4">Confirm</button>
+            </div>
           </div>
-          <table class="pt-3" style="min-width: 60rem; height: 5rem">
+          <table v-if="reviews.length > 0" class="pt-3" style="min-width: 60rem; height: 5rem">
             <thead>
               <tr>
                 <th>Ngày khám</th>
@@ -33,11 +38,10 @@ import Button from 'primevue/button';
                 <th>Số sao</th>
                 <th>Bình luận</th>
                 <th>Delete</th>
-
               </tr>
             </thead>
             <tbody>
-              <tr v-for="review in reviews" :key="review.MALICHHEN">
+              <tr v-for="review in reviews" :key="`${review.MAKH}-${review.NGAYKHAM}`">
                 <td>{{ review.NGAYKHAM }}</td>
                 <td>{{ review.KHUNGGIO }}</td>
                 <td>{{ review.HOTEN }}</td>
@@ -63,24 +67,52 @@ export default {
   data() {
     return {
       reviews: [],
+      doctors: [],
+      selectedDoctor: '',
       review: {
-        MALICHHEN: '',
+        MAKH: '',
+        NGAYKHAM: '',
       },
     };
   },
   mounted() {
-    this.fetchReviews();
+    this.fetchDoctorReviews();
+    this.fetchDoctors();
   },
   methods: {
-    async fetchReviews() {
-      try {
-        const response = await axios.get('http://localhost:3000/api/review-doctor');
-        this.reviews = response.data;
-      } catch (error) {
-        console.error('Error fetching review:', error);
+    async fetchDoctorReviews() {
+      if (this.selectedDoctor) {
+        try {
+          const response = await axios.get(`http://localhost:3000/api/review-doctor/${this.selectedDoctor}`);
+          this.reviews = response.data;
+          if (this.reviews.length == 0) {
+            window.alert('Không có lịch hẹn ứng với nha sĩ này.');
+          }
+
+        } catch (error) {
+          console.error('Error fetching review:', error);
+        }
+      } else {
+        this.reviews = []; // Đặt lại danh sách nếu không có nha sĩ nào được chọn
       }
     },
 
+    async confirmDoctorSelection() {
+      if (this.selectedDoctor) {
+        await this.fetchDoctorReviews(this.selectedDoctor);
+      } else {
+        window.alert('Hãy chọn một nha sĩ.');
+      }
+    },
+
+    async fetchDoctors() {
+      try {
+        const response = await axios.get('http://localhost:3000/api/doctor-list');
+        this.doctors = response.data;
+      } catch (error) {
+        console.error('Error fetching doctor:', error);
+      }
+    },
 
     confirmDelete(review) {
       // Display a confirmation dialog
@@ -94,11 +126,11 @@ export default {
 
     deleteItem(review) {
       // Your existing deleteItem logic here
-      axios.delete(`http://localhost:3000/api/review-doctor/${review.MALICHHEN}`)
+      axios.delete(`http://localhost:3000/api/review-doctor/${review.MAKH}/${review.NGAYKHAM}`)
         .then((response) => {
           console.log(response.data);
           // Update your local data array
-          this.reviews = this.reviews.filter(item => item.MALICHHEN !== review.MALICHHEN);
+          this.reviews = this.reviews.filter(item => !(item.MAKH === review.MAKH && item.NGAYKHAM === review.NGAYKHAM));
         })
         .catch((error) => {
           console.error('Error deleting review:', error);
@@ -107,8 +139,8 @@ export default {
     },
   },
 };
-
 </script>
+
 <style>
 *,
 *:before,
