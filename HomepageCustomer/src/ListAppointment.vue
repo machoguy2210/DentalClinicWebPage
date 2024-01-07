@@ -129,6 +129,7 @@ import TopBar from "./TopBar.vue";
 
 export default {
   components: { TopBar },
+  props: [ MAKH ],
   data() {
     return {
       appointments: [],
@@ -146,7 +147,7 @@ export default {
   methods: {
     async fetchAppointments() {
       try {
-        const response = await fetch(`http://localhost:3000/appointments/${1}`);
+        const response = await fetch(`http://localhost:3000/appointments/${MAKH}`);
         const data = await response.json();
         this.appointments = data.map((appointment) => ({
           ...appointment,
