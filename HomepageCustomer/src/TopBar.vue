@@ -33,7 +33,7 @@ const openFacebook = () => {
 };
 
 const chatWithCSKH = () => {
-  window.open('https://www.facebook.com/messages/e2ee/t/6792051094210340', '_blank')
+  window.open('https://www.messenger.com/t/macho.man.382', '_blank')
 }
 </script>
 <template>
