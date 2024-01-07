@@ -1,64 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
-const information = ref([
-  {
-    id: 1,
-    image: "../public/imagins/nature.jpg",
-    name: "HÀ MINH THU",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 2,
-    image: "../public/imagins/nature2.jpg",
-    name: "VŨ ĐỨC TÙNG",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 3,
-    image: "../public/imagins/nature3.jpg",
-    name: "VŨ TÙNG DƯƠNG",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 4,
-    image: "../public/imagins/nature4.jpg",
-    name: "HÀ TIẾN TIỆP",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 5,
-    image: "../public/imagins/nature.jpg",
-    name: "HÀ MINH THU",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 6,
-    image: "../public/imagins/nature2.jpg",
-    name: "VŨ ĐỨC TÙNG",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 7,
-    image: "../public/imagins/nature3.jpg",
-    name: "VŨ TÙNG DƯƠNG",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-  {
-    id: 8,
-    image: "../public/imagins/nature4.jpg",
-    name: "HÀ TIẾN TIỆP",
-    detail:
-      "Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM. Nguyên trưởng khoa nắm chỉnh răng viện RHM trung ương. Nguyên trưởng bộ môn nắm chỉnh răng, Đại học RHM.",
-  },
-]);
+const information = ref([]);
 
 const responsiveOptions = ref([
   {
@@ -82,6 +26,20 @@ const responsiveOptions = ref([
     numScroll: 1,
   },
 ]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/api/allnhasi");
+    information.value = response.data.map(({ MANS, TENNS, GIOITHIEU }) => ({
+      id: MANS,
+      name: TENNS,
+      detail: GIOITHIEU,
+      // add other properties if needed
+    }));
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+});
 </script>
 
 <template>

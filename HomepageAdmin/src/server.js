@@ -264,6 +264,20 @@ app.delete('/api/allnhasi/:MANS', (req, res) => {
   });
 });
 
+// search nha si
+app.get('/api/allnhasi/search', (req, res) => {
+  const searchQuery = req.query.query;
+  const query = 'SELECT * FROM nhasi WHERE TENNS LIKE ? OR GIOITHIEU LIKE ? OR SDT LIKE ? OR DIACHI LIKE ?';
+
+  db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 // Dịch vụ
 app.get('/api/alldichvu', (req, res) => {
   const query = 'SELECT * FROM service';
@@ -326,6 +340,19 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
   });
 });
 
+// search dich vu
+app.get('/api/alldichvu/search', (req, res) => {
+  const searchQuery = req.query.query;
+  const query = 'SELECT * FROM service WHERE TENDV LIKE ? OR GIA LIKE ? OR MOTA LIKE ?';
+
+  db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
 // * API endpoint để lấy thông tin cuộc hẹn
 app.get('/appointments', (req, res) => {
   const query = 'SELECT * FROM appointment,khachhang,nhasi,service WHERE appointment.MAKH=khachhang.MAKH AND appointment.MANS=nhasi.MANS AND service.MADV=appointment.MADV ;';
@@ -784,6 +811,64 @@ app.delete('/api/review-service/:MAKH/:NGAYKHAM', (req, res) => {
       console.log('SQL query successful');
       console.log('Results:', results);
       res.sendStatus(200);
+    }
+  });
+});
+
+app.get('/api/dailyRevenue', (req, res) => {
+  const query = `
+    SELECT DATE_FORMAT(NGAYKHAM, '%d-%m-%Y') AS Ngay, SUM(GIA) AS DoanhThu
+    FROM appointment a
+    JOIN service s ON a.MADV = s.MADV
+    WHERE a.KHOATHANHTOAN = 2
+    GROUP BY DATE_FORMAT(NGAYKHAM, '%d-%m-%Y')
+    ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m-%d') ASC
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    const data = {};
+
+    if (results.length > 0) {
+      results.forEach((row) => {
+        data[row.Ngay] = row.DoanhThu;
+      });
+      res.json({ status: 'success', data });
+    } else {
+      res.json({ status: 'error', data: 'No data found' });
+    }
+  });
+});
+
+app.get('/api/monthlyRevenue', (req, res) => {
+  const query = `
+    SELECT DATE_FORMAT(NGAYKHAM, '%m-%Y') AS Thang, SUM(GIA) AS DoanhThu
+    FROM appointment a
+    JOIN service s ON a.MADV = s.MADV
+    WHERE a.KHOATHANHTOAN = 2
+    GROUP BY DATE_FORMAT(NGAYKHAM, '%m-%Y')
+    ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m') ASC
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err);
+      return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+
+    const data = {};
+
+    if (results.length > 0) {
+      results.forEach((row) => {
+        data[row.Thang] = row.DoanhThu;
+      });
+      res.json({ status: 'success', data });
+    } else {
+      res.json({ status: 'success', data: 'No data found' });
     }
   });
 });
