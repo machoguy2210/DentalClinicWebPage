@@ -7,7 +7,7 @@ import BaseFooter from "./BaseFooter.vue";
 import DatLich from "./DatLich.vue";
 import DoctorInfo from "./DoctorInfo.vue";
 import Introduction from "./Introduction.vue";
-import ListAppointment from './ListAppointment.vue';
+import ListAppointment from "./ListAppointment.vue";
 </script>
 
 <template>
@@ -41,11 +41,9 @@ import ListAppointment from './ListAppointment.vue';
       </div>
     </div>
     <router-view v-if="!showDefaultContent"></router-view>
-    
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
@@ -53,17 +51,15 @@ export default {
       MAKH: null,
     };
   },
-  // mounted() {
-  //   this.getC();
-  // },
-  
+  mounted() {
+    this.getC();
+  },
   methods: {
-    // getC() {
-    //   var urlParams = new URLSearchParams(window.location.search);
-    //   this.MAKH = urlParams.get("customer_id");
-    // },
-   
-      handleDivClick(value) {
+    getC() {
+      var urlParams = new URLSearchParams(window.location.search);
+      this.MAKH = urlParams.get("customer_id");
+    },
+    handleDivClick(value) {
       this.isClicked = value;
     },
     handleClickListApp() {
@@ -95,22 +91,3 @@ export default {
   height: 40rem;
 }
 </style>
-
-<script>
-    export default {
-        data() {
-            return {
-                MAKH: null
-            }
-        },
-        mounted() {
-            this.getCustomerID();
-        },
-        methods: {
-            getC() {
-                var urlParams = new URLSearchParams(window.location.search);
-                this.MAKH = urlParams.get('customer_id');
-            }
-        }
-    }
-</script>
