@@ -27,7 +27,7 @@
               <SubMenu />
 
               <!-- ChartData -->
-              <ChartData />
+              <Revenue />
 
               <AppointmentManagement :isClicked="isClicked" />
             </div>
@@ -43,14 +43,14 @@
 import SubMenu from "./SubMenu.vue";
 import Menu from "./Menu.vue";
 import TopBar from "./TopBar.vue";
-import ChartData from "./ChartData.vue";
+import Revenue from "./Revenue.vue";
 import AppointmentManagement from "./AppointmentManagement.vue";
 export default {
   components: {
     SubMenu,
     Menu,
     TopBar,
-    ChartData,
+    Revenue,
     AppointmentManagement,
   },
   data() {
