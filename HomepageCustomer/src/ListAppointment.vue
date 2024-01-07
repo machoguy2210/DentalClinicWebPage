@@ -1,123 +1,143 @@
+<script setup>
+</script>
+
+
 <template>
-  <div class="frame-service">
-    <div class="service-list">
-      <div class="background-image">
-        <img src="./assets/Web_Nieng (1).jpg" alt="" />
-      </div>
-      <div class="content">
-        <div class="service-container">
-          <div
-            v-for="appointment in appointments"
-            :key="appointment.MAKH"
-            class="service-card"
-          >
-            <div class="service-details">
-              <p class="name-service">
-                <strong>Tên dịch vụ: {{ appointment.TENDV }}</strong>
-              </p>
-              <div class="view-appoiment">
-                <div class="view-basic">
-                  <p class="infor-appointment">
-                    <strong> Ngày Khám:</strong>
-                    {{ formatNgayKham(appointment.NGAYKhAM) }}
-                  </p>
-                  <p class="infor-appointment">
-                    <strong> Giá Tiền:</strong>
-                    {{ appointment.GIA }} VND
-                  </p>
-                  <p class="infor-appointment">
-                    <strong>Thời gian:</strong>
+  <div>
+    <TopBar></TopBar>
+    <Menu></Menu>
+    <div class="frame-service">
+      <div class="service-list">
+        <div class="background-image">
+          <img src="./assets/Web_Nieng (1).jpg" alt="" />
+        </div>
+        <div class="content">
+          <div class="service-container">
+            <div
+              v-for="appointment in appointments"
+              :key="appointment.MAKH"
+              class="service-card"
+            >
+              <div class="service-details">
+                <p class="name-service">
+                  <strong>Tên dịch vụ: {{ appointment.TENDV }}</strong>
+                </p>
+                <div class="view-appoiment">
+                  <div class="view-basic">
+                    <p class="infor-appointment">
+                      <strong> Ngày Khám:</strong>
+                      {{ formatNgayKham(appointment.NGAYKhAM) }}
+                    </p>
+                    <p class="infor-appointment">
+                      <strong> Giá Tiền:</strong>
+                      {{ appointment.GIA }} VND
+                    </p>
+                    <p class="infor-appointment">
+                      <strong>Thời gian:</strong>
 
-                    {{ appointment.KHUNGGIO }}
-                  </p>
+                      {{ appointment.KHUNGGIO }}
+                    </p>
+                  </div>
+
+                  <div v-if="appointment.showDetails" class="view-more">
+                    <p class="infor-appointment">
+                      <strong>Bác Sĩ:</strong> {{ appointment.TENNS }}
+                    </p>
+                    <p class="infor-appointment">
+                      <strong>Lời Nhắn:</strong>
+
+                      {{ appointment.GHICHU }}
+                    </p>
+                    <p class="infor-appointment">
+                      <strong> Dịch Vụ:</strong>
+                      {{ appointment.TENDV }}
+                    </p>
+                  </div>
+                  <div v-if="appointment.showDetails">
+                    <p style="font-size: 20px">
+                      <strong> Mô tả:</strong>
+                      {{ appointment.MOTA }}
+                    </p>
+                  </div>
                 </div>
-
-                <div v-if="appointment.showDetails" class="view-more">
-                  <p class="infor-appointment">
-                    <strong>Bác Sĩ:</strong> {{ appointment.TENNS }}
-                  </p>
-                  <p class="infor-appointment">
-                    <strong>Lời Nhắn:</strong>
-
-                    {{ appointment.GHICHU }}
-                  </p>
-                  <p class="infor-appointment">
-                    <strong> Dịch Vụ:</strong>
-                    {{ appointment.TENDV }}
-                  </p>
-                </div>
-                <div v-if="appointment.showDetails">
-                  <p style="font-size: 20px">
-                    <strong> Mô tả:</strong>
-                    {{ appointment.MOTA }}
-                  </p>
+                <div class="buttons">
+                  <button class="btn-details" @click="viewDetails(appointment)">
+                    Xem Chi Tiết
+                  </button>
+                  <button class="btn-pay" @click="generateQRCode(appointment)">
+                    Thanh Toán
+                  </button>
+                  <button
+                    class="btn-delete"
+                    @click="
+                      deleteAppointment(
+                        appointment.MAKH,
+                        formatNgayKham(appointment.NGAYKhAM)
+                      )
+                    "
+                  >
+                    Xóa
+                  </button>
+                  <button class="btn-edit" @click="openEditForm(appointment)">
+                    Chỉnh Sửa
+                  </button>
                 </div>
               </div>
-              <div class="buttons">
-                <button class="btn-details" @click="viewDetails(appointment)">
-                  Xem Chi Tiết
-                </button>
-                <button class="btn-pay" @click="generateQRCode(appointment)">
-                  Thanh Toán
-                </button>
-                <button
-                  class="btn-delete"
-                  @click="
-                    deleteAppointment(
-                      appointment.MAKH,
-                      formatNgayKham(appointment.NGAYKhAM)
-                    )
-                  "
+            </div>
+          </div>
+          <div class="payment-voucher">
+            <div class="background-payment">
+              <p class="text-payment">QR CODE</p>
+              <div v-if="selectedAppointment" class="payment-details">
+                <img
+                  v-if="qrCode"
+                  :src="qrCode"
+                  alt="QR Code"
+                  class="qr-code"
+                />
+                <h2>Thanh Toán cho: {{ selectedAppointment.TENDV }}</h2>
+              </div>
+            </div>
+            <!-- <div class="voucher">
+              <p class="text-payment">NHẬP MÃ GIẢM GIÁ</p>
+              <input type="text" id="" />
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div v-if="editFormVisible" class="edit-form-modal">
+        <div class="edit-form-content">
+          <table>
+            <tr>
+              <td>
+                <label for="editedTime" class="label-time-edit"
+                  >Giờ Khám:</label
                 >
-                  Xóa
-                </button>
-                <button class="btn-edit" @click="openEditForm(appointment)">
-                  Chỉnh Sửa
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="payment-voucher">
-          <div class="background-payment">
-            <p class="text-payment">QR CODE</p>
-            <div v-if="selectedAppointment" class="payment-details">
-              <img v-if="qrCode" :src="qrCode" alt="QR Code" class="qr-code" />
-              <h2>Thanh Toán cho: {{ selectedAppointment.TENDV }}</h2>
-            </div>
-          </div>
-          <div class="voucher">
-            <p class="text-payment">NHẬP MÃ GIẢM GIÁ</p>
-            <input type="text" id="" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-if="editFormVisible" class="edit-form-modal">
-      <div class="edit-form-content">
-        <table>
-          <tr>
-            <td>
-              <label for="editedTime" class="label-time-edit">Giờ Khám:</label>
-            </td>
-            <td><input type="text" v-model="editedTime" id="editedTime" /></td>
-          </tr>
-          <tr>
-            <td>
-              <label for="editedReminder" class="label-reminder-edit"
-                >Lời Nhắc Hẹn:</label
-              >
-            </td>
-            <td>
-              <textarea v-model="editedReminder" id="editedReminder"></textarea>
-            </td>
-          </tr>
-        </table>
+              </td>
+              <td>
+                <input type="text" v-model="editedTime" id="editedTime" />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label for="editedReminder" class="label-reminder-edit"
+                  >Lời Nhắc Hẹn:</label
+                >
+              </td>
+              <td>
+                <textarea
+                  v-model="editedReminder"
+                  id="editedReminder"
+                ></textarea>
+              </td>
+            </tr>
+          </table>
 
-        <!-- Nút lưu chỉnh sửa -->
-        <button @click="saveEdit" class="save-btn">Lưu Chỉnh Sửa</button>
-        <!-- Nút đóng modal -->
-        <button @click="closeEditForm" class="close-btn">Đóng</button>
+          <!-- Nút lưu chỉnh sửa -->
+          <button @click="saveEdit" class="save-btn">Lưu Chỉnh Sửa</button>
+          <!-- Nút đóng modal -->
+          <button @click="closeEditForm" class="close-btn">Đóng</button>
+        </div>
       </div>
     </div>
   </div>
@@ -125,10 +145,15 @@
 
 <script>
 import QRCode from "qrcode";
-import TopBar from "./TopBar.vue";
+import TopBar from "../../HomepageCustomer/src/TopBar.vue";
+import Menu from "../../HomepageCustomer/src/Menu.vue";
+
 
 export default {
-  components: { TopBar },
+  components: {
+    TopBar,
+    Menu,
+  },
   data() {
     return {
       appointments: [],
@@ -138,15 +163,25 @@ export default {
       editedTime: "",
       editedReminder: "",
       editedAppointment: null,
+      customerId: 1,
+      // customerId:null
     };
   },
   created() {
     this.fetchAppointments();
+    this.getC();
   },
   methods: {
+    getC() {
+      var urlParams = new URLSearchParams(window.location.search);
+      this.customerId = urlParams.get("customer_id");
+    },
+
     async fetchAppointments() {
       try {
-        const response = await fetch(`http://localhost:3000/appointments/${1}`);
+        const response = await fetch(
+          `http://localhost:3000/appointments/${this.customerId}`
+        );
         const data = await response.json();
         this.appointments = data.map((appointment) => ({
           ...appointment,
@@ -325,7 +360,7 @@ export default {
   max-height: 700px;
   margin: 20px;
   margin-top: 50px;
-  width: 1600px;
+  width: 1500px;
   float: left;
 }
 

@@ -20,8 +20,12 @@ import Carousel from 'primevue/carousel';
 import Tag from 'primevue/tag';
 
 import PrimeVue from 'primevue/config';
+import router from './router';
+
 
 const app = createApp(App);
+
+app.use(router);
 app.use(PrimeVue);
 app.use( VueSplide );
 app.component('Button', Button);
