@@ -645,6 +645,99 @@ app.post('/login', (req, res) => {
     })
 });
 
+app.get('/api/doctor-list', (req, res) => {
+  const query = 'SELECT MANS, TENNS from nhasi';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/review-doctor/:MANS', (req, res) => {
+  const query = 'SELECT danhgia_bacsi.MAKH, danhgia_bacsi.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MANS=?';
+  const { MANS } = req.params;
+  db.query(query, [MANS], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('SQL query successful');
+      const formattedResults = results.map((row) => {
+        row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+        return row;
+      });
+      res.json(formattedResults);
+    }
+  });
+});
+
+app.delete('/api/review-doctor/:MAKH/:NGAYKHAM', (req, res) => {
+  const query = 'DELETE FROM danhgia_bacsi WHERE MAKH=? AND NGAYKHAM=?';
+  const { MAKH, NGAYKHAM } = req.params;
+  db.query(query, [MAKH, NGAYKHAM], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MAKH, NGAYKHAM);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
+
+app.get('/api/service-list', (req, res) => {
+  const query = 'SELECT MADV, TENDV from service';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.get('/api/review-service/:MADV', (req, res) => {
+  const query = 'SELECT danhgia_dichvu.MAKH, danhgia_dichvu.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MADV=?';
+  const { MADV } = req.params;
+  db.query(query, [MADV], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('SQL query successful');
+      const formattedResults = results.map((row) => {
+        row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+        return row;
+      });
+      res.json(formattedResults);
+    }
+  });
+});
+
+app.delete('/api/review-service/:MAKH/:NGAYKHAM', (req, res) => {
+  const query = 'DELETE FROM danhgia_dichvu WHERE MAKH=? AND NGAYKHAM = ?';
+  const { MAKH, NGAYKHAM } = req.params;
+  db.query(query, [MAKH, NGAYKHAM], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MAKH, NGAYKHAM);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
             
 
 app.listen(port, () => {
