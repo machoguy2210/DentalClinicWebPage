@@ -148,8 +148,10 @@ export default {
     };
   },
   watch: {
-    "employeeForm.NGAYSINH"(newValue) {
-      this.employeeForm.NGAYSINH = newValue.substring(0, 10);
+      "employeeForm.NGAYSINH"(newValue) {
+      if (newValue) {
+        this.employeeForm.NGAYSINH = newValue.substring(0, 10);
+      }
     },
   },
   methods: {

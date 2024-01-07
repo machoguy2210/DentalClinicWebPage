@@ -244,7 +244,6 @@ app.post('/employees', (req, res) => {
 app.delete('/customers/:id', (req, res) => {
     const customerId = parseInt(req.params.id);
 
-    // Xóa nhân viên có ID tương ứng
 
     const query = 'DELETE FROM khachhang WHERE MAKH = ?;';
 
@@ -269,34 +268,89 @@ app.get('/customers', (req, res) => {
 
 app.put('/customers/:id', (req, res) => {
     const customerId = parseInt(req.params.id);
+    const { HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM } = req.body;
 
-    // Kiểm tra xem req.body có tồn tại và có chứa các trường cần thiết không
-    const { HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD, TICHDIEM } = req.body;
-    if (!HOTEN || !EMAIL || !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM || !PASSWORD) {
-        return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong body request' });
-    }
+    // Kiểm tra xem các trường cần thiết có được cung cấp hay không
+    // if (!HOTEN || !EMAIL || !PASSWORD || !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM) {
+    //     return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong yêu cầu' });
+    // }
 
-    // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
-    const query = `
-    UPDATE khachhang
-    SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?,TICHDIEM=?
-    WHERE MAKH = ?;
-  `;
+    const updateQuery = `
+        UPDATE khachhang
+        SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?, TICHDIEM = ?
+        WHERE MAKH = ?;
+    `;
 
-    db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
+    // Thực hiện truy vấn cơ sở dữ liệu để cập nhật thông tin khách hàng
+    db.query(updateQuery, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
         if (err) {
-            console.error('Lỗi khi cập nhật thông tin nhân viên:', err);
-            return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin nhân viên' });
+            console.error('Lỗi khi cập nhật thông tin khách hàng:', err);
+            return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin khách hàng' });
         }
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: `Không tìm thấy nhân viên có ID ${customerId}` });
+            return res.status(404).json({ error: `Không tìm thấy khách hàng có ID ${customerId}` });
         }
 
-        res.status(200).json({ message: `Đã cập nhật nhân viên có ID ${customerId}` });
+        res.status(200).json({ message: `Đã cập nhật thông tin khách hàng có ID ${customerId}` });
     });
 });
 
+
+// app.put('/customers/:id', (req, res) => {
+//     const customerId = parseInt(req.params.id);
+
+//     // Kiểm tra xem req.body có tồn tại và có chứa các trường cần thiết không
+//     const { HOTEN, EMAIL,PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM } = req.body;
+//     if (!HOTEN || !EMAIL ||!PASSWORD|| !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM ) {
+//         return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong body request' });
+//     }
+
+//     // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
+//     const query = `
+//     UPDATE khachhang
+//     SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH =?, TICHDIEM=? 
+//     WHERE MAKH = ?;
+//   `;
+
+//     db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
+//         if (err) {
+//             console.error('Lỗi khi cập nhật thông tin nhân viên:', err);
+//             return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin nhân viên' });
+//         }
+
+//         if (result.affectedRows === 0) {
+//             return res.status(404).json({ error: `Không tìm thấy nhân viên có ID ${customerId}` });
+//         }
+
+//         res.status(200).json({ message: `Đã cập nhật nhân viên có ID ${customerId}` });
+//     });
+// });
+// Tìm kiếm khach hang
+app.get('/customers/search', (req, res) => {
+    const searchQuery = req.query.query;
+    const query = 'SELECT * FROM khachhang WHERE HOTEN LIKE ? OR EMAIL LIKE ? OR SDT LIKE ?';
+
+    db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+        if (err) {
+            res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
+app.get('/uudai', (req, res) => {
+    const query = 'SELECT * FROM uudai ORDER BY TICHDIEM DESC;';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Lỗi truy vấn:', err);
+            res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+        } else {
+            res.status(200).json(results);
+        }
+    });
+});
 // Khởi động máy chủ Express
 // const port = process.env.PORT || 3000;
 const port = 3000;

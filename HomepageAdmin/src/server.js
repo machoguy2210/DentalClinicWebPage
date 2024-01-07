@@ -30,12 +30,12 @@ const accessToken = oauth2Client.getAccessToken();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-      type: 'OAUTH2',
-      user: 'binh2210test@gmail.com',
-      clientId: '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
-      clientSecret: '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',
-      refreshToken: '1//04RlBTFULbEobCgYIARAAGAQSNwF-L9IrX76khIzigOK_UENkm0y5RTZlcHHXel-qf06htkTGhQesyfyyVwah60Vh75jJXcKsz6A',
-      accessToken: accessToken,
+    type: 'OAUTH2',
+    user: 'binh2210test@gmail.com',
+    clientId: '24544262210-fd1qv4jqnhrnfriijjp25lc2rl9kprgp.apps.googleusercontent.com',
+    clientSecret: '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',
+    refreshToken: '1//04RlBTFULbEobCgYIARAAGAQSNwF-L9IrX76khIzigOK_UENkm0y5RTZlcHHXel-qf06htkTGhQesyfyyVwah60Vh75jJXcKsz6A',
+    accessToken: accessToken,
   }
 });
 
@@ -57,7 +57,7 @@ db.connect((err) => {
 app.get('/api/appointments/get/:NGAYKHAM', (req, res) => {
   const query = 'SELECT * FROM appointment where NGAYKHAM = ?';
   const { NGAYKHAM } = req.params;
-  db.query(query, [NGAYKHAM] ,(err, results) => {
+  db.query(query, [NGAYKHAM], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -74,7 +74,7 @@ app.get('/api/appointments/get/:NGAYKHAM', (req, res) => {
 app.get('/api/appointments/get/:NGAYKHAM/:MANS', (req, res) => {
   const query = 'SELECT KHUNGGIO FROM appointment where NGAYKHAM = ? and MANS = ?';
   const { NGAYKHAM, MANS } = req.params;
-  db.query(query, [NGAYKHAM, MANS] ,(err, results) => {
+  db.query(query, [NGAYKHAM, MANS], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -169,36 +169,36 @@ app.get('/api/appointments/edit/:MAKH/:NGAYKHAM/:HOTEN/:PHONE/:MADV', (req, res)
 });
 
 app.post('/api/appointments', (req, res) => {
-    const receivedData = req.body;
-    receivedData.forEach(element => {
-        const appointment = element.split('/');
-        console.log(appointment[0], appointment[1], appointment[2]);
-        const query1 = 'Select EMAIL from KHACHHANG where MAKH = ?';
-        db.query(query1, [appointment[0]], (err, results) => {
-            if (err) {
-                console.error('Error executing query:', err);
-                res.status(500).json({ error: 'Internal Server Error' });
-            } else {
-                console.log('SQL query successful');
-                console.log('Results:', results);
-                console.log(results[0].EMAIL);
-                const mailOptions = {
-                    from: 'binh2210test@gmail.com',
-                    to: results[0].EMAIL,
-                    subject: 'Nhắc lịch hẹn',
-                    text: 'Bạn có lịch hẹn khám gói dịch vụ ' + appointment[2] + ' vào ngày ' + appointment[1] + '. Vui lòng đến đúng giờ.',
-                };
-                transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                    console.log('Email sent: ' + info.response);
-                    }
-                });
-            }
-        });  
+  const receivedData = req.body;
+  receivedData.forEach(element => {
+    const appointment = element.split('/');
+    console.log(appointment[0], appointment[1], appointment[2]);
+    const query1 = 'Select EMAIL from KHACHHANG where MAKH = ?';
+    db.query(query1, [appointment[0]], (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        console.log('Results:', results);
+        console.log(results[0].EMAIL);
+        const mailOptions = {
+          from: 'binh2210test@gmail.com',
+          to: results[0].EMAIL,
+          subject: 'Nhắc lịch hẹn',
+          text: 'Bạn có lịch hẹn khám gói dịch vụ ' + appointment[2] + ' vào ngày ' + appointment[1] + '. Vui lòng đến đúng giờ.',
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+      }
     });
-    res.json('Success');
+  });
+  res.json('Success');
 });
 
 
@@ -327,18 +327,10 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
 });
 
 // * API endpoint để lấy thông tin cuộc hẹn
-app.get('/appointments/:MAKH', (req, res) => {
-  const MAKH = req.params.MAKH;
+app.get('/appointments', (req, res) => {
+  const query = 'SELECT * FROM appointment,khachhang,nhasi,service WHERE appointment.MAKH=khachhang.MAKH AND appointment.MANS=nhasi.MANS AND service.MADV=appointment.MADV ;';
 
-  const query = `
-    SELECT *
-    FROM appointment
-    INNER JOIN khachhang ON appointment.MAKH = khachhang.MAKH
-    INNER JOIN nhasi ON appointment.MANS = nhasi.MANS
-    INNER JOIN service ON appointment.MADV = service.MADV
-    WHERE appointment.MAKH = ?`;
-
-  db.query(query, [MAKH], (err, results) => {
+  db.query(query, (err, results) => {
     if (err) {
       console.error('Lỗi truy vấn:', err);
       res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
@@ -348,6 +340,7 @@ app.get('/appointments/:MAKH', (req, res) => {
   });
 });
 
+// * API endpoint để xóa lịch hẹn dựa trên MAKH và NGAYKhAM
 app.delete('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
   const customerId = parseInt(req.params.MAKH);
   const appointmentDate = req.params.NGAYKhAM;
@@ -373,7 +366,6 @@ app.delete('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
     }
   });
 });
-
 // * API chỉnh sửa thông tin cuộc hẹn
 app.put('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
   const customerId = parseInt(req.params.MAKH);
@@ -393,10 +385,10 @@ app.put('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
 
   // Cập nhật thông tin lịch khám trong cơ sở dữ liệu
   const query = `
-    UPDATE appointment
-    SET KHUNGGIO = ?, GHICHU = ?
-    WHERE MAKH = ? AND NGAYKhAM = ?;
-  `;
+  UPDATE appointment
+  SET KHUNGGIO = ?, GHICHU = ?
+  WHERE MAKH = ? AND NGAYKhAM = ?;
+`;
 
   db.query(query, [KHUNGGIO, GHICHU, customerId, appointmentDate], (err, result) => {
     if (err) {
@@ -412,6 +404,14 @@ app.put('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
   });
 });
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// API Employee
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 // API endpoint để lấy toàn bộ thông tin nhân viên
 app.get('/employees', (req, res) => {
   const query = 'SELECT * FROM nhanvien;';
@@ -426,6 +426,8 @@ app.get('/employees', (req, res) => {
   });
 });
 
+
+
 // API endpoint để thêm nhân viên mới
 app.post('/employees', (req, res) => {
   const { HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD } = req.body;
@@ -437,9 +439,9 @@ app.post('/employees', (req, res) => {
 
   // Thêm nhân viên mới vào cơ sở dữ liệu
   const query = `
-      INSERT INTO nhanvien (HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD)
-      VALUES (?, ?, ?, ?, ?, ?, ?);
-    `;
+    INSERT INTO nhanvien (HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD)
+    VALUES (?, ?, ?, ?, ?, ?, ?);
+  `;
 
   db.query(query, [HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD], (err, result) => {
     if (err) {
@@ -450,6 +452,8 @@ app.post('/employees', (req, res) => {
     res.status(201).json({ message: 'Đã thêm nhân viên mới thành công' });
   });
 });
+
+
 
 // API endpoint để xóa nhân viên dựa trên ID
 app.delete('/employees/:id', (req, res) => {
@@ -468,6 +472,7 @@ app.delete('/employees/:id', (req, res) => {
   });
 });
 
+
 // API endpoint để chỉnh sửa thông tin nhân viên
 app.put('/employees/:id', (req, res) => {
   const employeeId = parseInt(req.params.id);
@@ -480,10 +485,10 @@ app.put('/employees/:id', (req, res) => {
 
   // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
   const query = `
-    UPDATE nhanvien
-    SET HOTEN = ?, EMAIL = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?, PASSWORD = ?
-    WHERE MANV = ?;
-  `;
+  UPDATE nhanvien
+  SET HOTEN = ?, EMAIL = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?, PASSWORD = ?
+  WHERE MANV = ?;
+`;
 
   db.query(query, [HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD, employeeId], (err, result) => {
     if (err) {
@@ -499,6 +504,9 @@ app.put('/employees/:id', (req, res) => {
   });
 });
 
+
+
+
 // API endpoint để thêm mới nhân viên
 app.post('/employees', (req, res) => {
   // Kiểm tra xem req.body có tồn tại và có chứa các trường cần thiết không
@@ -509,9 +517,9 @@ app.post('/employees', (req, res) => {
 
   // Thêm mới nhân viên vào cơ sở dữ liệu
   const query = `
-    INSERT INTO nhanvien (HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD)
-    VALUES (?, ?, ?, ?, ?, ?, ?);
-  `;
+  INSERT INTO nhanvien (HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD)
+  VALUES (?, ?, ?, ?, ?, ?, ?);
+`;
 
   db.query(query, [HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD], (err, result) => {
     if (err) {
@@ -523,11 +531,16 @@ app.post('/employees', (req, res) => {
   });
 });
 
+
+//////////////////////////////////////////////////////////////////
+// API customer
+//////////////////////////////////////////////////////////////////
+
+
 // API endpoint để xóa nhân viên dựa trên ID
 app.delete('/customers/:id', (req, res) => {
   const customerId = parseInt(req.params.id);
 
-  // Xóa nhân viên có ID tương ứng
 
   const query = 'DELETE FROM khachhang WHERE MAKH = ?;';
 
@@ -541,52 +554,88 @@ app.delete('/customers/:id', (req, res) => {
   });
 });
 
+
 app.get('/customers', (req, res) => {
   const query = 'SELECT * FROM khachhang;';
   db.query(query, (err, results) => {
     res.status(200).json(results);
   })
-});
+})
 
-app.get('/customers/:name', (req, res) => {
-  const name1 = parseInt(req.params.name);
-
-  const query = 'SELECT * FROM khachhang WHERE HOTEN LIKE=?';
-  db.query(query, (err, results) => {
-    res.status(200).json(results);
-  })
-});
 
 app.put('/customers/:id', (req, res) => {
   const customerId = parseInt(req.params.id);
+  const { HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM } = req.body;
 
-  // Kiểm tra xem req.body có tồn tại và có chứa các trường cần thiết không
-  const { HOTEN, EMAIL, SDT, GIOITINH, DIACHI, NGAYSINH, PASSWORD, TICHDIEM } = req.body;
-  if (!HOTEN || !EMAIL || !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM || !PASSWORD) {
-    return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong body request' });
-  }
+  // Kiểm tra xem các trường cần thiết có được cung cấp hay không
+  // if (!HOTEN || !EMAIL || !PASSWORD || !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM) {
+  //     return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong yêu cầu' });
+  // }
 
-  // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
-  const query = `
-    UPDATE khachhang
-    SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?,TICHDIEM=?
-    WHERE MAKH = ?;
+  const updateQuery = `
+      UPDATE khachhang
+      SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?, TICHDIEM = ?
+      WHERE MAKH = ?;
   `;
 
-  db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
+  // Thực hiện truy vấn cơ sở dữ liệu để cập nhật thông tin khách hàng
+  db.query(updateQuery, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
     if (err) {
-      console.error('Lỗi khi cập nhật thông tin nhân viên:', err);
-      return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin nhân viên' });
+      console.error('Lỗi khi cập nhật thông tin khách hàng:', err);
+      return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin khách hàng' });
     }
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `Không tìm thấy nhân viên có ID ${customerId}` });
+      return res.status(404).json({ error: `Không tìm thấy khách hàng có ID ${customerId}` });
     }
 
-    res.status(200).json({ message: `Đã cập nhật nhân viên có ID ${customerId}` });
+    res.status(200).json({ message: `Đã cập nhật thông tin khách hàng có ID ${customerId}` });
   });
 });
 
+
+// app.put('/customers/:id', (req, res) => {
+//     const customerId = parseInt(req.params.id);
+
+//     // Kiểm tra xem req.body có tồn tại và có chứa các trường cần thiết không
+//     const { HOTEN, EMAIL,PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM } = req.body;
+//     if (!HOTEN || !EMAIL ||!PASSWORD|| !SDT || !GIOITINH || !DIACHI || !NGAYSINH || !TICHDIEM ) {
+//         return res.status(400).json({ error: 'Thiếu thông tin cần thiết trong body request' });
+//     }
+
+//     // Cập nhật thông tin nhân viên trong cơ sở dữ liệu
+//     const query = `
+//     UPDATE khachhang
+//     SET HOTEN = ?, EMAIL = ?, PASSWORD = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH =?, TICHDIEM=? 
+//     WHERE MAKH = ?;
+//   `;
+
+//     db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH, TICHDIEM, customerId], (err, result) => {
+//         if (err) {
+//             console.error('Lỗi khi cập nhật thông tin nhân viên:', err);
+//             return res.status(500).json({ error: 'Lỗi khi cập nhật thông tin nhân viên' });
+//         }
+
+//         if (result.affectedRows === 0) {
+//             return res.status(404).json({ error: `Không tìm thấy nhân viên có ID ${customerId}` });
+//         }
+
+//         res.status(200).json({ message: `Đã cập nhật nhân viên có ID ${customerId}` });
+//     });
+// });
+// Tìm kiếm khach hang
+app.get('/customers/search', (req, res) => {
+  const searchQuery = req.query.query;
+  const query = 'SELECT * FROM khachhang WHERE HOTEN LIKE ? OR EMAIL LIKE ? OR SDT LIKE ?';
+
+  db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
 app.get('/uudai', (req, res) => {
   const query = 'SELECT * FROM uudai ORDER BY TICHDIEM DESC;';
 
@@ -601,51 +650,109 @@ app.get('/uudai', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const query = 'Select * from KHACHHANG where EMAIL = ? and PASSWORD = ?';
-    db.query(query, [email, password], (err0, results0) => {
-        if (err0) {
-            console.error('Error executing query:', err);
+  const { email, password } = req.body;
+  const query = 'Select * from KHACHHANG where EMAIL = ? and PASSWORD = ?';
+  db.query(query, [email, password], (err0, results0) => {
+    if (err0) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (results0.length > 0) {
+        results0[0].CATEGORY = 0;
+        res.status(200).json(results0);
+      }
+      else {
+        const query1 = 'Select * from NHANVIEN where EMAIL = ? and PASSWORD = ?';
+        db.query(query1, [email, password], (err1, results1) => {
+          if (err1) {
+            console.error('Error executing query:', err1);
             res.status(500).json({ error: 'Internal Server Error' });
-        } else {
-          if (results0.length > 0) {
-            results0[0].CATEGORY = 0;
-            res.status(200).json(results0);
-          } 
-          else {
-            const query1 = 'Select * from NHANVIEN where EMAIL = ? and PASSWORD = ?';
-            db.query(query1, [email, password], (err1, results1) => {
-              if (err1) {
-                console.error('Error executing query:', err1);
-                res.status(500).json({ error: 'Internal Server Error' });
-              } else {
-                if (results1.length > 0) {
-                  results1[0].CATEGORY = 1;
-                  res.status(200).json(results1);
+          } else {
+            if (results1.length > 0) {
+              results1[0].CATEGORY = 1;
+              res.status(200).json(results1);
+            } else {
+              const query2 = 'Select * from ADMIN where EMAIL = ? and PASSWORD = ?';
+              db.query(query2, [email, password], (err2, results2) => {
+                if (err2) {
+                  console.error('Error executing query:', err2);
+                  res.status(500).json({ error: 'Internal Server Error' });
                 } else {
-                  const query2 = 'Select * from ADMIN where EMAIL = ? and PASSWORD = ?';
-                  db.query(query2, [email, password], (err2, results2) => {
-                    if (err2) {
-                      console.error('Error executing query:', err2);
-                      res.status(500).json({ error: 'Internal Server Error' });
-                    } else {
-                      if (results2.length > 0) {
-                        results2[0].CATEGORY = 2;
-                        res.status(200).json(results2);
-                      } else {
-                        res.status(404).json("No user found");
-                      }
-                    }
-                  });
+                  if (results2.length > 0) {
+                    results2[0].CATEGORY = 2;
+                    res.status(200).json(results2);
+                  } else {
+                    res.status(404).json("No user found");
+                  }
                 }
-              }
-            })
+              });
+            }
           }
-        }
-    })
+        })
+      }
+    }
+  })
 });
 
-            
+app.get('/api/review-doctor', (req, res) => {
+  const query = 'SELECT danhgia_bacsi.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON danhgia_bacsi.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.delete('/api/review-doctor/:MALICHHEN', (req, res) => {
+  const query = 'DELETE FROM danhgia_bacsi WHERE MALICHHEN=?';
+  const { MALICHHEN } = req.params;
+  db.query(query, [MALICHHEN], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
+
+app.get('/api/review-service', (req, res) => {
+  const query = 'SELECT danhgia_dichvu.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON danhgia_dichvu.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log('Results:', results);
+      res.json(results);
+    }
+  });
+});
+
+app.delete('/api/review-service/:MALICHHEN', (req, res) => {
+  const query = 'DELETE FROM danhgia_dichvu WHERE MALICHHEN=?';
+  const { MALICHHEN } = req.params;
+  db.query(query, [MALICHHEN], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      console.log('Results:', results);
+      res.sendStatus(200);
+    }
+  });
+});
+
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

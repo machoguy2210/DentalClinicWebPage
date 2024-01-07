@@ -18,9 +18,17 @@ import Button from "primevue/button";
       </div>
       <div>
         <p class="Header-text">Quản lí khách hàng</p>
-
-        <!-- Button to open the form for adding a new Customer -->
-        <button class="button-add" @click="openAddForm">Tim Kiếm</button>
+        <div class="search-container">
+          <button class="sreach-button" @click="searchCustomers">
+            Tìm Kiếm
+          </button>
+          <input
+            class="sreach"
+            v-model="searchQuery"
+            type="text"
+            placeholder="Tìm kiếm..."
+          />
+        </div>
 
         <!-- Display Customer list -->
         <table class="Table-list-customer">
@@ -112,8 +120,15 @@ import Button from "primevue/button";
             <label for="ngaysinh">Birthdate:</label>
             <input
               v-model="CustomerForm.NGAYSINH"
-              type="date"
+              type="text"
               id="ngaysinh"
+              required
+            />
+             <label for="diemthuong">Point:</label>
+            <input
+              v-model="CustomerForm.TICHDIEM"
+              type="text"
+              id="diemthuong"
               required
             />
             <!-- Add more input fields as needed -->
@@ -142,33 +157,47 @@ export default {
         SDT: "",
         // Add more fields as needed
       },
+      searchQuery: "",
     };
   },
   // thay đổi định dạng ngày sinh
   watch: {
     "CustomerForm.NGAYSINH"(newValue) {
-      this.CustomerForm.NGAYSINH = newValue.substring(0, 10);
+      if (newValue) {
+        this.CustomerForm.NGAYSINH = newValue.substring(0, 10);
+      }
     },
   },
+
   methods: {
     // Fetch Customer data from the server
     async fetchCustomers() {
       try {
-        const response = await fetch("http://localhost:3000/Customers");
+        const response = await fetch("http://localhost:3000/customers");
         const data = await response.json();
         this.Customers = data;
       } catch (error) {
         console.error("Error fetching Customer data:", error);
       }
     },
-
+    async searchCustomers() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/customers/search?query=${this.searchQuery}`
+        );
+        const data = await response.json();
+        this.Customers = data;
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    },
     // Save or update Customer information
     async saveCustomer() {
       try {
         if (this.isEditMode) {
           // Update existing Customer
           await fetch(
-            `http://localhost:3000/Customers/${this.CustomerForm.MAKH}`,
+            `http://localhost:3000/customers/${this.CustomerForm.MAKH}`,
             {
               method: "PUT",
               headers: {
@@ -179,7 +208,7 @@ export default {
           );
         } else {
           // Add new Customer
-          await fetch("http://localhost:3000/Customers", {
+          await fetch("http://localhost:3000/customers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -198,15 +227,23 @@ export default {
 
     // Delete Customer
     async deleteCustomer(CustomerId) {
-      try {
-        await fetch(`http://localhost:3000/Customers/${CustomerId}`, {
-          method: "DELETE",
-        });
+      const result = confirm("Bạn có chắc chắn muốn xóa không?");
+      if (result) {
+        // Người dùng nhấn OK
+        console.log("Người dùng đã đồng ý.");
+        try {
+          await fetch(`http://localhost:3000/customers/${CustomerId}`, {
+            method: "DELETE",
+          });
 
-        // Fetch updated Customer data after deletion
-        this.fetchCustomers();
-      } catch (error) {
-        console.error("Error deleting Customer:", error);
+          // Fetch updated Customer data after deletion
+          this.fetchCustomers();
+        } catch (error) {
+          console.error("Error deleting Customer:", error);
+        }
+      } else {
+        // Người dùng nhấn Cancel
+        console.log("Người dùng đã hủy.");
       }
     },
 
@@ -252,6 +289,23 @@ export default {
 </script>
 
 <style scoped>
+.sreach {
+  width: 500px;
+  height: 50px;
+  border-radius: 11px;
+  border: 3px solid black;
+  font-size: 18px;
+  background-color: rgba(210, 215, 217, 0.747);
+  margin-left: 15px;
+}
+.sreach-button {
+  margin-left: 20px;
+  width: 130px;
+  background-color: rgb(141, 162, 197);
+  font-size: 20px;
+  height: 45px;
+  border-radius: 16px;
+}
 table {
   width: 100%;
   border-collapse: collapse;
