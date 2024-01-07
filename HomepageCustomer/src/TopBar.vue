@@ -26,6 +26,15 @@ const menuUser = ref([
     label: "Đăng xuất",
   },
 ]);
+
+const openFacebook = () => {
+  // Thay thế link dưới đây bằng đường dẫn Facebook thực tế của bạn
+  window.open('https://www.facebook.com/profile.php?id=100052006419483', '_blank');
+};
+
+const chatWithCSKH = () => {
+  window.open('https://www.facebook.com/messages/e2ee/t/6792051094210340', '_blank')
+}
 </script>
 <template>
   <div
@@ -52,11 +61,25 @@ const menuUser = ref([
     <div class="flex gap-5">
       <!-- Social -->
       <div class="flex align-items-center gap-3">
+        <div id="MES" class="relative">
+          <i id="mes" class="pi pi-comment text-3xl"></i>
+          <div id="imes">
+            <a
+              href=""
+              @click="chatWithCSKH"
+              class="absolute surface-900 text-white flex border-round w-10rem h-2rem align-items-center justify-content-center"
+            >
+              Chat with CSKH
+            </a>
+          </div>
+        </div>
+
         <div id="FB" class="relative">
           <i id="fb" class="pi pi-facebook text-3xl"></i>
           <div id="ifb">
             <a
               href=""
+              @click="openFacebook"
               class="absolute surface-900 text-white flex border-round w-10rem h-2rem align-items-center justify-content-center"
             >
               Follow on Facebook
@@ -135,6 +158,12 @@ const menuUser = ref([
 </template>
 
 <style scoped>
+#imes {
+  display: none;
+}
+#MES:hover #imes {
+  display: inline;
+}
 #ifb {
   display: none;
 }
