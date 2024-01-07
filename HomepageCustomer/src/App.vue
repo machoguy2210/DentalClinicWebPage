@@ -20,6 +20,8 @@ import ListAppointment from "./ListAppointment.vue";
         <Menu
           @clickedListApp="handleClickListApp"
           @div-Clicked="handleDivClick"
+          @clicked="scrollToDoctorsSection"
+          @clicked_info="scrollToInfo"
         >
         </Menu>
         <!-- Slider -->
@@ -29,9 +31,13 @@ import ListAppointment from "./ListAppointment.vue";
           </div>
         </div>
         <!-- Introduction -->
-        <Introduction></Introduction>
+        <div id="infoPhongkham">
+            <Introduction></Introduction>
+        </div>
         <!-- DoctorInfo -->
-        <DoctorInfo></DoctorInfo>
+        <div id="doctorsSection">
+          <DoctorInfo></DoctorInfo>
+        </div>
         <!-- Associations -->
         <Associations></Associations>
         <!-- DatLich -->
@@ -64,6 +70,20 @@ export default {
     },
     handleClickListApp() {
       this.showDefaultContent = false;
+    },
+    scrollToDoctorsSection() {
+    // Use JavaScript to scroll to the section with id "doctorsSection"
+      const doctorsSection = document.getElementById('doctorsSection');
+      if (doctorsSection) {
+          doctorsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    scrollToInfo() {
+    // Use JavaScript to scroll to the section with id "doctorsSection"
+      const infoPhongkham = document.getElementById('infoPhongkham');
+      if (infoPhongkham) {
+          infoPhongkham.scrollIntoView({ behavior: 'smooth' });
+      }
     },
   },
 };
