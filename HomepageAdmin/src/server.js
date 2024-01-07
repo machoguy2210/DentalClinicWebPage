@@ -264,6 +264,20 @@ app.delete('/api/allnhasi/:MANS', (req, res) => {
   });
 });
 
+// search nha si
+app.get('/api/allnhasi/search', (req, res) => {
+  const searchQuery = req.query.query;
+  const query = 'SELECT * FROM nhasi WHERE TENNS LIKE ? OR GIOITHIEU LIKE ? OR SDT LIKE ? OR DIACHI LIKE ?';
+
+  db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 // Dịch vụ
 app.get('/api/alldichvu', (req, res) => {
   const query = 'SELECT * FROM service';
@@ -325,17 +339,10 @@ app.delete('/api/alldichvu/:MADV', (req, res) => {
     }
   });
 });
-// lấy thông tin cuộc hẹn
-app.get('/appointments/:MAKH', (req, res) => {
-  const MAKH = req.params.MAKH;
 
-  const query = `
-    SELECT *
-    FROM appointment
-    INNER JOIN khachhang ON appointment.MAKH = khachhang.MAKH
-    INNER JOIN nhasi ON appointment.MANS = nhasi.MANS
-    INNER JOIN service ON appointment.MADV = service.MADV
-    WHERE appointment.MAKH = ?`;
+// * API endpoint để lấy thông tin cuộc hẹn
+app.get('/appointments', (req, res) => {
+  const query = 'SELECT * FROM appointment,khachhang,nhasi,service WHERE appointment.MAKH=khachhang.MAKH AND appointment.MANS=nhasi.MANS AND service.MADV=appointment.MADV ;';
 
   db.query(query, [MAKH], (err, results) => {
     if (err) {
@@ -701,8 +708,8 @@ app.post('/login', (req, res) => {
   })
 });
 
-app.get('/api/review-doctor', (req, res) => {
-  const query = 'SELECT danhgia_bacsi.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON danhgia_bacsi.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+app.get('/api/doctor-list', (req, res) => {
+  const query = 'SELECT MANS, TENNS from nhasi';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
@@ -714,15 +721,33 @@ app.get('/api/review-doctor', (req, res) => {
   });
 });
 
-app.delete('/api/review-doctor/:MALICHHEN', (req, res) => {
-  const query = 'DELETE FROM danhgia_bacsi WHERE MALICHHEN=?';
-  const { MALICHHEN } = req.params;
-  db.query(query, [MALICHHEN], (err, results) => {
+app.get('/api/review-doctor/:MANS', (req, res) => {
+  const query = 'SELECT danhgia_bacsi.MAKH, danhgia_bacsi.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS FROM danhgia_bacsi JOIN appointment ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MANS=?';
+  const { MANS } = req.params;
+  db.query(query, [MANS], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      const formattedResults = results.map((row) => {
+        row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+        return row;
+      });
+      res.json(formattedResults);
+    }
+  });
+});
+
+app.delete('/api/review-doctor/:MAKH/:NGAYKHAM', (req, res) => {
+  const query = 'DELETE FROM danhgia_bacsi WHERE MAKH=? AND NGAYKHAM=?';
+  const { MAKH, NGAYKHAM } = req.params;
+  db.query(query, [MAKH, NGAYKHAM], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MAKH, NGAYKHAM);
       console.log('SQL query successful');
       console.log('Results:', results);
       res.sendStatus(200);
@@ -730,8 +755,8 @@ app.delete('/api/review-doctor/:MALICHHEN', (req, res) => {
   });
 });
 
-app.get('/api/review-service', (req, res) => {
-  const query = 'SELECT danhgia_dichvu.MALICHHEN, appointment.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON danhgia_dichvu.MALICHHEN = appointment.MALICHHEN JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS';
+app.get('/api/service-list', (req, res) => {
+  const query = 'SELECT MADV, TENDV from service';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
@@ -743,15 +768,33 @@ app.get('/api/review-service', (req, res) => {
   });
 });
 
-app.delete('/api/review-service/:MALICHHEN', (req, res) => {
-  const query = 'DELETE FROM danhgia_dichvu WHERE MALICHHEN=?';
-  const { MALICHHEN } = req.params;
-  db.query(query, [MALICHHEN], (err, results) => {
+app.get('/api/review-service/:MADV', (req, res) => {
+  const query = 'SELECT danhgia_dichvu.MAKH, danhgia_dichvu.NGAYKHAM, appointment.KHUNGGIO, khachhang.HOTEN, service.TENDV, nhasi.TENNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM danhgia_dichvu JOIN appointment ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN khachhang ON appointment.MAKH = khachhang.MAKH JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MADV=?';
+  const { MADV } = req.params;
+  db.query(query, [MADV], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      console.log(MALICHHEN);
+      console.log('SQL query successful');
+      const formattedResults = results.map((row) => {
+        row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+        return row;
+      });
+      res.json(formattedResults);
+    }
+  });
+});
+
+app.delete('/api/review-service/:MAKH/:NGAYKHAM', (req, res) => {
+  const query = 'DELETE FROM danhgia_dichvu WHERE MAKH=? AND NGAYKHAM = ?';
+  const { MAKH, NGAYKHAM } = req.params;
+  db.query(query, [MAKH, NGAYKHAM], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      console.log(MAKH, NGAYKHAM);
       console.log('SQL query successful');
       console.log('Results:', results);
       res.sendStatus(200);
@@ -759,7 +802,63 @@ app.delete('/api/review-service/:MALICHHEN', (req, res) => {
   });
 });
 
+app.get('/api/dailyRevenue', (req, res) => {
+  const query = `
+    SELECT DATE_FORMAT(NGAYKHAM, '%d-%m-%Y') AS Ngay, SUM(GIA) AS DoanhThu
+    FROM appointment a
+    JOIN service s ON a.MADV = s.MADV
+    WHERE a.KHOATHANHTOAN = 2
+    GROUP BY DATE_FORMAT(NGAYKHAM, '%d-%m-%Y')
+    ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m-%d') ASC
+  `;
 
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    const data = {};
+
+    if (results.length > 0) {
+      results.forEach((row) => {
+        data[row.Ngay] = row.DoanhThu;
+      });
+      res.json({ status: 'success', data });
+    } else {
+      res.json({ status: 'error', data: 'No data found' });
+    }
+  });
+});
+
+app.get('/api/monthlyRevenue', (req, res) => {
+  const query = `
+    SELECT DATE_FORMAT(NGAYKHAM, '%m-%Y') AS Thang, SUM(GIA) AS DoanhThu
+    FROM appointment a
+    JOIN service s ON a.MADV = s.MADV
+    WHERE a.KHOATHANHTOAN = 2
+    GROUP BY DATE_FORMAT(NGAYKHAM, '%m-%Y')
+    ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m') ASC
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err);
+      return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+
+    const data = {};
+
+    if (results.length > 0) {
+      results.forEach((row) => {
+        data[row.Thang] = row.DoanhThu;
+      });
+      res.json({ status: 'success', data });
+    } else {
+      res.json({ status: 'success', data: 'No data found' });
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

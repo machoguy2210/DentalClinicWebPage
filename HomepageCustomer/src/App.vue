@@ -95,3 +95,22 @@ export default {
   height: 40rem;
 }
 </style>
+
+<script>
+    export default {
+        data() {
+            return {
+                MAKH: null
+            }
+        },
+        mounted() {
+            this.getCustomerID();
+        },
+        methods: {
+            getC() {
+                var urlParams = new URLSearchParams(window.location.search);
+                this.MAKH = urlParams.get('customer_id');
+            }
+        }
+    }
+</script>

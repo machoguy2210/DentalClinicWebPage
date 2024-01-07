@@ -150,10 +150,7 @@ import Menu from "../../HomepageCustomer/src/Menu.vue";
 
 
 export default {
-  components: {
-    TopBar,
-    Menu,
-  },
+  components: { TopBar },
   data() {
     return {
       appointments: [],
@@ -179,9 +176,7 @@ export default {
 
     async fetchAppointments() {
       try {
-        const response = await fetch(
-          `http://localhost:3000/appointments/${this.customerId}`
-        );
+        const response = await fetch(`http://localhost:3000/appointments/${1}`);
         const data = await response.json();
         this.appointments = data.map((appointment) => ({
           ...appointment,

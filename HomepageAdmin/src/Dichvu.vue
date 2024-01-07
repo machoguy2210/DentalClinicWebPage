@@ -25,6 +25,17 @@ import Button from 'primevue/button';
             <Button class="flex justify-content-center bg-blue-800 w-10rem h-3rem mt-0" style="margin-left: 25rem;" @click="showNewPopup">Thêm dịch vụ</Button>
             </div>
           </div>
+          <div class="search-container">
+          <button class="sreach-button" @click="searchDichvu">
+            Tìm Kiếm
+          </button>
+          <input
+            class="sreach"
+            v-model="searchQuery"
+            type="text"
+            placeholder="Tìm kiếm..."
+          />
+        </div>
         <table class="pt-3" style="min-width: 60rem; height: 5rem">
           <thead>
             <tr>
@@ -147,6 +158,18 @@ export default {
         console.error('Error fetching dichvu:', error);
       }
     }, 
+    //search 
+    async searchDichvu() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/alldichvu/search?query=${this.searchQuery}`
+        );
+        const data = await response.json();
+        this.alldichvu = data;
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    },
     showNewPopup() {
       this.newPopup = true;
     },
@@ -225,6 +248,24 @@ export default {
     padding: 0;
     box-sizing:border-box;
     -moz-box-sizing:border-box;   
+}
+.sreach {
+  width: 400px;
+  height: 40px;
+  border-radius: 11px;
+  border: 3px solid black;
+  font-size: 18px;
+  background-color: rgba(210, 215, 217, 0.747);
+  margin-left: 15px;
+}
+.sreach-button {
+  margin-left: 2px;
+  width: 100px;
+  height: 40px;
+  background-color: rgb(141, 162, 197);
+  font-size: 18px;
+  height: 45px;
+  border-radius: 16px;
 }
 
 .background-custom{

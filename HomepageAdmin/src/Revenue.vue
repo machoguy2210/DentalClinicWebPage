@@ -74,7 +74,7 @@ console.log(chartDataDay);
 onMounted(async () => {
   try {
     const response = await axios.get(
-      "http://localhost/revenue/daily_revenue.php"
+      "http://localhost:3000/api/dailyRevenue"
     );
     const revenueData = response.data;
     chartDataDay.value = setChartData(revenueData);
@@ -85,7 +85,7 @@ onMounted(async () => {
 
   try {
     const response = await axios.get(
-      "http://localhost/revenue/monthly_revenue.php"
+      "http://localhost:3000/api/monthlyRevenue"
     );
     const revenueData = response.data;
     chartDataMonth.value = setChartData(revenueData);
