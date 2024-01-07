@@ -70,6 +70,10 @@ onMounted(async () => {
           <div class="horizontal-line2"></div>
         </div>
       </div>
+      
+      <div style="margin-top: 10rem;">
+        <h1>Thông tin nha sĩ</h1>
+      </div>
       <div class="card">
         <Carousel
           :value="information"
@@ -81,18 +85,10 @@ onMounted(async () => {
         >
           <template #item="slotProps">
             <div
-              class="w-17rem flex flex-column p-5 gap-4 shadow-1 hover:shadow-3 surface-overlay" style="margin-top: 8rem;"
+              class="w-17rem flex flex-column p-5 gap-4 shadow-1 hover:shadow-3 surface-overlay" style="margin-top: 2rem;"
             >
+            
               <div class="flex flex-column gap-2">
-                <div class="flex justify-content-center">
-                  <div class="w-15rem h-15rem">
-                    <img
-                      :src="slotProps.data.image"
-                      class="w-full h-full"
-                      style="object-fit: cover"
-                    />
-                  </div>
-                </div>
 
                 <div class="flex flex-column gap-2">
                   <span class="text-xl">{{ slotProps.data.name }}</span>
