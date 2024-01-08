@@ -159,8 +159,8 @@ export default {
       editedTime: "",
       editedReminder: "",
       editedAppointment: null,
-      customerId: 1,
-      // customerId:null
+      // customerId: 1,
+      customerId:null
     };
   },
   created() {
@@ -168,9 +168,23 @@ export default {
     this.getC();
   },
   methods: {
+
+
     getC() {
-      var urlParams = new URLSearchParams(window.location.search);
-      this.customerId = urlParams.get("customer_id");
+      // Kiểm tra xem ID đã được lưu trong localStorage chưa
+      this.customerId = localStorage.getItem("customer_id");
+
+      if (this.customerId === null) {
+        // Nếu chưa có ID trong localStorage, thử lấy từ URL
+        var urlParams = new URLSearchParams(window.location.search);
+        this.customerId = urlParams.get("customer_id");
+
+        // Kiểm tra xem có ID từ URL hay không
+        if (this.customerId !== null) {
+          // Lưu ID vào localStorage để sử dụng sau này
+          localStorage.setItem("customer_id", this.customerId);
+        }
+      }
     },
 
     async fetchAppointments() {
