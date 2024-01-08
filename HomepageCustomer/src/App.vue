@@ -22,6 +22,7 @@ import ListAppointment from "./ListAppointment.vue";
           @div-Clicked="handleDivClick"
           @clicked="scrollToDoctorsSection"
           @clicked_info="scrollToInfo"
+          @clicked_niengrang="handleClickNiengrang"
         >
         </Menu>
         <!-- Slider -->
@@ -85,6 +86,9 @@ export default {
           infoPhongkham.scrollIntoView({ behavior: 'smooth' });
       }
     },
+    handleClickNiengrang() {
+      this.showDefaultContent = false
+    }
   },
 };
 </script>

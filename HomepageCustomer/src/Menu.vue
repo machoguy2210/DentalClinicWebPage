@@ -47,12 +47,8 @@
         <div
           class="flex flex-column border-double border-round border-surface-500 surface-overlay w-15rem h-9rem"
         >
-          <div class="h-3rem">
-            <a
-              href=""
-              class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
-              >Niềng răng</a
-            >
+          <div @click="Niengrang">
+            <router-link class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline" to="/Niengrang">Niềng răng</router-link>
           </div>
 
           <div class="h-3rem">
@@ -139,6 +135,9 @@ export default {
     },
     scrollToInfo(){
       this.$emit('clicked_info', true);
+    },
+    Niengrang() {
+      this.$emit('clicked_niengrang', true);
     }
   },
 };

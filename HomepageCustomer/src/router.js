@@ -12,6 +12,12 @@ const routes = [
         component: () => import('./ListAppointment.vue'),
         // props: { showDefaultContent: true }
 
+    },
+    {
+        path: '/Niengrang',
+        component: () => import('./NiengRang.vue'),
+        // props: { showDefaultContent: true }
+
     }, 
 ];
 
