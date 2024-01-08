@@ -59,16 +59,29 @@ export default {
     return {
       showDefaultContent: true,
       MAKH: null,
+      customerId: null,
     };
   },
   mounted() {
-    this.getC();
+    this.getCustomerID();
   },
   methods: {
-    getC() {
-      var urlParams = new URLSearchParams(window.location.search);
-      this.MAKH = urlParams.get("customer_id");
-    },
+    getCustomerID() {
+  // Kiểm tra xem ID đã được lưu trong localStorage chưa
+  this.customerId = localStorage.getItem("customer_id");
+    console.log(this.customerId);
+  if (this.customerId === null) {
+    // Nếu chưa có ID trong localStorage, thử lấy từ URL
+    var urlParams = new URLSearchParams(window.location.search);
+    this.customerId = urlParams.get("customer_id");
+
+    // Kiểm tra xem có ID từ URL hay không
+    if (this.customerId !== null) {
+      // Lưu ID vào localStorage để sử dụng sau này
+      localStorage.setItem("customer_id", this.customerId);
+    }
+  }
+},
     handleDivClick(value) {
       this.isClicked = value;
     },
