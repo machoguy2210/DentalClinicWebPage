@@ -36,7 +36,7 @@ import ListAppointment from "./ListAppointment.vue";
         </div>
         <!-- Introduction -->
         <div id="infoPhongkham">
-            <Introduction></Introduction>
+          <Introduction></Introduction>
         </div>
         <!-- DoctorInfo -->
         <div id="doctorsSection">
@@ -59,16 +59,29 @@ export default {
     return {
       showDefaultContent: true,
       MAKH: null,
+      customerId: null,
     };
   },
   mounted() {
-    this.getC();
+    this.getCustomerID();
   },
   methods: {
-    getC() {
-      var urlParams = new URLSearchParams(window.location.search);
-      this.MAKH = urlParams.get("customer_id");
-    },
+    getCustomerID() {
+  // Kiểm tra xem ID đã được lưu trong localStorage chưa
+  this.customerId = localStorage.getItem("customer_id");
+    console.log(this.customerId);
+  if (this.customerId === null) {
+    // Nếu chưa có ID trong localStorage, thử lấy từ URL
+    var urlParams = new URLSearchParams(window.location.search);
+    this.customerId = urlParams.get("customer_id");
+
+    // Kiểm tra xem có ID từ URL hay không
+    if (this.customerId !== null) {
+      // Lưu ID vào localStorage để sử dụng sau này
+      localStorage.setItem("customer_id", this.customerId);
+    }
+  }
+},
     handleDivClick(value) {
       this.isClicked = value;
     },
@@ -79,17 +92,17 @@ export default {
       this.showDefaultContent = false;
     },
     scrollToDoctorsSection() {
-    // Use JavaScript to scroll to the section with id "doctorsSection"
-      const doctorsSection = document.getElementById('doctorsSection');
+      // Use JavaScript to scroll to the section with id "doctorsSection"
+      const doctorsSection = document.getElementById("doctorsSection");
       if (doctorsSection) {
-          doctorsSection.scrollIntoView({ behavior: 'smooth' });
+        doctorsSection.scrollIntoView({ behavior: "smooth" });
       }
     },
     scrollToInfo() {
-    // Use JavaScript to scroll to the section with id "doctorsSection"
-      const infoPhongkham = document.getElementById('infoPhongkham');
+      // Use JavaScript to scroll to the section with id "doctorsSection"
+      const infoPhongkham = document.getElementById("infoPhongkham");
       if (infoPhongkham) {
-          infoPhongkham.scrollIntoView({ behavior: 'smooth' });
+        infoPhongkham.scrollIntoView({ behavior: "smooth" });
       }
     },
     handleClickNiengrang() {
@@ -103,20 +116,12 @@ export default {
     },
     handleClickBanggia() {
       this.showDefaultContent = false;
-    }
+    },
   },
 };
 </script>
 
 <style>
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
 .container {
   align-items: center;
   width: 80rem;

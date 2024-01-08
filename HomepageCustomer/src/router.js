@@ -46,6 +46,11 @@ const routes = [
         component: () => import('./CreateReview.vue'),
         // props: { showDefaultContent: true }
     },
+    {
+        path: '/Profile',
+        component: () => import('./Profile.vue'),
+        // props: { showDefaultContent: true }
+    },
 ];
 
 const router = createRouter({
