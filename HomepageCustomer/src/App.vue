@@ -7,7 +7,6 @@ import BaseFooter from "./BaseFooter.vue";
 import DatLich from "./DatLich.vue";
 import DoctorInfo from "./DoctorInfo.vue";
 import Introduction from "./Introduction.vue";
-import ListAppointment from "./ListAppointment.vue";
 </script>
 
 <template>

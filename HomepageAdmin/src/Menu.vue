@@ -14,9 +14,6 @@ const itemMenu = ref([
           {
             subItem: 'Thông tin dịch vụ'
           },
-          {
-            subItem: 'Combo ưu đãi'
-          }
       ]
     },
     {
@@ -78,7 +75,6 @@ const itemMenu = ref([
         <div v-for="( subMenu,ind ) in menu.item" :key="ind" class="flex flex-column gap-2 ml-5 " @click="handleClickInfo(ind)">
           <router-link v-if="subMenu.subItem === 'Thông tin bác sĩ'" to="/DoctorInfo" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
           <router-link v-if="subMenu.subItem === 'Thông tin dịch vụ'" :to="{ path: '/Dichvu' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link> 
-          <router-link v-if="subMenu.subItem === 'Combo ưu đãi'" :to="{ path: '/Combo' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
           <router-link v-if="subMenu.subItem === 'Đánh giá theo nha sĩ'" :to="{ path: '/ReviewDoctor' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
           <router-link v-if="subMenu.subItem === 'Đánh giá theo dịch vụ'" :to="{ path: '/ReviewService' }" class="cursor-pointer w-fit-content"> {{ subMenu.subItem }} </router-link>
         </div>

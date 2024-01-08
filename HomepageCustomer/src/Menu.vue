@@ -80,13 +80,14 @@
       <router-link class="text-2xl no-underline hover:underline justify-content-center align-items-center" to="/Banggia">Bảng giá</router-link>
     </div>
 
-    <div>
+    <div> <a href="http://appointment.local">
       <button
         type="button"
         class="bg-blue-200 border-primary-200 px-3 py-2 text-base border-1 border-solid border-round cursor-pointer transition-all transition-duration-200 hover:bg-primary-600 hover:border-primary-600 active:bg-primary-700 active:border-primary-700 text-2xl"
       >
         Đặt khám <i class="pi pi-bell"></i>
       </button>
+      </a>
     </div>
   </div>
 </template>
