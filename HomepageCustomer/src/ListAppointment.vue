@@ -9,7 +9,7 @@
     <div class="frame-service">
       <div class="service-list">
         <div class="background-image">
-          <img src="./assets/Web_Nieng (1).jpg" alt="" />
+          <img src="./assets/Web_Nieng.jpg" alt="" />
         </div>
         <div class="content">
           <div class="service-container">

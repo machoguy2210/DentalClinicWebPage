@@ -16,7 +16,7 @@ import Introduction from "./Introduction.vue";
         <!-- TopBar -->
         <TopBar @clickedMenuUser="handleClickMenuUser" :MAKH="MAKH"></TopBar>
         <!-- Menu -->
-        <Menu
+        <Menu :MAKH="MAKH"
           @clickedListApp="handleClickListApp"
           @div-Clicked="handleDivClick"
           @clicked="scrollToDoctorsSection"
