@@ -20,5 +20,8 @@
                         window.location.href = `http://test1.local/?category=2`;                        
                     }
                 }
+                else {
+                    alert("Email or password is incorrect");
+                }
             })
     }
