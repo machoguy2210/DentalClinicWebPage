@@ -45,42 +45,18 @@
       </div>
       <div id="submenu1" class="absolute">
         <div
-          class="flex flex-column border-double border-round border-surface-500 surface-overlay w-15rem h-9rem"
+          class="flex flex-column border-double border-round border-surface-500 surface-overlay w-15rem h-7rem"
         >
           <div @click="Niengrang">
             <router-link class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline" to="/Niengrang">Niềng răng</router-link>
           </div>
 
-          <div class="h-3rem">
-            <a
-              href=""
-              class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
-              >Cấy ghép Implant</a
-            >
+          <div @click="Rangthammi">
+            <router-link class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline" to="/Rangthammi">Răng thẩm mĩ</router-link>
           </div>
 
-          <div class="h-3rem">
-            <a
-              href=""
-              class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
-              >Răng thẩm mĩ</a
-            >
-          </div>
-
-          <div class="h-3rem">
-            <a
-              href=""
-              class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
-              >Nha khoa tổng quát</a
-            >
-          </div>
-
-          <div class="h-3rem">
-            <a
-              href=""
-              class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
-              >Nha khoa trẻ em</a
-            >
+          <div @click="Rangtreem">
+            <router-link class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline" to="/Rangtreem">Răng trẻ em</router-link>
           </div>
         </div>
       </div>
@@ -138,6 +114,12 @@ export default {
     },
     Niengrang() {
       this.$emit('clicked_niengrang', true);
+    },
+    Rangthammi(){
+      this.$emit('clicked_rangthammi', true);
+    },
+    Rangtreem() {
+      this.$emit('clicked_rangtreem', true);
     }
   },
 };

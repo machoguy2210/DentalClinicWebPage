@@ -23,6 +23,8 @@ import ListAppointment from "./ListAppointment.vue";
           @clicked="scrollToDoctorsSection"
           @clicked_info="scrollToInfo"
           @clicked_niengrang="handleClickNiengrang"
+          @clicked_rangthammi="handleClickRangthammi"
+          @clicked_rangtreem="handleClickRangtreem"
         >
         </Menu>
         <!-- Slider -->
@@ -87,7 +89,13 @@ export default {
       }
     },
     handleClickNiengrang() {
-      this.showDefaultContent = false
+      this.showDefaultContent = false;
+    },
+    handleClickRangthammi() {
+      this.showDefaultContent = false;
+    },
+    handleClickRangtreem() {
+      this.showDefaultContent = false;
     }
   },
 };

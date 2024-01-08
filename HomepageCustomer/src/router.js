@@ -19,6 +19,18 @@ const routes = [
         // props: { showDefaultContent: true }
 
     }, 
+    {
+        path: '/Rangthammi',
+        component: () => import('./RangThamMi.vue'),
+        // props: { showDefaultContent: true }
+
+    },
+    {
+        path: '/Rangtreem',
+        component: () => import('./RangTreEm.vue'),
+        // props: { showDefaultContent: true }
+
+    }
 ];
 
 const router = createRouter({

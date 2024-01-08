@@ -83,7 +83,7 @@ import BaseFooter from './BaseFooter.vue'
         <BaseFooter></BaseFooter>
       
         </div>
-    <router-view v-if="!showDefaultContent"></router-view>
+    
   </div>
 </template>
 <style>
