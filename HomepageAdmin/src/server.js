@@ -913,6 +913,73 @@ app.get('/api/monthlyRevenue', (req, res) => {
     });
 });
 
+// Get customer profile
+app.get('/getProfile/:MAKH', (req, res) => {
+  const customerID = req.params.MAKH;
+
+  const sql = `SELECT * FROM khachhang WHERE MAKH = ?`;
+  db.query(sql, [customerID], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu' });
+    }
+
+    if (results.length > 0) {
+      const row = results[0];
+      const formattedDate = moment(row.NGAYSINH).format('DD/MM/YYYY');
+      row.NGAYSINH = formattedDate;
+
+      res.json(row);
+    } else {
+      res.status(404).json({ error: 'Không tìm thấy thông tin khách hàng' });
+    }
+  });
+});
+
+// Update customer profile
+app.post('/updateProfile/:MAKH', (req, res) => {
+  const { name, phoneNumber, gender, address, birthDate } = req.body;
+  const customerID = req.params.MAKH;
+  
+  const genderCode = gender === "Nam" ? 1 : 0;
+
+  const formattedBirthDate = moment(birthDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+  const sqlCheckChanges = `SELECT * FROM khachhang WHERE MAKH = ?`;
+  db.query(sqlCheckChanges, [customerID], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu' });
+    }
+
+    if (results.length > 0) {
+      const rowBeforeUpdate = results[0];
+      if (
+        rowBeforeUpdate.HOTEN === name &&
+        rowBeforeUpdate.SDT === phoneNumber &&
+        rowBeforeUpdate.GIOITINH === genderCode &&
+        rowBeforeUpdate.DIACHI === address &&
+        moment(rowBeforeUpdate.NGAYSINH).format('YYYY-MM-DD') === formattedBirthDate
+      ) {
+        return res.json({ success: true, message: 'No changes detected' });
+      } else {
+        const sqlUpdateProfile = `
+          UPDATE khachhang
+          SET HOTEN = ?, SDT = ?, GIOITINH = ?, DIACHI = ?, NGAYSINH = ?
+          WHERE MAKH = ?`;
+
+        db.query(sqlUpdateProfile, [name, phoneNumber, genderCode, address, formattedBirthDate, customerID], (updateError) => {
+          if (updateError) {
+            return res.status(500).json({ error: 'Error updating profile' });
+          }
+
+          return res.json({ success: true, message: 'Profile updated' });
+        });
+      }
+    } else {
+      return res.status(404).json({ error: 'User not found' });
+    }
+  });
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

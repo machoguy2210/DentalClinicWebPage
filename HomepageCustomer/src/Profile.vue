@@ -2,8 +2,6 @@
 import { ref, onMounted } from "vue";
 import { useToast } from "primevue/usetoast";
 import axios from "axios";
-import TopBar from "../../HomepageCustomer/src/TopBar.vue";
-import Menu from "../../HomepageCustomer/src/Menu.vue";
 
 const toast = useToast();
 const passwordVisible = ref(false);
@@ -69,7 +67,7 @@ const onClickSave = async () => {
       console.log("No changes detected");
     } else {
       await axios.post(
-        `http://localhost:3000/updateProfile/${id.value}`,
+        `http://localhost:3000/updateProfile/${id}`,
         profile.value
       );
       toast.add({
@@ -90,6 +88,24 @@ const onClickSave = async () => {
   }
 };
 
+const onClickChangePassword = async () => {
+  // try {
+  //   const response = await axios.put(
+  //     `http://localhost:3000/changePass/${id.value}`,
+  //     this.khachhang
+  //   );
+  //   console.log(response.data);
+  //   let foundKH = this.allkhachhang.find(
+  //     (item) => item.MAKH === this.khachhang.MAKH
+  //   );
+  //   if (foundKH) {
+  //     Object.assign(foundKH, response.data);
+  //   }
+  // } catch (error) {
+  //   console.error("Error updating KHACH HANG:", error);
+  // }
+};
+
 const onUpload = (event) => {
   const reader = new FileReader();
   reader.readAsDataURL(event.target.files[0]);
@@ -100,8 +116,6 @@ const onUpload = (event) => {
 </script>
 
 <template>
-  <TopBar></TopBar>
-  <Menu></Menu>
   <div class="surface-hover p-3 h-screen">
     <!-- Trang thông tin cá nhân -->
     <div class="bg-white mx-8 shadow-1 p-4">
