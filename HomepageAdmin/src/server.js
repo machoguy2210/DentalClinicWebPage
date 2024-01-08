@@ -594,7 +594,40 @@ app.get('/customers', (req, res) => {
   db.query(query, (err, results) => {
     res.status(200).json(results);
   })
-})
+});
+
+app.get('/customers/:email', (req, res) => {
+  const { email } = req.params;
+  const query = 'SELECT * FROM KHACHHANG WHERE EMAIL = ?';
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+    else {
+      if (results.length > 0) {
+        res.status(200).json(results);
+      }
+      else res.status(404).json({ message: 'Not Found' });
+    }
+  });
+});
+
+app.post(`/register`, (req, res) => {
+ const {HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH} = req.body;
+ console.log(req);
+res.json("ok");
+  /*
+  const query = 'INSERT INTO KHACHHANG (HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH], (err, result) => {
+    if (err) {
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.status(200).json('Inserted new record');
+    }
+  });
+  */
+});
+  
 
 
 app.put('/customers/:id', (req, res) => {

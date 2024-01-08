@@ -11,7 +11,7 @@
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="" method="post">
+                <form action="javascript:void(0);" method="post">
                     <h2>Sign up</h2>
                     <div class="inputbox">
                         <ion-icon name="person-outline"></ion-icon>
@@ -35,9 +35,9 @@
                     </div>
                     <div class="radiobox">
                         <label class="gender">You are:</label>
-                        <input name="gender" type="radio" id="male_gender">
+                        <input name="gender" type="radio" id="male_gender" value="1">
                         <label for="male_gender"  class="gender">Male</label>
-                        <input name="gender" type="radio" id="female_gender">
+                        <input name="gender" type="radio" id="female_gender" value="0">
                         <label for="female_gender" class="gender">Female</label>
                     </div>
                     <div class="inputbox">
@@ -47,10 +47,10 @@
                     </div>
                     <div class="dateinputbox">
                         <ion-icon name="calendar-outline"></ion-icon>
-                        <input id="dob_input"  type="date" required max="2024-01-01">
-                        <label for="dob_input">Birthday</label>
+                        <input id="birthday"  type="date" required max="2024-01-01">
+                        <label for="birthday">Birthday</label>
                     </div>
-                    <button type="submit">Create new account</button>
+                    <button type="submit" id="signup">Create new account</button>
                     <div class="login">
                         <p>Already have an account? <a href="../Login/index.html">Log in</a></p>
                     </div>
@@ -60,5 +60,7 @@
     </section>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ import ListAppointment from "./ListAppointment.vue";
     <div v-if="showDefaultContent">
       <div>
         <!-- TopBar -->
-        <TopBar></TopBar>
+        <TopBar @clickedMenuUser="handleClickMenuUser"></TopBar>
         <!-- Menu -->
         <Menu
           @clickedListApp="handleClickListApp"
@@ -73,6 +73,9 @@ export default {
       this.isClicked = value;
     },
     handleClickListApp() {
+      this.showDefaultContent = false;
+    },
+    handleClickMenuUser() {
       this.showDefaultContent = false;
     },
     scrollToDoctorsSection() {

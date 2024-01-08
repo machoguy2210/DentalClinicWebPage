@@ -6,7 +6,6 @@ const routes = [
         component: () => import('./App.vue'),
         props: { showDefaultContent: true }
     },
-
     {
         path: '/ListApp',
         component: () => import('./ListAppointment.vue'),
@@ -36,7 +35,17 @@ const routes = [
         component: () => import('./Banggia.vue'),
         // props: { showDefaultContent: true }
 
-    }
+    },
+    {
+        path: '/MyReview',
+        component: () => import('./MyReview.vue'),
+        // props: { showDefaultContent: true }
+    },
+    {
+        path: '/CreateReview',
+        component: () => import('./CreateReview.vue'),
+        // props: { showDefaultContent: true }
+    },
 ];
 
 const router = createRouter({
