@@ -213,13 +213,13 @@ export default {
     async generateQRCode(appointment) {
       if (appointment.KHOATHANHTOAN == 0) {
         this.selectedAppointment = appointment;
-        let discountRate=1;
+        let discountRate=100;
         try {
           const discountlever = await this.fetchUudai(); // Sử dụng await để đợi kết quả trả về
 
           const tichdiem = appointment.TICHDIEM;
           console.log("diem cua nguoi dung" + tichdiem);
-          discountRate = 0;
+          discountRate = 100;
           for (const temp of discountlever) {
             console.log("moc diem" + temp.TICHDIEM);
 
