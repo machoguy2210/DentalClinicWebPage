@@ -4,7 +4,6 @@ import Menu from "./Menu.vue";
 import Slide from "./Slide.vue";
 import Associations from "./Associations.vue";
 import BaseFooter from "./BaseFooter.vue";
-import DatLich from "./DatLich.vue";
 import DoctorInfo from "./DoctorInfo.vue";
 import Introduction from "./Introduction.vue";
 </script>
@@ -43,8 +42,7 @@ import Introduction from "./Introduction.vue";
         </div>
         <!-- Associations -->
         <Associations></Associations>
-        <!-- DatLich -->
-        <DatLich></DatLich>
+
         <!-- BaseFooter -->
         <BaseFooter></BaseFooter>
       </div>
