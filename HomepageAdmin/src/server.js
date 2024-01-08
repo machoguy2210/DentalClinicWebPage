@@ -835,7 +835,7 @@ app.get('/api/dailyRevenue', (req, res) => {
   db.query(query, (err, results) => {
     if (err) {
       console.error('Query error:', err);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
     }
 
     const data = {};
@@ -844,40 +844,40 @@ app.get('/api/dailyRevenue', (req, res) => {
       results.forEach((row) => {
         data[row.Ngay] = row.DoanhThu;
       });
-      res.json({ status: 'success', data });
+      res.json(data );
     } else {
-      res.json({ status: 'error', data: 'No data found' });
+      res.status(404).json({ error: 'Không tìm thấy dữ liệu' });
     }
   });
 });
 
 app.get('/api/monthlyRevenue', (req, res) => {
-  const query = `
-    SELECT DATE_FORMAT(NGAYKHAM, '%m-%Y') AS Thang, SUM(GIA) AS DoanhThu
-    FROM appointment a
-    JOIN service s ON a.MADV = s.MADV
-    WHERE a.KHOATHANHTOAN = 2
-    GROUP BY DATE_FORMAT(NGAYKHAM, '%m-%Y')
-    ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m') ASC
-  `;
-
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Query error:', err);
-      return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
-    }
-
-    const data = {};
-
-    if (results.length > 0) {
-      results.forEach((row) => {
-        data[row.Thang] = row.DoanhThu;
-      });
-      res.json({ status: 'success', data });
-    } else {
-      res.json({ status: 'success', data: 'No data found' });
-    }
-  });
+    const query = `
+      SELECT DATE_FORMAT(NGAYKHAM, '%m-%Y') AS Thang, SUM(GIA) AS DoanhThu
+      FROM appointment a
+      JOIN service s ON a.MADV = s.MADV
+      WHERE a.KHOATHANHTOAN = 2
+      GROUP BY DATE_FORMAT(NGAYKHAM, '%m-%Y')
+      ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m') ASC
+    `;
+  
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Query error:', err);
+        return res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+      }
+  
+      const data = {};
+  
+      if (results.length > 0) {
+        results.forEach((row) => {
+          data[row.Thang] = row.DoanhThu;
+        });
+        res.json(data);
+      } else {
+        res.status(404).json({ error: 'Không tìm thấy dữ liệu' });
+      }
+    });
 });
 
 app.listen(port, () => {
