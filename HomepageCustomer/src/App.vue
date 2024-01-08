@@ -70,7 +70,7 @@ export default {
   if (this.MAKH === null) {
     // Nếu chưa có ID trong localStorage, thử lấy từ URL
     var urlParams = new URLSearchParams(window.location.search);
-    this.customerId = urlParams.get("customer_id");
+    this.MAKH = urlParams.get("customer_id");
 
     // Kiểm tra xem có ID từ URL hay không
     if (this.MAKH !== null) {
