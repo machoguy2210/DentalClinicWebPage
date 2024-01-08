@@ -127,7 +127,7 @@ export default {
   props: ["isClicked"],
   methods: {
     handleClickMenuUser(ind) {
-      this.$emit("clickedListApp", true);
+      this.$emit("clickedMenuUser", true);
     }
   },
 };

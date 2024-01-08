@@ -10,7 +10,7 @@
   <div class="table-container">
     <div class="pt-3 pl-9 ml-6">
       <div>
-        <div class="flex">
+        <div class="flex gap-4">
           <router-link to="/MyReview">
             <button>Xem đánh giá của tôi</button>
           </router-link>
@@ -33,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="review in reviews" :key="`${review.MAKH}`">
+          <tr v-for="review in reviews" :key="`${review.NGAYKHAM}`">
             <td>{{ review.NGAYKHAM }}</td>
             <td>{{ review.KHUNGGIO }}</td>
             <td>{{ review.TENDV }}</td>
@@ -106,6 +106,7 @@ export default {
       reviews: [],
       details: [],
       popup: false,
+      MAKH: ''
     };
   },
   created() {
@@ -114,13 +115,25 @@ export default {
   },
   methods: {
     getC() {
-      var urlParams = new URLSearchParams(window.location.search);
-      this.MAKH = urlParams.get("customer_id");
+      // Kiểm tra xem ID đã được lưu trong localStorage chưa
+      this.customerId = localStorage.getItem("customer_id");
+
+      if (this.customerId === null) {
+        // Nếu chưa có ID trong localStorage, thử lấy từ URL
+        var urlParams = new URLSearchParams(window.location.search);
+        this.customerId = urlParams.get("customer_id");
+
+        // Kiểm tra xem có ID từ URL hay không
+        if (this.customerId !== null) {
+          // Lưu ID vào localStorage để sử dụng sau này
+          localStorage.setItem("customer_id", this.customerId);
+        }
+      }
     },
     async fetchUnreviewedAppointment() {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/unreviewed-appointment/1`
+          `http://localhost:3000/api/unreviewed-appointment/${this.MAKH}`
         );
         const data = await response.json();
         this.reviews = data.map((review) => ({
@@ -141,7 +154,7 @@ export default {
     async fetchDetailReviews(review) {
       if (review) try {
         const response = await fetch(
-          `http://localhost:3000/api/unreviewed-appointment/1/${review.NGAYKHAM}`
+          `http://localhost:3000/api/unreviewed-appointment/${this.MAKH}/${review.NGAYKHAM}`
         );
         const data = await response.json();
         this.details = data.map((detail) => ({
@@ -159,7 +172,7 @@ export default {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              MAKH: detail.MAKH,
+              MAKH: this.MAKH,
               NGAYKHAM: detail.NGAYKHAM,
               SOSAONS: detail.SOSAONS,
               BINHLUANNS: detail.BINHLUANNS,
@@ -170,7 +183,7 @@ export default {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              MAKH: detail.MAKH,
+              MAKH: this.MAKH,
               NGAYKHAM: detail.NGAYKHAM,
               SOSAODV: detail.SOSAODV,
               BINHLUANDV: detail.BINHLUANDV,
