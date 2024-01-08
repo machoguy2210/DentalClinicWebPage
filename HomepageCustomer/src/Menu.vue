@@ -76,12 +76,8 @@
 
     <!-- Các phần khác của menu -->
 
-    <div>
-      <a
-        href=""
-        class="text-2xl no-underline hover:underline justify-content-center align-items-center"
-        >Bảng giá</a
-      >
+    <div @click="handleBanggia">
+      <router-link class="text-2xl no-underline hover:underline justify-content-center align-items-center" to="/Banggia">Bảng giá</router-link>
     </div>
 
     <div>
@@ -120,6 +116,9 @@ export default {
     },
     Rangtreem() {
       this.$emit('clicked_rangtreem', true);
+    },
+    handleBanggia() {
+      this.$emit('clicked_banggia', true);
     }
   },
 };

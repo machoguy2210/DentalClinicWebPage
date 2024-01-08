@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
+const moment = require('moment');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -33,6 +34,108 @@ const db = mysql.createConnection({
       } else {
         console.log('Results:', results);
         res.json(results);
+      }
+    });
+  });
+
+  app.get('/api/my-review/1', (req, res) => {
+    const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment JOIN danhgia_bacsi ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN danhgia_dichvu ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1';
+    //const { MAKH } = req.params;
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        const formattedResults = results.map((row) => {
+          row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+          return row;
+        });
+        res.json(formattedResults);
+      }
+    });
+  });
+
+  app.get('/api/my-review/1/:NGAYKHAM', (req, res) => {
+    const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment JOIN danhgia_bacsi ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN danhgia_dichvu ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND appointment.NGAYKHAM=?';
+    const { NGAYKHAM } = req.params;
+    db.query(query, [NGAYKHAM], (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        const formattedResults = results.map((row) => {
+          row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+          return row;
+        });
+        res.json(formattedResults);
+      }
+    });
+  });
+
+  app.get('/api/unreviewed-appointment/1', (req, res) => {
+    const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL)';
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        const formattedResults = results.map((row) => {
+          row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+          return row;
+        });
+        res.json(formattedResults);
+      }
+    });
+  });
+
+  app.get('/api/unreviewed-appointment/1/:NGAYKHAM', (req, res) => {
+    const query = 'SELECT appointment.MAKH, appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND appointment.NGAYKHAM = ? AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL)';
+    const {NGAYKHAM} = req.params;
+    db.query(query, [NGAYKHAM], (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('SQL query successful');
+        const formattedResults = results.map((row) => {
+          row.NGAYKHAM = moment(row.NGAYKHAM).format('YYYY-MM-DD');
+          return row;
+        });
+        res.json(formattedResults);
+      }
+    });
+  });
+
+  app.post('/api/add-doctor-review', (req, res) => {
+    const { MAKH, NGAYKHAM, SOSAONS, BINHLUANNS } = req.body;
+    const sql = 'INSERT INTO danhgia_bacsi (MAKH, NGAYKHAM, SOSAONS, BINHLUANNS) VALUES (?, ?, ?, ?)';
+    const values = [MAKH, NGAYKHAM, SOSAONS, BINHLUANNS];
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.log(values);
+        console.error('Error inserting into MySQL:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log('Inserted new record:', result);
+        res.status(200).send('Inserted new record');
+      }
+    });
+  });
+
+  app.post('/api/add-service-review', (req, res) => {
+    const { MAKH, NGAYKHAM, SOSAODV, BINHLUANDV } = req.body;
+    const sql = 'INSERT INTO danhgia_dichvu (MAKH, NGAYKHAM, SOSAODV, BINHLUANDV) VALUES (?, ?, ?, ?)';
+    const values = [MAKH, NGAYKHAM, SOSAODV, BINHLUANDV];
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error inserting into MySQL:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        console.log('Inserted new record:', result);
+        res.status(200).send('Inserted new record');
       }
     });
   });

@@ -15,7 +15,7 @@ import ListAppointment from "./ListAppointment.vue";
     <div v-if="showDefaultContent">
       <div>
         <!-- TopBar -->
-        <TopBar></TopBar>
+        <TopBar @clickedMenuUser="handleClickMenuUser"></TopBar>
         <!-- Menu -->
         <Menu
           @clickedListApp="handleClickListApp"
@@ -25,6 +25,7 @@ import ListAppointment from "./ListAppointment.vue";
           @clicked_niengrang="handleClickNiengrang"
           @clicked_rangthammi="handleClickRangthammi"
           @clicked_rangtreem="handleClickRangtreem"
+          @clicked_banggia="handleClickBanggia"
         >
         </Menu>
         <!-- Slider -->
@@ -74,6 +75,9 @@ export default {
     handleClickListApp() {
       this.showDefaultContent = false;
     },
+    handleClickMenuUser() {
+      this.showDefaultContent = false;
+    },
     scrollToDoctorsSection() {
     // Use JavaScript to scroll to the section with id "doctorsSection"
       const doctorsSection = document.getElementById('doctorsSection');
@@ -95,6 +99,9 @@ export default {
       this.showDefaultContent = false;
     },
     handleClickRangtreem() {
+      this.showDefaultContent = false;
+    },
+    handleClickBanggia() {
       this.showDefaultContent = false;
     }
   },
