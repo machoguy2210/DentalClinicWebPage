@@ -159,7 +159,7 @@ export default {
       editedTime: "",
       editedReminder: "",
       editedAppointment: null,
-      customerId: null,
+      customerId: 1,
       // customerId:null
     };
   },
@@ -402,7 +402,7 @@ export default {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   padding: 20px;
-  max-width: 2100px;
+  max-width: 2150px;
   width: 100%;
   max-height: 2000px;
 }
