@@ -9,7 +9,7 @@
     <div class="frame-service">
       <div class="service-list">
         <div class="background-image">
-          <img src="./assets/Web_Nieng.jpg" alt="" />
+          <img src="./assets/Web_Nieng (1).jpg" alt="" />
         </div>
         <div class="content">
           <div class="service-container">
@@ -491,8 +491,6 @@ export default {
 }
 .btn-details {
   background-color: rgb(122, 122, 235);
-}
-.buttons {
 }
 /* CSS cho nút */
 .buttons button {
