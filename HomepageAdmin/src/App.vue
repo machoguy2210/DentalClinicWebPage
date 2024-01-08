@@ -6,7 +6,6 @@
       <div class="flex">
         <!-- Menu -->
         <Menu
-          @div-Clicked="handleDivClick"
           @clicked="handleClickInfo"
           @clickedCus="handleClickCus"
           @clickedStaff="handleClickStaff"
@@ -24,12 +23,11 @@
 
             <!-- Sub menu -->
             <div class="flex flex-column gap-3">
-              <SubMenu />
 
               <!-- ChartData -->
               <Revenue />
 
-              <AppointmentManagement :isClicked="isClicked" />
+              <AppointmentManagement/>
             </div>
           </div>
         </div>
@@ -40,14 +38,12 @@
 </template>
 
 <script>
-import SubMenu from "./SubMenu.vue";
 import Menu from "./Menu.vue";
 import TopBar from "./TopBar.vue";
 import Revenue from "./Revenue.vue";
 import AppointmentManagement from "./AppointmentManagement.vue";
 export default {
   components: {
-    SubMenu,
     Menu,
     TopBar,
     Revenue,
@@ -56,13 +52,19 @@ export default {
   data() {
     return {
       showDefaultContent: true,
-      isClicked: false,
+      category: null,
+      MANV: null,
     };
   },
+  mounted() {
+    var urlParams = new URLSearchParams(window.location.search);
+    this.category = urlParams.get("category");
+    if (this.category == 1) {
+      this.MANV = urlParams.get("staff_id");
+    }
+    console.log(this.category, this.MANV);
+  },
   methods: {
-    handleDivClick(value) {
-      this.isClicked = value;
-    },
     handleClickInfo(value) {
       this.showDefaultContent = false;
     },

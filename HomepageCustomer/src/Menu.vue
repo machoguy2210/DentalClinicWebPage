@@ -19,7 +19,7 @@
         >
           <div class="h-3rem">
             <a
-              href=""
+              href="#" @click="scrollToInfo"
               class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
               >Giới thiệu về phòng khám</a
             >
@@ -27,7 +27,7 @@
 
           <div class="h-3rem">
             <a
-              href=""
+              href="#" @click="scrollToDoctorsSection"
               class="ml-3 align-items-center justify-content-center text-xl no-underline hover:underline"
               >Đội ngũ bác sĩ</a
             >
@@ -134,6 +134,12 @@ export default {
         this.$emit("div-Clicked", true);
       }
     },
+    scrollToDoctorsSection(){
+        this.$emit('clicked', true);
+    },
+    scrollToInfo(){
+      this.$emit('clicked_info', true);
+    }
   },
 };
 </script>
