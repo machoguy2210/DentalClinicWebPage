@@ -27,6 +27,8 @@
           <tr>
             <th>Ngày khám</th>
             <th>Khung giờ</th>
+            <th>Họ tên</th>
+            <th>SDT</th>
             <th>Dịch vụ </th>
             <th>Nha sĩ chỉ định</th>
             <th></th>
@@ -36,6 +38,8 @@
           <tr v-for="review in reviews" :key="`${review.NGAYKHAM}`">
             <td>{{ review.NGAYKHAM }}</td>
             <td>{{ review.KHUNGGIO }}</td>
+            <td>{{ review.HOTEN }}</td>
+            <td>{{ review.PHONE }}</td>
             <td>{{ review.TENDV }}</td>
             <td>{{ review.TENNS }}</td>
             <td><button class="text-xl bg-blue-500 w-4rem h-2rem border-round-xl"
@@ -57,6 +61,12 @@
             </div>
             <div class="form-group mt-3">
               <label class="text-l">Khung giờ: {{ detail.KHUNGGIO }}</label>
+            </div>
+            <div class="form-group mt-3">
+              <label class="text-l">Họ và tên: {{ detail.HOTEN }}</label>
+            </div>
+            <div class="form-group mt-3">
+              <label class="text-l">Số điện thoại: {{ detail.PHONE }}</label>
             </div>
             <div class="form-group mt-3">
               <label class="text-l">Dịch vụ: {{ detail.TENDV }}</label>
@@ -99,7 +109,7 @@ export default {
       reviews: [],
       details: [],
       popup: false,
-      MAKH: ''
+      customerId: ''
     };
   },
   created() {
@@ -126,7 +136,7 @@ export default {
     async fetchReview() {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/my-review/${this.MAKH}`
+          `http://localhost:3000/api/my-review/${this.customerId}`
         );
         const data = await response.json();
         this.reviews = data.map((review) => ({
@@ -147,7 +157,7 @@ export default {
     async fetchDetailReviews(review) {
       if (review) try {
         const response = await fetch(
-          `http://localhost:3000/api/my-review/${this.MAKH}/${review.NGAYKHAM}`
+          `http://localhost:3000/api/my-review/${this.customerId}/${review.NGAYKHAM}`
         );
         const data = await response.json();
         this.details = data.map((detail) => ({
