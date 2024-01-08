@@ -150,8 +150,8 @@ export default {
       editedTime: "",
       editedReminder: "",
       editedAppointment: null,
-      customerId: 1,
-      // customerId:null
+      // customerId: 1,
+      customerId:null
     };
   },
   created() {

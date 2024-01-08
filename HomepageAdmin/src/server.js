@@ -362,7 +362,7 @@ app.get('/appointments/:MAKH', (req, res) => {
     INNER JOIN khachhang ON appointment.MAKH = khachhang.MAKH
     INNER JOIN nhasi ON appointment.MANS = nhasi.MANS
     INNER JOIN service ON appointment.MADV = service.MADV
-    WHERE appointment.MAKH = ?`;
+    WHERE appointment.MAKH = ? AND KHOATHANHTOAN != 2`;
 
   db.query(query, [MAKH], (err, results) => {
     if (err) {
