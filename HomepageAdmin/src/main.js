@@ -25,6 +25,8 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';   // optional
 import Row from 'primevue/row';   // optional
 import router from './router';
+import TabView from 'primevue/tabview';
+import TabPanel from 'primevue/tabpanel';
 
 const app = createApp(App);
 
@@ -39,5 +41,7 @@ app.component('DataTable',DataTable);
 app.component('Column',Column);
 app.component('ColumnGroup',ColumnGroup);
 app.component('Row',Row);
+app.component('TabView', TabView);
+app.component('TabPanel', TabPanel);
 
 app.mount('#app');
