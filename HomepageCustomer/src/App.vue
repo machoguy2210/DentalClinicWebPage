@@ -15,7 +15,7 @@ import ListAppointment from "./ListAppointment.vue";
     <div v-if="showDefaultContent">
       <div>
         <!-- TopBar -->
-        <TopBar @clickedMenuUser="handleClickMenuUser"></TopBar>
+        <TopBar @clickedMenuUser="handleClickMenuUser" :MAKH="MAKH"></TopBar>
         <!-- Menu -->
         <Menu
           @clickedListApp="handleClickListApp"
@@ -59,7 +59,6 @@ export default {
     return {
       showDefaultContent: true,
       MAKH: null,
-      customerId: null,
     };
   },
   mounted() {
@@ -68,17 +67,16 @@ export default {
   methods: {
     getCustomerID() {
   // Kiểm tra xem ID đã được lưu trong localStorage chưa
-  this.customerId = localStorage.getItem("customer_id");
-    console.log(this.customerId);
-  if (this.customerId === null) {
+  this.MAKH = localStorage.getItem("customer_id");
+  if (this.MAKH === null) {
     // Nếu chưa có ID trong localStorage, thử lấy từ URL
     var urlParams = new URLSearchParams(window.location.search);
     this.customerId = urlParams.get("customer_id");
 
     // Kiểm tra xem có ID từ URL hay không
-    if (this.customerId !== null) {
+    if (this.MAKH !== null) {
       // Lưu ID vào localStorage để sử dụng sau này
-      localStorage.setItem("customer_id", this.customerId);
+      localStorage.setItem("customer_id", this.MAKH);
     }
   }
 },

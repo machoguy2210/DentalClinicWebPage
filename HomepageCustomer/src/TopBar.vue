@@ -120,10 +120,15 @@ const chatWithCSKH = () => {
       </div>
 
       <!-- UserName after login -->
+      <div v-if="MAKH === null"> <a href="http://login.local">
+          <button style="cursor: pointer;" class="bg-blue-500 text-white px-4 py-2 rounded-md text-base lg:text-xl">Log in</button>
+        </a>
+      </div>
       <div
         class="relative"
         @mouseover="cancelHideTooltip"
         @mouseleave="hideTooltip"
+        v-if="MAKH !== null"
       >
         <div class="flex align-items-center gap-2">
           <div
@@ -178,7 +183,7 @@ const chatWithCSKH = () => {
 
 <script>
 export default {
-  props: ["isClicked"],
+  props: ["isClicked", "MAKH"],
   methods: {
     handleClickMenuUser(ind) {
       this.$emit("clickedMenuUser", true);
