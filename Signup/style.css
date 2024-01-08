@@ -90,14 +90,15 @@ top: -5px;
     transition: .5s;
 }
 .dateinputbox input {
-    width: 100%;
+    width: 66%;
     height: 50px;
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
-    margin-left: 100px;
+    padding-left: 100px;
     color: #ffffff;
+    appearance: none;
 }
 .dateinputbox ion-icon{
     position: absolute;
@@ -135,7 +136,7 @@ button{
 .radiobox {
     display: flex;
     justify-content: space-between;
-
+    margin: 30px 0;
     width: 310px;
 }
 .gender {
