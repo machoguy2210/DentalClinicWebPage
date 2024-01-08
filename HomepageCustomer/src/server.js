@@ -38,10 +38,10 @@ const db = mysql.createConnection({
     });
   });
 
-  app.get('/api/my-review/1', (req, res) => {
+  app.get('/api/my-review/:MAKH', (req, res) => {
     const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment JOIN danhgia_bacsi ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN danhgia_dichvu ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1';
-    //const { MAKH } = req.params;
-    db.query(query, (err, results) => {
+    const { MAKH } = req.params;
+    db.query(query, MAKH, (err, results) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -56,10 +56,10 @@ const db = mysql.createConnection({
     });
   });
 
-  app.get('/api/my-review/1/:NGAYKHAM', (req, res) => {
+  app.get('/api/my-review/:MAKH/:NGAYKHAM', (req, res) => {
     const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment JOIN danhgia_bacsi ON (danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM) JOIN danhgia_dichvu ON (danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM) JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND appointment.NGAYKHAM=?';
-    const { NGAYKHAM } = req.params;
-    db.query(query, [NGAYKHAM], (err, results) => {
+    const { MAKH, NGAYKHAM } = req.params;
+    db.query(query, [MAKH, NGAYKHAM], (err, results) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -74,9 +74,10 @@ const db = mysql.createConnection({
     });
   });
 
-  app.get('/api/unreviewed-appointment/1', (req, res) => {
-    const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL)';
-    db.query(query, (err, results) => {
+  app.get('/api/unreviewed-appointment/:MAKH', (req, res) => {
+    const query = 'SELECT appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL) AND appointment.NGAYKHAM < CURDATE()';
+    const { MAKH } = req.params;
+    db.query(query, [MAKH], (err, results) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -91,10 +92,10 @@ const db = mysql.createConnection({
     });
   });
 
-  app.get('/api/unreviewed-appointment/1/:NGAYKHAM', (req, res) => {
-    const query = 'SELECT appointment.MAKH, appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND appointment.NGAYKHAM = ? AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL)';
-    const {NGAYKHAM} = req.params;
-    db.query(query, [NGAYKHAM], (err, results) => {
+  app.get('/api/unreviewed-appointment/:MAKH/:NGAYKHAM', (req, res) => {
+    const query = 'SELECT appointment.MAKH, appointment.NGAYKHAM, appointment.KHUNGGIO, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = 1 AND appointment.NGAYKHAM = ? AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL) AND appointment.NGAYKHAM < CURDATE()';
+    const {MAKH, NGAYKHAM} = req.params;
+    db.query(query, [MAKH, NGAYKHAM], (err, results) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
