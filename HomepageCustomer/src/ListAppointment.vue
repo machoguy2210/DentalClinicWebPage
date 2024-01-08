@@ -9,7 +9,7 @@
     <div class="frame-service">
       <div class="service-list">
         <div class="background-image">
-          <img src="./assets/Web_Nieng (1).jpg" alt="" />
+          <img src="./assets/Web_Nieng.jpg" alt="" />
         </div>
         <div class="content">
           <div class="service-container">
@@ -26,7 +26,7 @@
                   <div class="view-basic">
                     <p class="infor-appointment">
                       <strong> Ngày Khám:</strong>
-                      {{ formatNgayKham(appointment.NGAYKhAM) }}
+                      {{ formatNGAYKHAM(appointment.NGAYKHAM) }}
                     </p>
                     <p class="infor-appointment">
                       <strong> Giá Tiền:</strong>
@@ -72,7 +72,7 @@
                     @click="
                       deleteAppointment(
                         appointment.MAKH,
-                        formatNgayKham(appointment.NGAYKhAM)
+                        formatNGAYKHAM(appointment.NGAYKHAM)
                       )
                     "
                   >
@@ -156,7 +156,7 @@ export default {
   },
   created() {
     this.fetchAppointments();
-    this.getC();
+      this.getC();
   },
   methods: {
 
@@ -213,7 +213,7 @@ export default {
     async generateQRCode(appointment) {
       if (appointment.KHOATHANHTOAN == 0) {
         this.selectedAppointment = appointment;
-        let discountRate;
+        let discountRate=1;
         try {
           const discountlever = await this.fetchUudai(); // Sử dụng await để đợi kết quả trả về
 
@@ -233,7 +233,7 @@ export default {
         } catch (error) {
           console.error("Lỗi khi xử lý mốc giảm giá:", error);
         }
-
+       
         console.log(discountRate);
         const lastcost = (appointment.GIA * discountRate) / 100;
         const content = `2|99|0339997866|LUU TIEN DUNG|1|0|0|${lastcost}|MA KHACH HANG|transfer_myqr`;
@@ -245,7 +245,8 @@ export default {
             console.error(err);
             alert("Lỗi khi tạo mã QR");
           });
-      } else {
+      } 
+      else {
         alert("Dịch vụ chỉ mở khóa thanh toán sau khi bạn sử dụng dịch vụ");
 
         // Hiển thị thông báo cảnh báo với nút OK
@@ -263,14 +264,14 @@ export default {
         // console.log("Giá trị bạn nhập là:", userInput);
       }
     },
-    async deleteAppointment(MAKH, NGAYKhAM) {
+    async deleteAppointment(MAKH, NGAYKHAM) {
       const result = confirm("Bạn có chắc chắn muốn hủy không?");
       if (result) {
         // Người dùng nhấn OK
         console.log("Người dùng đã đồng ý.");
         try {
           const response = await fetch(
-            `http://localhost:3000/appointments/${MAKH}/${NGAYKhAM}`,
+            `http://localhost:3000/appointments/${MAKH}/${NGAYKHAM}`,
             {
               method: "DELETE",
             }
@@ -293,14 +294,14 @@ export default {
         console.log("Người dùng đã hủy.");
       }
     },
-    formatNgayKham(dateString) {
+    formatNGAYKHAM(dateString) {
       const date = new Date(dateString);
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
       const day = date.getDate().toString().padStart(2, "0");
       return `${day}-${month}-${year}`;
     },
-      formatNgayKhamkieu2(dateString) {
+      formatNGAYKHAMkieu2(dateString) {
       const date = new Date(dateString);
       const year = date.getFullYear();
       const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -313,8 +314,8 @@ export default {
       this.editedTime = appointment.KHUNGGIO;
       this.editedReminder = appointment.GHICHU;
       this.editedAppointment = appointment;
-      this.editedAppointment.NGAYKhAM = this.formatNgayKhamkieu2(
-        this.editedAppointment.NGAYKhAM
+      this.editedAppointment.NGAYKHAM = this.formatNGAYKHAMkieu2(
+        this.editedAppointment.NGAYKHAM
       );
     },
 
@@ -332,7 +333,7 @@ export default {
       try {
         // Gọi API chỉnh sửa thông tin lịch khám với thông tin đã chỉnh sửa
         const response = await fetch(
-          `http://localhost:3000/appointments/${this.editedAppointment.MAKH}/${this.editedAppointment.NGAYKhAM}`,
+          `http://localhost:3000/appointments/${this.editedAppointment.MAKH}/${this.editedAppointment.NGAYKHAM}`,
           {
             method: "PUT",
             headers: {

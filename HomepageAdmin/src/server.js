@@ -374,18 +374,18 @@ app.get('/appointments/:MAKH', (req, res) => {
   });
 });
 
-// * API endpoint để xóa lịch hẹn dựa trên MAKH và NGAYKhAM
-app.delete('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
+// * API endpoint để xóa lịch hẹn dựa trên MAKH và NGAYKHAM
+app.delete('/appointments/:MAKH/:NGAYKHAM', (req, res) => {
   const customerId = parseInt(req.params.MAKH);
-  const appointmentDate = req.params.NGAYKhAM;
+  const appointmentDate = req.params.NGAYKHAM;
 
   // Kiểm tra xem các tham số bắt buộc đã được cung cấp chưa
   if (!customerId || !appointmentDate) {
     return res.status(400).json({ error: 'Missing required parameters' });
   }
 
-  // Xóa lịch hẹn dựa trên MAKH và NGAYKhAM
-  const query = 'DELETE FROM appointment WHERE MAKH = ? AND NGAYKhAM = ?;';
+  // Xóa lịch hẹn dựa trên MAKH và NGAYKHAM
+  const query = 'DELETE FROM appointment WHERE MAKH = ? AND NGAYKHAM = ?;';
 
   db.query(query, [customerId, appointmentDate], (err, result) => {
     if (err) {
@@ -401,9 +401,9 @@ app.delete('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
   });
 });
 // * API chỉnh sửa thông tin cuộc hẹn
-app.put('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
+app.put('/appointments/:MAKH/:NGAYKHAM', (req, res) => {
   const customerId = parseInt(req.params.MAKH);
-  const appointmentDate = req.params.NGAYKhAM;
+  const appointmentDate = req.params.NGAYKHAM;
 
   // Kiểm tra xem req.body có tồn tại không và có chứa các trường cần thiết không
   if (!req.body || !req.body.KHUNGGIO || !req.body.GHICHU) {
@@ -421,7 +421,7 @@ app.put('/appointments/:MAKH/:NGAYKhAM', (req, res) => {
   const query = `
   UPDATE appointment
   SET KHUNGGIO = ?, GHICHU = ?
-  WHERE MAKH = ? AND NGAYKhAM = ?;
+  WHERE MAKH = ? AND NGAYKHAM = ?;
 `;
 
   db.query(query, [KHUNGGIO, GHICHU, customerId, appointmentDate], (err, result) => {

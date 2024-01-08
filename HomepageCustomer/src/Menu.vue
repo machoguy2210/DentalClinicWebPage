@@ -70,9 +70,9 @@
       >
     </div>
     <!-- Đoạn code trước đó của bạn -->
-    <!-- <div @click="handleClickListApp">
+    <div @click="handleClickListApp">
       <router-link class="text-2xl no-underline hover:underline justify-content-center align-items-center" to="/ListApp">Danh sách lịch hẹn</router-link>
-    </div> -->
+    </div>
 
     <!-- Các phần khác của menu -->
 
