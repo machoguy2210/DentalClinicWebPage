@@ -1,5 +1,5 @@
     
-    document.getElementById("signup").onclick = () => {
+    function submit1() {
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
         var name = document.getElementById("name").value;
@@ -15,38 +15,28 @@
         });
         const formData = {
             HOTEN: name,
-            email: email,
-            password: password,
+            EMAIL: email,
+            PASSWORD: password,
             SDT: phone,
             GIOITINH: gender,
             DIACHI: address,
             NGAYSINH: birthday,
         }
-
-        axios.get(`http://localhost:3000/customers/${email}`)
-            .then(res => {
-                console.log(res);
-                if (res.status == 200) {
-                    alert("Email đã tồn tại!");
-                } else if (res.status == 500) {
-                    alert("Server Error!");
-                } else if (res.status == 404) {
-                    axios.post('http://localhost:3000/register', formData)
-                        .then(res => {
-                            console.log(res);
-                            if (res.status == 201) {
-                                alert("Đăng ký thành công!");
-                            } else if (res.status == 500) {
-                                alert("Server Error!");
-                            }
-                        })
-                        .catch(err => {
-                            console.log(err);
-                        });
-                }                   
-                })
-            .catch(err => {
-                console.log(err);
+        console.log(formData);
+        {
+            fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+            alert(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-        
+        }
     }
