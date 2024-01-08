@@ -15,7 +15,7 @@ import ListAppointment from "./ListAppointment.vue";
     <div v-if="showDefaultContent">
       <div>
         <!-- TopBar -->
-        <TopBar @clickedMenuUser="handleClickMenuUser"></TopBar>
+        <TopBar @clickedMenuUser="handleClickMenuUser" :MAKH="MAKH"></TopBar>
         <!-- Menu -->
         <Menu
           @clickedListApp="handleClickListApp"
@@ -62,13 +62,24 @@ export default {
     };
   },
   mounted() {
-    this.getC();
+    this.getCustomerID();
   },
   methods: {
-    getC() {
-      var urlParams = new URLSearchParams(window.location.search);
-      this.MAKH = urlParams.get("customer_id");
-    },
+    getCustomerID() {
+  // Kiểm tra xem ID đã được lưu trong localStorage chưa
+  this.MAKH = localStorage.getItem("customer_id");
+  if (this.MAKH === null) {
+    // Nếu chưa có ID trong localStorage, thử lấy từ URL
+    var urlParams = new URLSearchParams(window.location.search);
+    this.customerId = urlParams.get("customer_id");
+
+    // Kiểm tra xem có ID từ URL hay không
+    if (this.MAKH !== null) {
+      // Lưu ID vào localStorage để sử dụng sau này
+      localStorage.setItem("customer_id", this.MAKH);
+    }
+  }
+},
     handleDivClick(value) {
       this.isClicked = value;
     },

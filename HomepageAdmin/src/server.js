@@ -614,9 +614,7 @@ app.get('/customers/:email', (req, res) => {
 
 app.post(`/register`, (req, res) => {
  const {HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH} = req.body;
- console.log(req);
-res.json("ok");
-  /*
+ console.log(HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH);
   const query = 'INSERT INTO KHACHHANG (HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH) VALUES (?, ?, ?, ?, ?, ?, ?)';
   db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH], (err, result) => {
     if (err) {
@@ -625,7 +623,6 @@ res.json("ok");
       res.status(200).json('Inserted new record');
     }
   });
-  */
 });
   
 
