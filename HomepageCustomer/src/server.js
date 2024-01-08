@@ -37,6 +37,22 @@ const db = mysql.createConnection({
     });
   });
 
+  // dich vu
+  app.get('/api/alldichvu', (req, res) => {
+    const query = 'SELECT * FROM service';
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        console.log('Results:', results);
+        res.json(results);
+      }
+    });
+  });
+
+
+
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
   });

@@ -25,6 +25,7 @@ import ListAppointment from "./ListAppointment.vue";
           @clicked_niengrang="handleClickNiengrang"
           @clicked_rangthammi="handleClickRangthammi"
           @clicked_rangtreem="handleClickRangtreem"
+          @clicked_banggia="handleClickBanggia"
         >
         </Menu>
         <!-- Slider -->
@@ -95,6 +96,9 @@ export default {
       this.showDefaultContent = false;
     },
     handleClickRangtreem() {
+      this.showDefaultContent = false;
+    },
+    handleClickBanggia() {
       this.showDefaultContent = false;
     }
   },

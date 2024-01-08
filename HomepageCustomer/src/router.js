@@ -30,6 +30,12 @@ const routes = [
         component: () => import('./RangTreEm.vue'),
         // props: { showDefaultContent: true }
 
+    },
+    {
+        path: '/Banggia',
+        component: () => import('./Banggia.vue'),
+        // props: { showDefaultContent: true }
+
     }
 ];
 
