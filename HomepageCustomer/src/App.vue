@@ -36,7 +36,7 @@ import ListAppointment from "./ListAppointment.vue";
         </div>
         <!-- Introduction -->
         <div id="infoPhongkham">
-            <Introduction></Introduction>
+          <Introduction></Introduction>
         </div>
         <!-- DoctorInfo -->
         <div id="doctorsSection">
@@ -79,17 +79,17 @@ export default {
       this.showDefaultContent = false;
     },
     scrollToDoctorsSection() {
-    // Use JavaScript to scroll to the section with id "doctorsSection"
-      const doctorsSection = document.getElementById('doctorsSection');
+      // Use JavaScript to scroll to the section with id "doctorsSection"
+      const doctorsSection = document.getElementById("doctorsSection");
       if (doctorsSection) {
-          doctorsSection.scrollIntoView({ behavior: 'smooth' });
+        doctorsSection.scrollIntoView({ behavior: "smooth" });
       }
     },
     scrollToInfo() {
-    // Use JavaScript to scroll to the section with id "doctorsSection"
-      const infoPhongkham = document.getElementById('infoPhongkham');
+      // Use JavaScript to scroll to the section with id "doctorsSection"
+      const infoPhongkham = document.getElementById("infoPhongkham");
       if (infoPhongkham) {
-          infoPhongkham.scrollIntoView({ behavior: 'smooth' });
+        infoPhongkham.scrollIntoView({ behavior: "smooth" });
       }
     },
     handleClickNiengrang() {
@@ -103,20 +103,12 @@ export default {
     },
     handleClickBanggia() {
       this.showDefaultContent = false;
-    }
+    },
   },
 };
 </script>
 
 <style>
-*,
-*:before,
-*:after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
 .container {
   align-items: center;
   width: 80rem;
