@@ -108,16 +108,7 @@
       <div v-if="editFormVisible" class="edit-form-modal">
         <div class="edit-form-content">
           <table>
-            <tr>
-              <td>
-                <label for="editedTime" class="label-time-edit"
-                  >Giờ Khám:</label
-                >
-              </td>
-              <td>
-                <input type="text" v-model="editedTime" id="editedTime" />
-              </td>
-            </tr>
+            
             <tr>
               <td>
                 <label for="editedReminder" class="label-reminder-edit"
@@ -159,8 +150,8 @@ export default {
       editedTime: "",
       editedReminder: "",
       editedAppointment: null,
-      // customerId: 1,
-      customerId:null
+      customerId: 1,
+      // customerId:null
     };
   },
   created() {
@@ -220,7 +211,7 @@ export default {
     },
 
     async generateQRCode(appointment) {
-      if (appointment.KHOATHANHTOAN == 1) {
+      if (appointment.KHOATHANHTOAN == 0) {
         this.selectedAppointment = appointment;
         let discountRate;
         try {
@@ -309,23 +300,32 @@ export default {
       const day = date.getDate().toString().padStart(2, "0");
       return `${day}-${month}-${year}`;
     },
+      formatNgayKhamkieu2(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    },
     openEditForm(appointment) {
       // Hiển thị modal và điền thông tin cần chỉnh sửa
       this.editFormVisible = true;
       this.editedTime = appointment.KHUNGGIO;
       this.editedReminder = appointment.GHICHU;
       this.editedAppointment = appointment;
-      this.editedAppointment.NGAYKhAM = this.formatNgayKham(
+      this.editedAppointment.NGAYKhAM = this.formatNgayKhamkieu2(
         this.editedAppointment.NGAYKhAM
       );
     },
 
     closeEditForm() {
+
       // Đóng modal và làm sạch thông tin chỉnh sửa
       this.editFormVisible = false;
       this.editedTime = "";
       this.editedReminder = "";
       this.editedAppointment = null;
+      
     },
 
     async saveEdit() {

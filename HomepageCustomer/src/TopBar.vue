@@ -18,6 +18,8 @@ const menuUser = ref([
   },
   {
     label: "Lịch khám",
+    link:'/ListApp',     
+
   },
   {
     label: "Đánh giá",
