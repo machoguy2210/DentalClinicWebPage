@@ -1136,6 +1136,19 @@ app.post('/changePassword/:MAKH', async (req, res) => {
   }
 });
 
+app.post('/api/appointments/create', (req, res) => {
+  const {MAKH, NGAYKHAM,HOTEN, PHONE, MADV, MANS, GHICHU, KHUNGGIO} = req.body;
+  const query = "INSERT INTO appointment (MAKH, NGAYKHAM,HOTEN, PHONE, MADV, MANS, GHICHU, KHUNGGIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  db.query(query, [MAKH, NGAYKHAM,HOTEN, PHONE, MADV, MANS, GHICHU, KHUNGGIO], (err, result) => {
+    if (err) {
+      console.error('Error inserting into MySQL:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      console.log('Inserted new record:', result);
+      res.status(200).send('Inserted new record');
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

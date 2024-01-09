@@ -25,13 +25,13 @@
         axios.get(`http://localhost:3000/api/allnhasi`)
             .then(function (response) {
                 var data = response.data;
-                var select = document.getElementById("dentist");
-                select.innerHTML = `<option value="" disabled selected hidden>Choose Dentist</option>`;
+                var dentist = document.getElementById("dentist");
+                dentist.innerHTML = `<option value="" disabled selected hidden>Choose Dentist</option>`;
                 for (var i = 0; i < data.length; i++) {
                     var option = document.createElement("option");
                     option.value = data[i].MANS;
                     option.textContent = data[i].TENNS;
-                    select.appendChild(option);
+                    dentist.appendChild(option);
                   }
                 })
                 .catch(function (error) {
@@ -43,13 +43,13 @@
         axios.get(`http://localhost:3000/api/alldichvu`)
             .then(function (response) {
                 var data = response.data;
-                var select = document.getElementById("service");
-                select.innerHTML = `<option value="" disabled selected hidden>Choose Service</option>`;
+                var service = document.getElementById("service");
+                service.innerHTML = `<option value="" disabled selected hidden>Choose Service</option>`;
                 for (var i = 0; i < data.length; i++) {
                     var option = document.createElement("option");
                     option.value = data[i].MADV;
                     option.textContent = data[i].TENDV;
-                    select.appendChild(option);
+                    service.appendChild(option);
                   }
                 })
                 .catch(function (error) {
@@ -77,25 +77,15 @@
             })
     };
     function submitForm() {
-        var customer_id = MAKH;
-        var name = document.getElementById("name").value;
-        var phone = document.getElementById("phone").value;
-        var dentist = document.getElementById("dentist").value;
-        var date = document.getElementById("date").value;
-        var time = document.querySelector('input[name="time"]:checked').value;
-        var service = document.getElementById("service").value;
-        var note = document.getElementById("note").value;
-        var appointment = {
-            MAKH: customer_id,
-            HOTEN: name,
-            PHONE: phone,
-            MANS: dentist,
-            NGAYKHAM: date,
-            KHUNGGIO: time,
-            MADV: service,  
-            GHICHU: note
-        }
-        axios.post(`http://localhost:3000/api/appointments/create`, appointment)
+        var MAKH = getCustomerID();
+        var HOTEN = document.getElementById("name").value;
+        var PHONE = document.getElementById("phone").value;
+        var MANS = document.getElementById("dentist").value;
+        var NGAYKHAM = document.getElementById("date").value;
+        var KHUNGGIO = document.querySelector('input[name="time"]:checked').value;
+        var MADV = document.getElementById("service").value;
+        var GHICHU = document.getElementById("note").value;
+        axios.post(`http://localhost:3000/api/appointments/create`, {MAKH, NGAYKHAM,HOTEN, PHONE, MADV, MANS, GHICHU, KHUNGGIO})
             .then(function (response) {
                 console.log(response);
                 alert("Appointment created successfully!");
