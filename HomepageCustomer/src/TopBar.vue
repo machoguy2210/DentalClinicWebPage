@@ -12,11 +12,6 @@ const cancelHideTooltip = () => {
   showTooltip.value = true;
 };
 
-const logout = () => {
-  localStorage.removeItem("customer_id");
-  this.MAKH = '';
-};
-
 const menuUser = ref([
   {
     label: "Thông tin tài khoản",
@@ -33,7 +28,6 @@ const menuUser = ref([
   {
     label: "Đăng xuất",
     link: "",
-    action: logout,
   },
 ]);
 
@@ -144,9 +138,6 @@ export default {
   props: ["isClicked", "MAKH"],
   methods: {
     handleClickMenuUser(ind) {
-      if (this.menuUser[ind].action) {
-        this.menuUser[ind].action(); // Thực hiện hành động tương ứng
-      }
       this.$emit("clickedMenuUser", true);
     },
   },
