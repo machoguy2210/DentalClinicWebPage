@@ -151,6 +151,16 @@ app.get('api/transactions/:MAKH/:NGAYKHAM', (req, res) => {
     }
   });
 });
+app.put('/api/update1/:MAKH', (req, res) => {
+  const MAKH = req.params.MAKH;
+  const query = 'UPDATE khachhang SET TICHDIEM = TICHDIEM + 5 WHERE MAKH = ?';
+  db.query(query, [MAKH], (err, results) => {
+    if (err) {
+      return res.status(500).send('Error occurred: ' + err.message);
+    }
+    res.send(`Customer with MAKH ${MAKH} updated successfully.`);
+  });
+});
 
 app.get('/api/appointments/edit/:MAKH/:NGAYKHAM/:HOTEN/:PHONE/:MADV', (req, res) => {
   const { MAKH, NGAYKHAM, HOTEN, PHONE, MADV } = req.params;
@@ -613,8 +623,8 @@ app.get('/customers/:email', (req, res) => {
 });
 
 app.post(`/register`, (req, res) => {
- const {HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH} = req.body;
- console.log(HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH);
+  const { HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH } = req.body;
+  console.log(HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH);
   const query = 'INSERT INTO KHACHHANG (HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH) VALUES (?, ?, ?, ?, ?, ?, ?)';
   db.query(query, [HOTEN, EMAIL, PASSWORD, SDT, GIOITINH, DIACHI, NGAYSINH], (err, result) => {
     if (err) {
@@ -624,7 +634,7 @@ app.post(`/register`, (req, res) => {
     }
   });
 });
-  
+
 
 
 app.put('/customers/:id', (req, res) => {
@@ -874,7 +884,7 @@ app.get('/api/dailyRevenue', (req, res) => {
       results.forEach((row) => {
         data[row.Ngay] = row.DoanhThu;
       });
-      res.json(data );
+      res.json(data);
     } else {
       res.status(404).json({ error: 'Không tìm thấy dữ liệu' });
     }
@@ -882,7 +892,7 @@ app.get('/api/dailyRevenue', (req, res) => {
 });
 
 app.get('/api/monthlyRevenue', (req, res) => {
-    const query = `
+  const query = `
       SELECT DATE_FORMAT(NGAYKHAM, '%m-%Y') AS Thang, SUM(GIA) AS DoanhThu
       FROM appointment a
       JOIN service s ON a.MADV = s.MADV
@@ -890,24 +900,24 @@ app.get('/api/monthlyRevenue', (req, res) => {
       GROUP BY DATE_FORMAT(NGAYKHAM, '%m-%Y')
       ORDER BY DATE_FORMAT(NGAYKHAM, '%Y-%m') ASC
     `;
-  
-    db.query(query, (err, results) => {
-      if (err) {
-        console.error('Query error:', err);
-        return res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
-      }
-  
-      const data = {};
-  
-      if (results.length > 0) {
-        results.forEach((row) => {
-          data[row.Thang] = row.DoanhThu;
-        });
-        res.json(data);
-      } else {
-        res.status(404).json({ error: 'Không tìm thấy dữ liệu' });
-      }
-    });
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err);
+      return res.status(500).json({ error: 'Lỗi truy vấn cơ sở dữ liệu' });
+    }
+
+    const data = {};
+
+    if (results.length > 0) {
+      results.forEach((row) => {
+        data[row.Thang] = row.DoanhThu;
+      });
+      res.json(data);
+    } else {
+      res.status(404).json({ error: 'Không tìm thấy dữ liệu' });
+    }
+  });
 });
 
 // Get customer profile
@@ -936,7 +946,7 @@ app.get('/getProfile/:MAKH', (req, res) => {
 app.post('/updateProfile/:MAKH', (req, res) => {
   const { name, phoneNumber, gender, address, birthDate } = req.body;
   const customerID = req.params.MAKH;
-  
+
   const genderCode = gender === "Nam" ? 1 : 0;
 
   const formattedBirthDate = moment(birthDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
@@ -1033,7 +1043,7 @@ app.get('/api/unreviewed-appointment/:MAKH', (req, res) => {
 
 app.get('/api/unreviewed-appointment/:MAKH/:NGAYKHAM', (req, res) => {
   const query = 'SELECT appointment.MAKH, appointment.NGAYKHAM, appointment.KHUNGGIO, appointment.HOTEN, appointment.PHONE, service.TENDV, nhasi.TENNS, danhgia_bacsi.SOSAONS, danhgia_bacsi.BINHLUANNS, danhgia_dichvu.SOSAODV, danhgia_dichvu.BINHLUANDV FROM appointment LEFT JOIN danhgia_bacsi ON danhgia_bacsi.MAKH = appointment.MAKH AND danhgia_bacsi.NGAYKHAM = appointment.NGAYKHAM LEFT JOIN danhgia_dichvu ON danhgia_dichvu.MAKH = appointment.MAKH AND danhgia_dichvu.NGAYKHAM = appointment.NGAYKHAM JOIN service ON appointment.MADV = service.MADV JOIN nhasi ON appointment.MANS = nhasi.MANS WHERE appointment.MAKH = ? AND appointment.NGAYKHAM = ? AND (danhgia_bacsi.SOSAONS IS NULL OR danhgia_dichvu.SOSAODV IS NULL) AND appointment.NGAYKHAM < CURDATE()';
-  const {MAKH, NGAYKHAM} = req.params;
+  const { MAKH, NGAYKHAM } = req.params;
   db.query(query, [MAKH, NGAYKHAM], (err, results) => {
     if (err) {
       console.error('Error executing query:', err);

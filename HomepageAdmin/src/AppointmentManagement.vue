@@ -49,7 +49,7 @@
               </div>
               </td>
               <td><span class="datafunction" v-on:click="deleteAppointment(appointment.MAKH, appointment.NGAYKHAM)">Delete</span></td>
-              <td align="center"><Button label="Allow" text raised rounded aria-label="Filter" v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM)" /></td>
+              <td align="center"><Button label="Allow" text raised rounded aria-label="Filter" v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM);Updatepoint(appointment.MAKH)" /></td>
           </tr>
         </tbody>
       </table>
@@ -57,8 +57,8 @@
 </template>
   
 <script>
-import axios, { getAdapter } from 'axios';
-import Calendar from 'primevue/calendar';
+import axios, { getAdapter } from "axios";
+import Calendar from "primevue/calendar";
 export default {
   components: {
     Calendar,
@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       appointments: [],
-      selectedItems:[],
+      selectedItems: [],
       showMAKH: null,
       showNGAYKHAM: null,
       editHOTEN: null,
@@ -81,16 +81,18 @@ export default {
   methods: {
     async fetchAppointments() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/appointments/get/${this.date}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/appointments/get/${this.date}`
+        );
         this.appointments = response.data;
       } catch (error) {
-        console.error('Error fetching appointments:', error);
+        console.error("Error fetching appointments:", error);
       }
     },
     changenameservice(a) {
-      if (a == 1) return 'Niềng răng';
-      else if (a == 2) return 'Tẩy trắng răng';
-      else if (a == 3) return 'Hàn răng';
+      if (a == 1) return "Niềng răng";
+      else if (a == 2) return "Tẩy trắng răng";
+      else if (a == 3) return "Hàn răng";
     },
     showEditMenu(maKH, ngayKham, hoten, phone, madv) {
       this.showMAKH = maKH;
@@ -101,52 +103,71 @@ export default {
     },
     editAppointment(maKH, ngayKham) {
       console.log(this.editHOTEN, this.editPHONE, this.editMADV);
-      axios.get(`http://localhost:3000/api/appointments/edit/${maKH}/${ngayKham}/${this.editHOTEN}/${this.editPHONE}/${this.editMADV}`)
-      .then(response => {
+      axios
+        .get(
+          `http://localhost:3000/api/appointments/edit/${maKH}/${ngayKham}/${this.editHOTEN}/${this.editPHONE}/${this.editMADV}`
+        )
+        .then((response) => {
           console.log(response);
           this.fetchAppointments();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-        this.showMAKH = 0;
+      this.showMAKH = 0;
     },
     deleteAppointment(maKH, ngayKham) {
-      axios.delete(`http://localhost:3000/api/appointments/${maKH}/${ngayKham}`)
-        .then(response => {
+      axios
+        .delete(`http://localhost:3000/api/appointments/${maKH}/${ngayKham}`)
+        .then((response) => {
           console.log(response);
           this.fetchAppointments();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
-    sendData(){
-      axios.post('http://localhost:3000/api/appointments', this.selectedItems)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    },
-    ApproveTransaction(maKH, ngayKham) {
-      axios.get(`http://localhost:3000/api/appointments/transaction/${maKH}/${ngayKham}`)
-        .then(response => {
+    sendData() {
+      axios
+        .post("http://localhost:3000/api/appointments", this.selectedItems)
+        .then((response) => {
           console.log(response);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
+    ApproveTransaction(maKH, ngayKham) {
+      axios
+        .get(
+          `http://localhost:3000/api/appointments/transaction/${maKH}/${ngayKham}`
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // update tichdiem
+    Updatepoint(maKH) {
+      axios.put(`http://localhost:3000/api/update1/${maKH}`)
+        .then(response => {
+          console.log('Success:', response);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    },
+  
     getDate() {
       const today = new Date();
-      const dd = String(today.getDate()).padStart(2, '0');
-      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       const yyyy = today.getFullYear();
-      return yyyy + '-' + mm + '-' + dd;
+      return yyyy + "-" + mm + "-" + dd;
     },
-}
+  },
 };
 </script>
 
@@ -163,7 +184,7 @@ export default {
 .dropdown {
   display: inline-block;
 }
-input[type=date] {
+input[type="date"] {
   padding: 6px;
   border-radius: 10px;
   margin-top: 8px;
@@ -183,11 +204,11 @@ input[type=date] {
   color: white;
 }
 .dropdown .content {
-    position: absolute;
-    border-color: #bdb9b9;
-    width: 350px;
+  position: absolute;
+  border-color: #bdb9b9;
+  width: 350px;
 }
-.dropdown .content input[type=text] {
+.dropdown .content input[type="text"] {
   padding: 6px;
   border-radius: 10px;
   margin-top: 8px;
