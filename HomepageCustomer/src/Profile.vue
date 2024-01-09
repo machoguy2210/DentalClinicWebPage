@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useToast } from "primevue/usetoast";
 import axios from "axios";
+import TopBar from "../../HomepageCustomer/src/TopBar.vue";
+import Menu from "../../HomepageCustomer/src/Menu.vue";
 
 const toast = useToast();
 const passwordVisible = ref(false);
@@ -89,21 +91,45 @@ const onClickSave = async () => {
 };
 
 const onClickChangePassword = async () => {
-  // try {
-  //   const response = await axios.put(
-  //     `http://localhost:3000/changePass/${id.value}`,
-  //     this.khachhang
-  //   );
-  //   console.log(response.data);
-  //   let foundKH = this.allkhachhang.find(
-  //     (item) => item.MAKH === this.khachhang.MAKH
-  //   );
-  //   if (foundKH) {
-  //     Object.assign(foundKH, response.data);
-  //   }
-  // } catch (error) {
-  //   console.error("Error updating KHACH HANG:", error);
-  // }
+  try {
+    const response = await axios.post(
+      `http://localhost:3000/changePassword/${id}`,
+      {
+        currentPassword: password.value,
+        newPassword: newPassword.value,
+        confirmPassword: confirmPassword.value,
+      }
+    );
+
+    if (response.data.success) {
+      toast.add({
+        severity: "success",
+        summary: "Đổi mật khẩu thành công",
+        detail: "Mật khẩu đã được cập nhật",
+        life: "3000",
+      });
+
+      password.value = null;
+      newPassword.value = null;
+      confirmPassword.value = null;
+      passwordVisible.value = false;
+    } else {
+      toast.add({
+        severity: "error",
+        summary: "Đổi mật khẩu thất bại",
+        detail: response.data.error || "Có lỗi xảy ra khi đổi mật khẩu",
+        life: "3000",
+      });
+    }
+  } catch (error) {
+    console.error("Error changing password:", error);
+    toast.add({
+      severity: "error",
+      summary: "Đổi mật khẩu thất bại",
+      detail: error.response.data.error || "Có lỗi xảy ra khi đổi mật khẩu",
+      life: "3000",
+    });
+  }
 };
 
 const onUpload = (event) => {
@@ -116,6 +142,8 @@ const onUpload = (event) => {
 </script>
 
 <template>
+  <TopBar></TopBar>
+  <Menu></Menu>
   <div class="surface-hover p-3 h-screen">
     <!-- Trang thông tin cá nhân -->
     <div class="bg-white mx-8 shadow-1 p-4">

@@ -1080,6 +1080,53 @@ app.post('/api/add-service-review', (req, res) => {
   });
 });
 
+// Thay đổi mật khẩu
+app.post('/changePassword/:MAKH', async (req, res) => {
+  try {
+    const MAKH = req.params.MAKH;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({ error: 'Hãy điền thông tin đầy đủ' });
+    }
+
+    const query = 'SELECT * FROM khachhang WHERE MAKH = ?';
+    db.query(query, [MAKH], async (error, results) => {
+      if (error) {
+        console.error('Error querying the database:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const user = results[0];
+
+      if (currentPassword !== user.PASSWORD) {
+        return res.status(401).json({ error: 'Mật khẩu hiện tại không đúng' });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res.status(400).json({ error: 'Mật khẩu mới và Xác nhận mật khẩu không khớp' });
+      }
+      const updateQuery = 'UPDATE khachhang SET PASSWORD = ? WHERE MAKH = ?';
+      db.query(updateQuery, [newPassword, MAKH], (updateError) => {
+        if (updateError) {
+          console.error('Error updating password:', updateError);
+          return res.status(500).json({ error: 'Internal server error' });
+        }
+
+        res.json({ success: true, user });
+      });
+    });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
