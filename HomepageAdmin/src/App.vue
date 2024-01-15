@@ -28,6 +28,8 @@
               <Revenue />
 
               <AppointmentManagement/>
+              
+              <TradeManagement/>
             </div>
           </div>
         </div>
@@ -42,12 +44,14 @@ import Menu from "./Menu.vue";
 import TopBar from "./TopBar.vue";
 import Revenue from "./Revenue.vue";
 import AppointmentManagement from "./AppointmentManagement.vue";
+import TradeManagement from "./TradeManagement.vue";
 export default {
   components: {
     Menu,
     TopBar,
     Revenue,
     AppointmentManagement,
+    TradeManagement,
   },
   data() {
     return {

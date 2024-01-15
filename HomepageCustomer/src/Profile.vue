@@ -35,7 +35,7 @@ const genderType = ref([
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/getProfile/${id}`);
+    const response = await axios.get(`http://localhost:3000/getProfile/${1}`);
     const userData = response.data;
     profile.value = {
       name: userData.HOTEN || "",
@@ -56,7 +56,7 @@ onMounted(async () => {
 // Save profile changes
 const onClickSave = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/getProfile/${id}`);
+    const response = await axios.get(`http://localhost:3000/getProfile/${1}`);
     const userData = response.data;
 
     if (
@@ -69,7 +69,7 @@ const onClickSave = async () => {
       console.log("No changes detected");
     } else {
       await axios.post(
-        `http://localhost:3000/updateProfile/${id}`,
+        `http://localhost:3000/updateProfile/${1}`,
         profile.value
       );
       toast.add({
@@ -93,7 +93,7 @@ const onClickSave = async () => {
 const onClickChangePassword = async () => {
   try {
     const response = await axios.post(
-      `http://localhost:3000/changePassword/${id}`,
+      `http://localhost:3000/changePassword/${1}`,
       {
         currentPassword: password.value,
         newPassword: newPassword.value,

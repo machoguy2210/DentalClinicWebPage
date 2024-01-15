@@ -1,12 +1,12 @@
 <template>
-    <div v-if="Show">
+    <div>
         <table>
             <thead align="left">
                 <tr>   
-                    <th>MAKH</th>
-                    <th>Họ và tên</th>
-                    <th>Số điện thoại</th>
-                    <th>Dịch vụ</th>
+                    <th width="100px">MAKH</th>
+                    <th width="200px">Họ và tên</th>
+                    <th width="200px">Số điện thoại</th>
+                    <th width="200px">Dịch vụ</th>
                     <th>Cho phép</th>
                 </tr>
             </thead>
@@ -16,7 +16,7 @@
                     <td>{{ appointment.HOTEN }}</td>
                     <td>{{ appointment.PHONE }}</td>
                     <td>{{ changenameservice(appointment.MADV) }}</td>
-                    <td><span v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM)">Confirm Transaction</span></td>
+                    <td><span id="allow" v-on:click="ApproveTransaction(appointment.MAKH,appointment.NGAYKHAM)">Confirm Transaction</span></td>
                 </tr>
             </tbody>
         </table>
@@ -49,8 +49,8 @@
             },
             changenameservice(a) {
                 if (a == 1) return 'Niềng răng';
-                if (a == 2) return 'Tẩy trắng răng';
-                if (a == 3) return 'Hàn răng';
+                if (a == 2) return 'Răng thẩm mĩ';
+                if (a == 3) return 'Răng trẻ em';
             },
             ApproveTransaction(maKH, ngayKham) {
                 axios.get(`http://localhost:3000/api/transactions/${maKH}/${ngayKham}`)
@@ -64,3 +64,4 @@
             }
         }
     }
+</script>

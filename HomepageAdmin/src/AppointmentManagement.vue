@@ -91,8 +91,8 @@ export default {
     },
     changenameservice(a) {
       if (a == 1) return "Niềng răng";
-      else if (a == 2) return "Tẩy trắng răng";
-      else if (a == 3) return "Hàn răng";
+      else if (a == 2) return "Răng thẩm mĩ";
+      else if (a == 3) return "Răng trẻ em";
     },
     showEditMenu(maKH, ngayKham, hoten, phone, madv) {
       this.showMAKH = maKH;

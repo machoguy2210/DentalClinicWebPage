@@ -116,7 +116,7 @@ export default {
       reviews: [],
       details: [],
       popup: false,
-      customerId: ''
+      customerId: 1,
     };
   },
   created() {
