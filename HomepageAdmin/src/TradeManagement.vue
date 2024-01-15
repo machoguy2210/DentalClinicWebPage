@@ -57,10 +57,12 @@
                     .then(response => {
                         console.log(response);
                         this.fetchAppointments();
+                        alert("Transaction Confirmed");
                     })
                     .catch(error => {
                         console.log(error);
                     });
+                
             }
         }
     }

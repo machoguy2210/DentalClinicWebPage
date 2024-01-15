@@ -19,11 +19,9 @@
                     alert("Đăng ký thành công!");
                     window.location.href = "http://login.local";
                 }
-                else {
-                    alert("Đăng ký thất bại!");
-                }
             })
             .catch(function (error) {
                 console.error("Lỗi khi tải dữ liệu từ server:", error);
+                alert("Đăng ký thất bại!");
             });
     }

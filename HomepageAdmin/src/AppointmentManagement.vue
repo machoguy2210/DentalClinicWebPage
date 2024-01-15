@@ -122,10 +122,12 @@ export default {
         .then((response) => {
           console.log(response);
           this.fetchAppointments();
+          alert("Đã xóa lịch hẹn");
         })
         .catch((error) => {
           console.log(error);
         });
+        
     },
     sendData() {
       axios
@@ -148,6 +150,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+        alert("Đã mở khóa thanh toán lịch hẹn");
     },
     // update tichdiem
     Updatepoint(maKH) {

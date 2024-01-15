@@ -88,10 +88,11 @@
         axios.post(`http://localhost:3000/api/appointments/create`, {MAKH, NGAYKHAM,HOTEN, PHONE, MADV, MANS, GHICHU, KHUNGGIO})
             .then(function (response) {
                 console.log(response);
-                alert("Appointment created successfully!");
-                window.location.href = "http://localhost:3000/customer/appointment";
+                if (response.status == 200) alert("Đặt lịch thành công");
+                else alert("Đặt lịch thất bại");
             })
             .catch(function (error) {
                 console.error(error);
+                alert("Đặt lịch thất bại");
             });
     }
